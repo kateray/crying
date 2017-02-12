@@ -1,16 +1,89 @@
+.map-container {
+  height: 720px;
+  width: 75%;
+  float: left;
+  box-sizing: border-box;
+  padding: 10px;
+}
 .leaflet-container {
   height: 720px;
-  width: 720px;
 }
 
 .marker-container {
-  position: absolute;
-  width: 500px;
-  height: 100px;
-  right: 0px;
-  bottom: 300px;
+  width: 25%;
+  float: left;
+  display: inline;
+  font-size: 30px;
+  padding: 10px 0px;
+}
+
+.marker-entry {
+  background: #fff;
+  margin: 10px;
+  margin-top: 0px;
+  padding: 3px 6px;
+  position: relative;
+}
+
+.marker-direction {
+  display: none;
+  color: #fff;
+  font-family: 'Press Start 2P';
+  font-size: 8px;
+  position: absolute;;
+  right: 6px;
+  bottom: 5px;
+}
+
+.marker-entry:hover {
+  background: #6B6B6B;
+}
+
+.marker-entry:hover .marker-direction {
+  display: block;
+}
+
+.marker-entry:hover .marker-description {
+  opacity: 0.5;
+}
+
+@keyframes pulse_animation {
+  0% { transform: scale(1); }
+  30% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  50% { transform: scale(1); }
+  60% { transform: scale(1); }
+  70% { transform: scale(1.05); }
+  80% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes example {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.8); }
+  100% { transform: scale(1); }
+}
+
+.marker-entry:hover .movable-marker {
+  border-radius: 50%;
+  animation-name: pulse_animation;
+  animation-duration: 800ms;
+  transform-origin:70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 .movable-marker {
+  display: inline-block;
   cursor: pointer;
+}
+
+.marker-description {
+  font-family: 'Press Start 2P';
+  font-size: 8px;
+  display: inline;
+  margin-left: 10px;
+
+  text-transform: uppercase;
+  vertical-align: middle;
 }

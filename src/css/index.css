@@ -1,3 +1,56 @@
 body {
   font-family: sans-serif;
+  background: #ff00ff;
+  margin: 0px;
+  padding: 10px;
+}
+
+#header {
+  width: 100%;
+  font-family: 'Press Start 2P';
+  font-size: 12px;
+}
+
+.header-section {
+  background-color: #fff;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 5px 6px;
+}
+
+#app-title-container {
+  box-sizing: border-box;
+  width: 30%;
+  padding: 10px;
+  float: left;
+}
+
+#app-title {
+  font-size: 30px;
+  line-height: 30px;
+}
+
+#app-title h1 {
+  display: inline;
+  font-size: 17px;
+  vertical-align: middle;
+}
+
+#app-description-container {
+  box-sizing: border-box;
+  width: 45%;
+  padding: 10px;
+  float: left;
+}
+#app-description {
+  font-size: 10px;
+  line-height: 1.5;
+}
+#app-author-container {
+  box-sizing: border-box;
+  width: 25%;
+  padding: 10px;
+  float: left;
+}
+#app-author {
 }
