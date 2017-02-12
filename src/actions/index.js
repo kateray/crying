@@ -7,3 +7,12 @@ export const addMarker = (lat, lng) => {
     lng
   }
 }
+
+export const moveMarker = (id, lat, lng) => {
+  return {
+    type: 'MOVE_MARKER',
+    id: id,
+    lat,
+    lng
+  }
+}

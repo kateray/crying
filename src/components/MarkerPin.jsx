@@ -8,7 +8,7 @@ class MarkerPin extends Component {
     const icon = divIcon({className: 'emoji-marker', iconSize: 16, html: this.props.data.hex});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker position={position} icon={icon}>
+      <Marker position={position} icon={icon} draggable='true' onDragEnd={this.props.handleDrop}>
       </Marker>
     );
   }
