@@ -1,0 +1,16 @@
+.leaflet-container {
+  height: 720px;
+  width: 720px;
+}
+
+.marker-container {
+  position: absolute;
+  width: 500px;
+  height: 100px;
+  right: 0px;
+  bottom: 300px;
+}
+
+.movable-marker {
+  cursor: pointer;
+}
