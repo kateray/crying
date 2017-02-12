@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import UserMap from './Map';
+import '../css/App.css';
+import VisibleMap from '../containers/VisibleMap';
 import MovableMarker from './MovableMarker';
 
 const emojis = [
@@ -21,10 +21,6 @@ const emojis = [
 
 class App extends Component {
 
-  handleClick(e) {
-    console.log(e)
-  }
-
   render() {
     const markers = emojis.map((e) =>
       <MovableMarker key={e.name} hex={e.hex} />
@@ -32,7 +28,7 @@ class App extends Component {
     return (
       <div>
         <div className="map-container">
-          <UserMap handleClick={this.handleClick} />
+          <VisibleMap />
         </div>
         <div className="marker-container">
           {markers}
