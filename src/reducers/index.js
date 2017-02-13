@@ -5,8 +5,7 @@ const marker = (state = {}, action) => {
     case 'ADD_MARKER':
       return {
         id: action.id,
-        //TODO
-        hex: '&#x1f525',
+        hex: action.hex,
         lat: action.lat,
         lng: action.lng
       }
@@ -41,8 +40,24 @@ const markers = (state = [], action) => {
   }
 }
 
+const app = (state = [], action) => {
+  switch (action.type) {
+    case 'START_DRAG':
+      return Object.assign({}, state, {
+        dragging: action.hex
+      })
+    case 'STOP_DRAG':
+      return Object.assign({}, state, {
+        dragging: null
+      })
+    default:
+      return state
+  }
+}
+
 const markerStore = combineReducers({
-  markers
+  markers,
+  app
 })
 
 export default markerStore

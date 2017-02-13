@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/App.css';
 import VisibleMap from '../containers/VisibleMap';
-import MovableMarker from './MovableMarker';
+import EmojiToolContainer from '../containers/EmojiToolContainer';
 
 const emojis = [
   {name: 'cry', hex: '&#x1f62d', description: "Cried in public"},
@@ -24,7 +24,7 @@ class App extends Component {
 
   render() {
     const markers = emojis.map((e) =>
-      <MovableMarker key={e.name} hex={e.hex} description={e.description} />
+      <EmojiToolContainer key={e.name} hex={e.hex} description={e.description} />
     );
     return (
       <div>

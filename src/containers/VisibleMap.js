@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { addMarker } from '../actions'
+import { dropNewMarker } from '../actions'
 import Map from '../components/Map'
 
 const mapStateToProps = (state, ownProps) => {
@@ -10,8 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handleClick: (e) => {
-      dispatch(addMarker(e.latlng.lat, e.latlng.lng))
+    handleDrop: (lat, lng) => {
+      dispatch(dropNewMarker(lat, lng))
     }
   }
 }

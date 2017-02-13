@@ -23,6 +23,7 @@
   margin-top: 0px;
   padding: 3px 6px;
   position: relative;
+  cursor: pointer;
 }
 
 .marker-direction {
