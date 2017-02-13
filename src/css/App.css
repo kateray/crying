@@ -23,7 +23,8 @@
   margin-top: 0px;
   padding: 3px 6px;
   position: relative;
-  cursor: pointer;
+  cursor: move;
+  cursor: grab;
 }
 
 .marker-direction {
@@ -59,12 +60,6 @@
   100% { transform: scale(1); }
 }
 
-@keyframes example {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.8); }
-  100% { transform: scale(1); }
-}
-
 .marker-entry:hover .movable-marker {
   border-radius: 50%;
   animation-name: pulse_animation;
@@ -76,7 +71,12 @@
 
 .movable-marker {
   display: inline-block;
-  cursor: pointer;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+}
+
+.movable-marker:active {
+  cursor: grabbing;
 }
 
 .marker-description {
