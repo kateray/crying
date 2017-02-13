@@ -1,6 +1,6 @@
 body {
-  font-family: sans-serif;
-  background: #ff00ff;
+  font-family: 'Press Start 2P';
+  background: #ff2da7;
   margin: 0px;
   padding: 10px;
 }
@@ -52,5 +52,24 @@ body {
   padding: 10px;
   float: left;
 }
-#app-author {
+
+#app-buttons-container {
+  float: right;
+  box-sizing: border-box;
+  width: 25%;
+  padding: 10px;
+}
+
+button {
+  font-family: 'Press Start 2P';
+  border: none;
+  cursor: pointer;
+}
+
+#save {
+  float: right;
+  background: #000;
+  color: #fff;
+  height: 40px;
+  width: 60px;
 }
