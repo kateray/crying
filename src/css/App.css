@@ -4,11 +4,32 @@
   float: left;
   box-sizing: border-box;
   padding: 10px;
+  position: relative;
 }
+
+.pink-map {
+  z-index: 650;
+  width: 120px;
+  border-radius: 10px;
+  position: absolute;
+}
+
 .leaflet-container {
   height: 720px;
 }
-
+.leaflet-popup-tip-container {
+  left: 16px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  box-shadow: none;
+  background: #ff2da7;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 6px;
+}
+.leaflet-popup-content {
+  margin: 5px 6px;
+}
 .marker-container {
   width: 25%;
   float: left;
