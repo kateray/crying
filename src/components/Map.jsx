@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
-import MoveMarker from '../containers/MoveMarker'
+import EmojiPinContainer from '../containers/EmojiPinContainer'
 
 
 class UserMap extends Component {
@@ -22,7 +22,7 @@ class UserMap extends Component {
 
   render() {
     const markers = this.props.markers.map((m) =>
-      <MoveMarker key={m.id} data={m} />
+      <EmojiPinContainer key={m.id} data={m} />
     );
     const position = [40.734583, -73.997263];
     return (

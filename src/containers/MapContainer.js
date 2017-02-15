@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const VisibleMap = connect(
+const MapContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Map)
 
-export default VisibleMap
+export default MapContainer

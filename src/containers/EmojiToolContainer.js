@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleDragStart: () => {
-      dispatch(startDrag(ownProps.hex))
+      dispatch(startDrag(ownProps.name))
     }
   }
 }

@@ -6,6 +6,7 @@ const marker = (state = {}, action) => {
       return {
         id: action.id,
         hex: action.hex,
+        title: action.title,
         lat: action.lat,
         lng: action.lng
       }
@@ -44,7 +45,7 @@ const app = (state = [], action) => {
   switch (action.type) {
     case 'START_DRAG':
       return Object.assign({}, state, {
-        dragging: action.hex
+        dragging: action.name
       })
     case 'STOP_DRAG':
       return Object.assign({}, state, {

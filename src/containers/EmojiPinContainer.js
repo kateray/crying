@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { moveMarker } from '../actions'
-import MarkerPin from '../components/MarkerPin'
+import EmojiPin from '../components/EmojiPin'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const MoveMarker = connect(
+const EmojiPinContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(MarkerPin)
+)(EmojiPin)
 
-export default MoveMarker
+export default EmojiPinContainer
