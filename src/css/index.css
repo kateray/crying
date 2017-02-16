@@ -5,6 +5,9 @@ body {
   padding: 10px;
 }
 
+button:focus {outline:0;}
+input:focus {outline:0;}
+
 #header {
   width: 100%;
   font-family: 'Press Start 2P';

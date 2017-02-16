@@ -9,9 +9,12 @@
 
 .pink-map {
   z-index: 650;
-  width: 120px;
-  border-radius: 10px;
+  width: 180px;
   position: absolute;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border: 1px solid #ff2da7;
 }
 
 .leaflet-container {

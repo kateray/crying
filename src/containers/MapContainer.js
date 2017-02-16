@@ -4,7 +4,8 @@ import Map from '../components/Map'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    markers: state.markers
+    markers: state.markers,
+    dragging: state.app.dragging
   }
 }
 

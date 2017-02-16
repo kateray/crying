@@ -1,18 +1,13 @@
-import emojis from '../emojis.json'
-
 let nextMarkerId = 0
 
-function addMarker(lat, lng, name) {
-  const emoji = emojis.icons.find(function(emoji){
-    return emoji.name === name;
-  });
+function addMarker(lat, lng, draggingObject) {
   return {
     type: 'ADD_MARKER',
     id: nextMarkerId++,
     lat,
     lng,
-    hex: emoji.hex,
-    title: emoji.title
+    hex: draggingObject.hex,
+    title: draggingObject.title
   }
 }
 
@@ -22,9 +17,8 @@ function stopDrag() {
 
 export const dropNewMarker = (lat, lng) => {
   return (dispatch, getState) => {
-    const name = getState().app.dragging;
     //TODO: what if there is nothing dragging?
-    dispatch(addMarker(lat, lng, name));
+    dispatch(addMarker(lat, lng, getState().app.dragging));
     dispatch(stopDrag())
   }
 }
@@ -38,9 +32,9 @@ export const moveMarker = (id, lat, lng) => {
   }
 }
 
-export const startDrag = (name) => {
+export const startDrag = (object) => {
   return {
     type: 'START_DRAG',
-    name
+    object
   }
 }
