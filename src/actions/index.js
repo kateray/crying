@@ -23,12 +23,26 @@ export const dropNewMarker = (lat, lng) => {
   }
 }
 
-export const moveMarker = (id, lat, lng) => {
+export const dragOver = (data) => {
+  return {
+    type: 'DRAG_OVER',
+    data
+  }
+}
+
+function moveMarker(id, lat, lng) {
   return {
     type: 'MOVE_MARKER',
     id: id,
     lat,
     lng
+  }
+}
+
+export const dropPin = (id, lat, lng) => {
+  return (dispatch, getState) => {
+    dispatch(moveMarker(id, lat, lng));
+    dispatch(stopDrag())
   }
 }
 

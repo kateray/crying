@@ -14,14 +14,15 @@ class UserMap extends Component {
 
   dragOver(e) {
     e.preventDefault();
-    this.setState({mousePosition: [e.offsetX, e.offsetY]});
+    const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
+    const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
+    this.props.handleDragOver(magnifier)
   }
 
   dragEnd(e) {
     e.preventDefault();
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
     this.props.handleDrop(latlng.lat, latlng.lng)
-    this.setState({mousePosition: null});
   }
 
   componentDidMount() {
@@ -35,8 +36,8 @@ class UserMap extends Component {
     );
     return (
       <div>
-        {this.props.dragging && this.state.mousePosition &&
-          <Magnify draggingObject={this.props.dragging} position={this.leafletMap.leafletElement.containerPointToLatLng(this.state.mousePosition)} top={this.state.mousePosition[1]} left={this.state.mousePosition[0]} />
+        {this.props.magnifier &&
+          <Magnify draggingObject={this.props.dragging} data={this.props.magnifier} />
         }
         <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} scrollWheelZoom={false}>
           <TileLayer
