@@ -8,7 +8,7 @@ class EmojiPin extends Component {
   }
 
   render() {
-    const icon = divIcon({className: 'emoji-marker', iconSize: 16, html: this.props.data.hex, popupAnchor: [55,-10]});
+    const icon = divIcon({className: 'emoji-marker', iconSize: 16, html: this.props.data.hex, popupAnchor: [90,0]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
       <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={icon} draggable='true' onDragStart={this.props.handleDragStart} onDrag={this.props.handleDragOver} onDragEnd={this.props.handleDrop}>
@@ -18,7 +18,7 @@ class EmojiPin extends Component {
               <input type="text" value={this.props.data.title} onChange={this.props.handleTitleChange}/>
             </div>
             <div>
-              <input type="text" placeholder="What happened? (optional)" value={this.props.data.description} onChange={this.props.handleDescriptionChange} />
+              <textarea placeholder="What happened? (optional)" onChange={this.props.handleDescriptionChange}>{this.props.data.description}</textarea>
             </div>
           </div>
         </Popup>

@@ -36,7 +36,7 @@ class UserMap extends Component {
     );
     return (
       <div>
-        {this.props.magnifier &&
+        {this.props.magnifier && this.props.dragging &&
           <Magnify draggingObject={this.props.dragging} data={this.props.magnifier} />
         }
         <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} scrollWheelZoom={false}>

@@ -5,8 +5,10 @@ body {
   padding: 10px;
 }
 
-button:focus {outline:0;}
-input:focus {outline:0;}
+button:focus, input:focus, textarea:focus {
+  outline:0;
+  box-shadow: none;
+}
 
 #header {
   width: 100%;
