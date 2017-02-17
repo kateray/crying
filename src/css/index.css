@@ -2,7 +2,7 @@ body {
   font-family: 'Press Start 2P';
   background: #ff2da7;
   margin: 0px;
-  padding: 10px;
+  padding: 0px;
 }
 
 button:focus, input:focus, textarea:focus {
@@ -11,58 +11,32 @@ button:focus, input:focus, textarea:focus {
 }
 
 #header {
-  width: 100%;
   font-family: 'Press Start 2P';
-  font-size: 12px;
-}
-
-.header-section {
-  background-color: #fff;
-  height: 40px;
-  box-sizing: border-box;
-  padding: 5px 6px;
-}
-
-#app-title-container {
-  box-sizing: border-box;
-  width: 30%;
-  padding: 10px;
-  float: left;
+  padding: 10px 30px;
 }
 
 #app-title {
   font-size: 30px;
-  line-height: 30px;
+  display: inline;
 }
 
 #app-title h1 {
-  display: inline;
+  display: inline-block;
+  margin: 0px 13px;
   font-size: 17px;
   vertical-align: middle;
 }
 
-#app-description-container {
-  box-sizing: border-box;
-  width: 45%;
-  padding: 10px;
-  float: left;
-}
 #app-description {
   font-size: 10px;
-  line-height: 1.5;
-}
-#app-author-container {
-  box-sizing: border-box;
-  width: 25%;
-  padding: 10px;
-  float: left;
+  display: inline-block;
+  width: 500px;
+  margin-left: 30px;
 }
 
 #app-buttons-container {
   float: right;
-  box-sizing: border-box;
-  width: 25%;
-  padding: 10px;
+  line-height: 35px;
 }
 
 button {
@@ -72,9 +46,12 @@ button {
 }
 
 #save {
-  float: right;
+  font-size: 10px;
   background: #000;
   color: #fff;
-  height: 40px;
-  width: 60px;
+  padding: 10px;
+}
+
+#root {
+  position: relative;
 }
