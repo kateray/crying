@@ -18,7 +18,7 @@ class EmojiPin extends Component {
               <input type="text" value={this.props.data.title} onChange={this.props.handleTitleChange}/>
             </div>
             <div>
-              <textarea placeholder="What happened? (optional)" onChange={this.props.handleDescriptionChange}>{this.props.data.description}</textarea>
+              <textarea placeholder="What happened? (optional)" onChange={this.props.handleDescriptionChange} defaultValue={this.props.data.description}/>
             </div>
           </div>
         </Popup>

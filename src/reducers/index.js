@@ -8,17 +8,14 @@ const marker = (state = {}, action) => {
         hex: action.hex,
         title: action.title,
         lat: action.lat,
-        lng: action.lng
+        lng: action.lng,
+        description: ''
       }
-    case 'MOVE_MARKER':
+    case 'UPDATE_PIN':
       if (state.id !== action.id) {
         return state
       }
-
-      return Object.assign({}, state, {
-        lat: action.lat,
-        lng: action.lng
-      })
+      return Object.assign({}, state, action.data)
 
     default:
       return state
@@ -32,7 +29,7 @@ const markers = (state = [], action) => {
         ...state,
         marker(undefined, action)
       ]
-    case 'MOVE_MARKER':
+    case 'UPDATE_PIN':
       return state.map(m =>
         marker(m, action)
       )

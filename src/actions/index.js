@@ -30,18 +30,17 @@ export const dragOver = (data) => {
   }
 }
 
-function moveMarker(id, lat, lng) {
+export const updatePin = (id, data) => {
   return {
-    type: 'MOVE_MARKER',
-    id: id,
-    lat,
-    lng
+    type: 'UPDATE_PIN',
+    id,
+    data
   }
 }
 
 export const dropPin = (id, lat, lng) => {
   return (dispatch, getState) => {
-    dispatch(moveMarker(id, lat, lng));
+    dispatch(updatePin(id, {lat: lat, lng: lng}));
     dispatch(stopDrag())
   }
 }

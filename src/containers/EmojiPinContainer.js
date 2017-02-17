@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { dropPin, startDrag, dragOver } from '../actions'
+import { dropPin, startDrag, dragOver, updatePin } from '../actions'
 import EmojiPin from '../components/EmojiPin'
 
 const mapStateToProps = (state, ownProps) => {
@@ -19,10 +19,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(dropPin(ownProps.data.id, e.target._latlng.lat, e.target._latlng.lng))
     },
     handleTitleChange: (e) => {
-      console.log(e)
+      dispatch(updatePin(ownProps.data.id, {title: e.target.value}))
     },
     handleDescriptionChange: (e) => {
-      console.log(e)
+      dispatch(updatePin(ownProps.data.id, {description: e.target.value}))
     }
   }
 }
