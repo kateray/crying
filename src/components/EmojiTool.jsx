@@ -8,6 +8,7 @@ class EmojiTool extends Component {
   }
 
   render() {
+    console.log(this.props.dragging)
     return (
       <div className="marker-entry">
         <div className="movable-marker" draggable="true" onDragStart={this.dragStart.bind(this)} dangerouslySetInnerHTML={{ __html: this.props.hex}} />

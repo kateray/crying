@@ -4,7 +4,6 @@
   position: absolute;
   right: 0px;
   top: 0px;
-  float: left;
   display: inline;
   font-size: 30px;
 }
@@ -12,7 +11,7 @@
 .marker-entry {
   background-color: rgba(255, 45, 167, 0.720);
   margin: 1px 0px;
-  padding: 3px 7px;
+  padding: 3px 10px;
   position: relative;
   cursor: move;
   cursor: grab;
@@ -24,7 +23,7 @@
   font-family: 'Press Start 2P';
   font-size: 8px;
   position: absolute;;
-  right: 6px;
+  right: 10px;
   bottom: 5px;
 }
 

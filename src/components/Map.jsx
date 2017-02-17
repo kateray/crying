@@ -13,6 +13,7 @@ class UserMap extends Component {
   }
 
   dragOver(e) {
+    console.log('yeah?')
     e.preventDefault();
     const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
     const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
@@ -20,6 +21,7 @@ class UserMap extends Component {
   }
 
   dragEnd(e) {
+    console.log('um')
     e.preventDefault();
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
     this.props.handleDrop(latlng.lat, latlng.lng)
