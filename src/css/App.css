@@ -85,6 +85,7 @@
 .map-container {
   height: 720px;
   width: 100%;
+  position: relative;
 }
 
 .mini-map {
@@ -95,6 +96,7 @@
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   border: 1px solid #ff2da7;
+  pointer-events: none;
 }
 
 /*leaflet overrides*/
@@ -104,7 +106,7 @@
 }
 
 .leaflet-container {
-  height: 700px;
+  height: 720px;
 }
 
 .leaflet-popup-tip {
