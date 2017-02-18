@@ -19,7 +19,7 @@ class UserMap extends Component {
     this.props.handleDragOver(magnifier)
   }
 
-  dragEnd(e) {
+  drop(e) {
     e.preventDefault();
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
     this.props.handleDrop(latlng.lat, latlng.lng)
@@ -27,7 +27,7 @@ class UserMap extends Component {
 
   componentDidMount() {
     this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
-    this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
+    this.leafletMap.container.addEventListener("drop", this.drop.bind(this));
   }
 
   render() {

@@ -16,6 +16,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(dragOver(magnifier));
     },
     handleDrop: (e) => {
+      console.log(e)
+      console.log(e.dataTransfer)
       dispatch(dropPin(ownProps.data.id, e.target._latlng.lat, e.target._latlng.lng))
     },
     handleTitleChange: (e) => {

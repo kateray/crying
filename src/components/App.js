@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../css/App.css';
 import MapContainer from '../containers/MapContainer';
+import TrashContainer from '../containers/TrashContainer';
 import EmojiToolContainer from '../containers/EmojiToolContainer';
 import emojis from '../emojis.json'
 
@@ -18,6 +19,7 @@ class App extends Component {
         <div className="marker-container">
           {markers}
         </div>
+        <TrashContainer />
       </div>
     );
   }

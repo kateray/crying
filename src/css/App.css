@@ -1,3 +1,34 @@
+/* trash */
+.trash {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
+  font-size: 40px;
+  animation-name: pulse_animation;
+  animation-duration: 800ms;
+  transform-origin:70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  display: none;
+}
+
+.trash.show {
+  display: block;
+}
+
+.trash.hovered::before {
+  content: "delete?";
+  font-size: 8px;
+  float: left;
+  margin-top: -10px;
+}
+
+.trash.hovered {
+  animation: none;
+  font-size: 50px;
+}
+
 /* pins */
 .marker-container {
   z-index: 1000;

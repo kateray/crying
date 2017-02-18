@@ -38,6 +38,13 @@ export const updatePin = (id, data) => {
   }
 }
 
+export const dropInTrash = () => {
+  return (dispatch, getState) => {
+    const dragging = getState().app.dragging;
+    console.log(dragging)
+  }
+}
+
 export const dropPin = (id, lat, lng) => {
   return (dispatch, getState) => {
     dispatch(updatePin(id, {lat: lat, lng: lng}));
@@ -49,5 +56,11 @@ export const startDrag = (object) => {
   return {
     type: 'START_DRAG',
     object
+  }
+}
+
+export const hideMagnifier = () => {
+  return {
+    type: 'HIDE_MAGNIFIER'
   }
 }

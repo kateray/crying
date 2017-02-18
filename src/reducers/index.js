@@ -53,6 +53,10 @@ const app = (state = [], action) => {
         dragging: null,
         magnifier: null
       })
+    case 'HIDE_MAGNIFIER':
+      return Object.assign({}, state, {
+        magnifier: null
+      })
     default:
       return state
   }
