@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { dropPin, startDrag, dragOver, updatePin } from '../actions'
+import { dropPin, dragOver, updatePin } from '../actions'
 import EmojiPin from '../components/EmojiPin'
 
 const mapStateToProps = (state, ownProps) => {
@@ -8,9 +8,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handleDragStart: () => {
-      dispatch(startDrag(ownProps.data))
-    },
     handleDragOver: (e) => {
       const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.x, dragTop: e.originalEvent.y};
       dispatch(dragOver(magnifier));

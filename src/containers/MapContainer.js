@@ -1,17 +1,22 @@
 import { connect } from 'react-redux'
-import { dropNewMarker, dragOver } from '../actions'
+import { dropNewMarker, dragOver, startDrag } from '../actions'
 import Map from '../components/Map'
+import emojis from '../emojis.json'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     magnifier: state.app.magnifier,
-    markers: state.markers,
+    pins: state.markers,
+    emojis: emojis,
     dragging: state.app.dragging
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    handleDragStart: (data) => {
+      dispatch(startDrag(data))
+    },
     handleDragOver: (magnifier) => {
       dispatch(dragOver(magnifier));
     },
