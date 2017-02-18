@@ -35,6 +35,7 @@ class UserMap extends Component {
   componentDidMount() {
     this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
     this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
+    this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
   }
 
   render() {
@@ -42,7 +43,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = this.props.pins.map((m) =>
-      <EmojiPinContainer key={m.id} data={m} onDragStart={this.dragStart} onDragOver={this.props.handleDragOver} />
+      <EmojiPinContainer key={m.id} data={m} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.props.handleDragOver} />
     );
     return (
       <div>
