@@ -3,6 +3,12 @@ import { divIcon } from 'leaflet'
 import { Marker, Popup } from 'react-leaflet'
 
 class EmojiPin extends Component {
+  constructor(props) {
+    super(props);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragOver = this.onDragOver.bind(this);
+  }
+
   componentDidMount() {
     this.leafletMap.leafletElement.openPopup();
   }
@@ -13,15 +19,20 @@ class EmojiPin extends Component {
     }
   }
 
-  handleDragStart(){
+  onDragStart() {
     this.props.onDragStart(this.props.data)
+  }
+
+  onDragOver(e) {
+    const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.x, dragTop: e.originalEvent.y};
+    this.props.onDragOver(magnifier)
   }
 
   render() {
     const icon = divIcon({className: 'emoji-marker', iconSize: 16, html: this.props.data.hex, popupAnchor: [90,0]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={icon} draggable='true' onDragStart={this.handleDragStart.bind(this)} onDrag={this.props.handleDragOver} onDragEnd={this.props.handleDrop}>
+      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={icon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.props.handleDrop}>
         <Popup>
           <div>
             <div>
