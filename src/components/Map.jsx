@@ -21,9 +21,19 @@ class UserMap extends Component {
 
   dragOver(e) {
     e.preventDefault();
-    const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
-    const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
-    this.props.handleDragOver(magnifier)
+    const targetClass = e.target.className;
+    // Sneky hack so map doesn't go crazy dragging over leaflet attribution
+    if (targetClass.includes('leaflet-container') ) {
+      const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
+      const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
+      this.props.handleDragOver(magnifier)
+    } else {
+      this.props.handleDragLeave()
+    }
+  }
+
+  dragLeave(e) {
+    this.props.handleDragLeave()
   }
 
   dragEnd(e) {
@@ -35,6 +45,7 @@ class UserMap extends Component {
   componentDidMount() {
     this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
     this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
+    this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
   }
 
