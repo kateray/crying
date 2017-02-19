@@ -25,8 +25,8 @@ class EmojiPin extends Component {
   }
 
   onDragOver(e) {
-    const y = e.originalEvent.y+window.pageYOffset-this.props.offsetTop;
-    const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.x, dragTop: y};
+    const y = e.originalEvent.pageY-this.props.offsetTop;
+    const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
     this.props.onDragOver(magnifier)
   }
 
