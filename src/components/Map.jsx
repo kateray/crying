@@ -43,7 +43,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = this.props.pins.map((m) =>
-      <EmojiPinContainer key={m.id} data={m} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.props.handleDragOver} />
+      <EmojiPinContainer key={m.id} data={m} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.props.handleDragOver} onDelete={this.props.deletePin} />
     );
     return (
       <div>

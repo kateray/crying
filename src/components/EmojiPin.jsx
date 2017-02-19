@@ -7,6 +7,7 @@ class EmojiPin extends Component {
     super(props);
     this.onDragStart = this.onDragStart.bind(this);
     this.onDragOver = this.onDragOver.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +30,10 @@ class EmojiPin extends Component {
     this.props.onDragOver(magnifier)
   }
 
+  onDelete() {
+    this.props.onDelete(this.props.data)
+  }
+
   render() {
     const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,0]});
     const position = [this.props.data.lat, this.props.data.lng];
@@ -42,6 +47,7 @@ class EmojiPin extends Component {
             <div>
               <textarea placeholder="What happened? (optional)" onKeyPress={this.handleDescriptionKey.bind(this)} onChange={this.props.handleDescriptionChange} defaultValue={this.props.data.description}/>
             </div>
+            <div onClick={this.onDelete} className="delete-pin">delete pin</div>
           </div>
         </Popup>
       </Marker>

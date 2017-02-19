@@ -55,3 +55,10 @@ export const startDrag = (object) => {
     object
   }
 }
+
+export const deletePin = (data) => {
+  return {
+    type: 'DELETE_PIN',
+    data
+  }
+}

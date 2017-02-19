@@ -98,6 +98,19 @@
   pointer-events: none;
 }
 
+/* map pins */
+.delete-pin {
+  display: inline;
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgba(190, 29, 0, 1.000);
+}
+
+.delete-pin:hover {
+  text-decoration: none;
+  color: rgba(142, 22, 0, 1.000);
+}
+
 /*leaflet overrides*/
 
 .leaflet-fade-anim .leaflet-popup {
@@ -114,7 +127,6 @@
 .leaflet-popup-content-wrapper {
   box-shadow: none;
   background: #e969af;
-  height: 115px;
   width: 180px;
   border: 1px solid #ff2da7;
   border-top-left-radius: 50px;
@@ -123,7 +135,7 @@
   border-bottom-left-radius: 0px;
 }
 .leaflet-popup-content {
-  margin: 25px 15px;
+  margin: 25px 10px 10px 10px;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
@@ -139,7 +151,7 @@
   border-radius: 3px;
   background: #e992bf;
   border: none;
-  width: 140px;
+  width: 150px;
   margin-bottom: 5px;
   padding: 3px;
   font-family: 'Share Tech Mono';

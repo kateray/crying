@@ -26,6 +26,9 @@ const markers = (state = [], action) => {
       return state.map(m =>
         marker(m, action)
       )
+    case 'DELETE_PIN':
+      const pinId = action.data.id;
+      return state.filter(pin => pin.id !== pinId);
     default:
       return state
   }
