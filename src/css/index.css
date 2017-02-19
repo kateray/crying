@@ -50,14 +50,12 @@ button {
   color: #fff;
   padding: 10px;
   font-size: 10px;
-}
-
-#save {
   background: #000;
 }
 
-#logout {
-  background: red;
+.nav-button:hover{
+  background: #fff;
+  color: #000;
 }
 
 #root {
