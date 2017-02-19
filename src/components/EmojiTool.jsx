@@ -13,7 +13,7 @@ class EmojiTool extends Component {
   render() {
     return (
       <div className="pin-entry" draggable="true" onDragStart={this.dragStart.bind(this)}>
-        <img className="movable-pin" src={"/images/"+this.props.data.name+".png"} />
+        <img className="movable-pin" src={"/images/"+this.props.data.name+".png"} alt={this.props.data.hex} />
         <div className="pin-description">{this.props.data.title}</div>
         <div className="pin-direction">
           ← drag the emoji
