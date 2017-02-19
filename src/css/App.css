@@ -9,7 +9,7 @@
 }
 
 .pin-entry {
-  background-color: rgba(255, 45, 167, 0.720);
+  background-color: rgba(255, 45, 167, 0.75);
   margin: 1px 0px;
   padding: 8px 10px;
   position: relative;
@@ -126,7 +126,7 @@
 }
 .leaflet-popup-content-wrapper {
   box-shadow: none;
-  background: #e969af;
+  background: rgba(255, 45, 167, 0.75);
   width: 180px;
   border: 1px solid #ff2da7;
   border-top-left-radius: 50px;
@@ -145,11 +145,11 @@
   color: #7c7c7b;
 }
 .leaflet-popup-content ::-webkit-input-placeholder {
-  color: #7c7c7b;
+  color: rgba(95, 95, 95, 1.000);
 }
 .leaflet-popup-content input, .leaflet-popup-content textarea {
   border-radius: 3px;
-  background: #e992bf;
+  background: rgba(233, 100, 176, 1.000);
   border: none;
   width: 150px;
   margin-bottom: 5px;

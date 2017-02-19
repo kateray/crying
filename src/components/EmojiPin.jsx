@@ -35,7 +35,7 @@ class EmojiPin extends Component {
   }
 
   render() {
-    const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,0]});
+    const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
       <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.props.handleDrop}>
