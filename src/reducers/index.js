@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 
-const marker = (state = {}, action) => {
+const pin = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_MARKER':
+    case 'ADD_PIN':
       return Object.assign({description: ''}, action.data);
     case 'UPDATE_PIN':
       if (state.id !== action.id) {
@@ -15,16 +15,16 @@ const marker = (state = {}, action) => {
   }
 }
 
-const markers = (state = [], action) => {
+const pins = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_MARKER':
+    case 'ADD_PIN':
       return [
         ...state,
-        marker(undefined, action)
+        pin(undefined, action)
       ]
     case 'UPDATE_PIN':
       return state.map(m =>
-        marker(m, action)
+        pin(m, action)
       )
     case 'DELETE_PIN':
       const pinId = action.data.id;
@@ -54,9 +54,9 @@ const app = (state = [], action) => {
   }
 }
 
-const markerStore = combineReducers({
-  markers,
+const pinStore = combineReducers({
+  pins,
   app
 })
 
-export default markerStore
+export default pinStore

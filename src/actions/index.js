@@ -1,8 +1,8 @@
-let nextMarkerId = 0
+let nextPinId = 0
 
-function addMarker(lat, lng, draggingObject) {
+function addPin(lat, lng, draggingObject) {
   const data = {
-    id: nextMarkerId++,
+    id: nextPinId++,
     lat,
     lng,
     hex: draggingObject.hex,
@@ -10,7 +10,7 @@ function addMarker(lat, lng, draggingObject) {
     name: draggingObject.name
   }
   return {
-    type: 'ADD_MARKER',
+    type: 'ADD_PIN',
     data
   }
 }
@@ -19,10 +19,10 @@ function stopDrag() {
   return {type: 'STOP_DRAG'}
 }
 
-export const dropNewMarker = (lat, lng) => {
+export const dropNewPin = (lat, lng) => {
   return (dispatch, getState) => {
     //TODO: what if there is nothing dragging?
-    dispatch(addMarker(lat, lng, getState().app.dragging));
+    dispatch(addPin(lat, lng, getState().app.dragging));
     dispatch(stopDrag())
   }
 }

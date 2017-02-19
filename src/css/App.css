@@ -1,5 +1,5 @@
 /* pins */
-.marker-container {
+.pin-container {
   z-index: 1000;
   position: absolute;
   right: 0px;
@@ -8,7 +8,7 @@
   font-size: 30px;
 }
 
-.marker-entry {
+.pin-entry {
   background-color: rgba(255, 45, 167, 0.720);
   margin: 1px 0px;
   padding: 8px 10px;
@@ -17,7 +17,7 @@
   cursor: grab;
 }
 
-.marker-direction {
+.pin-direction {
   display: none;
   color: #fff;
   font-family: 'Press Start 2P';
@@ -27,15 +27,15 @@
   bottom: 5px;
 }
 
-.marker-entry:hover {
+.pin-entry:hover {
   background: #ff2da7;
 }
 
-.marker-entry:hover .marker-direction {
+.pin-entry:hover .pin-direction {
   display: block;
 }
 
-.marker-entry:hover .marker-description {
+.pin-entry:hover .pin-description {
   color: rgba(255, 38, 0, 1.000);
 }
 
@@ -50,7 +50,7 @@
   100% { transform: scale(1); }
 }
 
-.marker-entry:hover .movable-marker {
+.pin-entry:hover .movable-pin {
   border-radius: 20%;
   animation-name: pulse_animation;
   animation-duration: 800ms;
@@ -59,18 +59,18 @@
   animation-timing-function: linear;
 }
 
-.movable-marker {
+.movable-pin {
   background: transparent;
   display: inline-block;
   width: 30px;
 }
 
-.movable-marker:active {
+.movable-pin:active {
   cursor: grabbing;
   background: transparent;
 }
 
-.marker-description {
+.pin-description {
   font-family: 'Press Start 2P';
   font-size: 8px;
   display: inline;

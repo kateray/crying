@@ -6,7 +6,7 @@ class Magnify extends Component {
 
   render() {
     const height = 150;
-    const icon = divIcon({className: 'emoji-marker', iconSize: 16, html: this.props.draggingObject.hex});
+    const icon = divIcon({className: 'emoji-pin', iconSize: 16, html: this.props.draggingObject.hex});
     const position = this.props.data.dragLatLng;
     const top = this.props.data.dragTop - height;
     const left = this.props.data.dragLeft;

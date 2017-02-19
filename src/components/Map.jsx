@@ -59,7 +59,7 @@ class UserMap extends Component {
             {pins}
           </Map>
         </div>
-        <div className="marker-container">
+        <div className="pin-container">
           {emojis}
         </div>
       </div>

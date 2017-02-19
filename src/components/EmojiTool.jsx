@@ -12,10 +12,10 @@ class EmojiTool extends Component {
 
   render() {
     return (
-      <div className="marker-entry" draggable="true" onDragStart={this.dragStart.bind(this)}>
-        <img className="movable-marker" src={"/images/"+this.props.data.name+".png"} />
-        <div className="marker-description">{this.props.data.title}</div>
-        <div className="marker-direction">
+      <div className="pin-entry" draggable="true" onDragStart={this.dragStart.bind(this)}>
+        <img className="movable-pin" src={"/images/"+this.props.data.name+".png"} />
+        <div className="pin-description">{this.props.data.title}</div>
+        <div className="pin-direction">
           ← drag the emoji
         </div>
       </div>
