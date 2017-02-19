@@ -9,7 +9,7 @@
 }
 
 .pin-entry {
-  background-color: rgba(255, 45, 167, 0.75);
+  background-color: rgba(255, 45, 167, 0.8);
   margin: 1px 0px;
   padding: 8px 10px;
   position: relative;
@@ -36,7 +36,7 @@
 }
 
 .pin-entry:hover .pin-description {
-  color: rgba(255, 38, 0, 1.000);
+  /*color: rgba(255, 38, 0, 1.000);*/
 }
 
 @keyframes pulse_animation {
@@ -76,7 +76,7 @@
   display: inline;
   margin-left: 10px;
   text-transform: uppercase;
-  vertical-align: middle;
+  vertical-align: 120%;
 }
 
 
@@ -126,7 +126,7 @@
 }
 .leaflet-popup-content-wrapper {
   box-shadow: none;
-  background: rgba(255, 45, 167, 0.75);
+  background: rgba(255, 45, 167, 0.8);
   width: 180px;
   border: 1px solid #ff2da7;
   border-top-left-radius: 50px;

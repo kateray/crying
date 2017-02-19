@@ -17,7 +17,7 @@ button:focus, input:focus, textarea:focus {
 
 #app-title {
   font-size: 30px;
-  display: inline;
+  display: inline-block;
 }
 
 #app-title h1 {
@@ -31,13 +31,26 @@ button:focus, input:focus, textarea:focus {
 #app-description {
   font-size: 10px;
   display: inline-block;
-  width: 500px;
-  margin-left: 30px;
+  width: 35%;
+  margin-left: 1%;
 }
 
 #app-buttons-container {
   float: right;
   line-height: 35px;
+}
+
+@media (max-width: 825px) {
+  #app-description {
+    display: block;
+  }
+
+  #app-buttons-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    line-height: 35px;
+  }
 }
 
 button {
