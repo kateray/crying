@@ -3,14 +3,7 @@ import { combineReducers } from 'redux'
 const marker = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_MARKER':
-      return {
-        id: action.id,
-        hex: action.hex,
-        title: action.title,
-        lat: action.lat,
-        lng: action.lng,
-        description: ''
-      }
+      return Object.assign({description: ''}, action.data);
     case 'UPDATE_PIN':
       if (state.id !== action.id) {
         return state

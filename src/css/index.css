@@ -25,6 +25,7 @@ button:focus, input:focus, textarea:focus {
   margin: 0px 10px;
   font-size: 17px;
   vertical-align: middle;
+  line-height: 35px;
 }
 
 #app-description {

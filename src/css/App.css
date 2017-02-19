@@ -11,9 +11,9 @@
 .marker-entry {
   background-color: rgba(255, 45, 167, 0.720);
   margin: 1px 0px;
-  padding: 3px 10px;
+  padding: 8px 10px;
   position: relative;
-  cursor: move;
+  cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
 }
 
@@ -42,16 +42,16 @@
 @keyframes pulse_animation {
   0% { transform: scale(1); }
   30% { transform: scale(1); }
-  40% { transform: scale(1.08); }
+  40% { transform: scale(0.95); }
   50% { transform: scale(1); }
   60% { transform: scale(1); }
-  70% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
   80% { transform: scale(1); }
   100% { transform: scale(1); }
 }
 
 .marker-entry:hover .movable-marker {
-  border-radius: 50%;
+  border-radius: 20%;
   animation-name: pulse_animation;
   animation-duration: 800ms;
   transform-origin:70% 70%;
@@ -62,8 +62,7 @@
 .movable-marker {
   background: transparent;
   display: inline-block;
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
+  width: 30px;
 }
 
 .movable-marker:active {

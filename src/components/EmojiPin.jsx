@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { divIcon } from 'leaflet'
+import { icon } from 'leaflet'
 import { Marker, Popup } from 'react-leaflet'
 
 class EmojiPin extends Component {
@@ -30,10 +30,10 @@ class EmojiPin extends Component {
   }
 
   render() {
-    const icon = divIcon({className: 'emoji-marker', iconSize: 16, html: this.props.data.hex, popupAnchor: [90,0]});
+    const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,0]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={icon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.props.handleDrop}>
+      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.props.handleDrop}>
         <Popup>
           <div>
             <div>

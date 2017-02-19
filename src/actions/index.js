@@ -1,13 +1,17 @@
 let nextMarkerId = 0
 
 function addMarker(lat, lng, draggingObject) {
-  return {
-    type: 'ADD_MARKER',
+  const data = {
     id: nextMarkerId++,
     lat,
     lng,
     hex: draggingObject.hex,
-    title: draggingObject.title
+    title: draggingObject.title,
+    name: draggingObject.name
+  }
+  return {
+    type: 'ADD_MARKER',
+    data
   }
 }
 
