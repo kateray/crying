@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 
 class EmojiTool extends Component {
+  constructor(props) {
+    super(props);
+    // the result of unimagiable Safari pain
+    this.imageElement = document.createElement("img");
+    this.imageElement.src = "/images/"+props.data.name+".png";
+  }
+
   dragStart(e) {
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData("text/html", e.currentTarget);
+    e.dataTransfer.setData("Text", this.props.data.name)
+    e.dataTransfer.setDragImage(this.imageElement, 15, 15)
     this.props.onDragStart(this.props.data)
-    const img = document.createElement("img");
-    img.src = "/images/"+this.props.data.name+".png";
-    e.dataTransfer.setDragImage(img, 15, 15);
   }
 
   render() {
