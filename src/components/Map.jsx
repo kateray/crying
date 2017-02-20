@@ -45,6 +45,8 @@ class UserMap extends Component {
   }
 
   dragEnd(e) {
+    // Wow. Gotta have this preventDefault or Firefox might suddenly take you to sex.com
+    e.preventDefault()
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
     const data = Object.assign({}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
     this.props.handleDrop(data)
