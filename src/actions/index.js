@@ -1,14 +1,6 @@
-let nextPinId = 0
+let nextPinId = 1
 
-function addPin(lat, lng, draggingObject) {
-  const data = {
-    id: nextPinId++,
-    lat,
-    lng,
-    hex: draggingObject.hex,
-    title: draggingObject.title,
-    name: draggingObject.name
-  }
+function addPin(data) {
   return {
     type: 'ADD_PIN',
     data
@@ -17,14 +9,6 @@ function addPin(lat, lng, draggingObject) {
 
 function stopDrag() {
   return {type: 'STOP_DRAG'}
-}
-
-export const dropNewPin = (lat, lng) => {
-  return (dispatch, getState) => {
-    //TODO: what if there is nothing dragging?
-    dispatch(addPin(lat, lng, getState().app.dragging));
-    dispatch(stopDrag())
-  }
 }
 
 export const updatePin = (id, data) => {
@@ -37,7 +21,17 @@ export const updatePin = (id, data) => {
 
 export const dropPin = (data) => {
   return (dispatch, getState) => {
-    dispatch(updatePin(data.id, {lat: data.lat, lng: data.lng}));
+    if (data.id) {
+      dispatch(updatePin(data.id, {lat: data.lat, lng: data.lng}));
+    } else {
+      const dragging = getState().app.dragging;
+      const newPin = Object.assign({}, dragging, {
+        id: nextPinId++,
+        lat: data.lat,
+        lng: data.lng
+      })
+      dispatch(addPin(newPin))
+    }
     dispatch(stopDrag())
   }
 }

@@ -46,12 +46,12 @@ class UserMap extends Component {
   dragEnd(e) {
     this.setState({magnifier: null});
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
-    this.props.handleDrop(latlng.lat, latlng.lng)
+    this.props.handleDrop({lat: latlng.lat, lng: latlng.lng})
   }
 
   pinDrop(data) {
     this.setState({magnifier: null})
-    this.props.handlePinDrop(data)
+    this.props.handleDrop(data)
   }
 
   componentDidMount() {

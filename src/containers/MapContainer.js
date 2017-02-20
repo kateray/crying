@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { dropPin, dropNewPin, startDrag, deletePin } from '../actions'
+import { dropPin, startDrag, deletePin } from '../actions'
 import Map from '../components/Map'
 import emojis from '../emojis.json'
 
@@ -13,14 +13,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handlePinDrop: (data) => {
-      dispatch(dropPin(data))
-    },
     handleDragStart: (data) => {
       dispatch(startDrag(data))
     },
-    handleDrop: (lat, lng) => {
-      dispatch(dropNewPin(lat, lng))
+    handleDrop: (data) => {
+      dispatch(dropPin(data))
     },
     deletePin: (data) => {
       dispatch(deletePin(data))

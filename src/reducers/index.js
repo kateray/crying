@@ -42,8 +42,7 @@ const app = (state = [], action) => {
       })
     case 'STOP_DRAG':
       return Object.assign({}, state, {
-        dragging: null,
-        magnifier: null
+        dragging: null
       })
     default:
       return state
