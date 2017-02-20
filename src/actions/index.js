@@ -32,3 +32,8 @@ export const deletePin = (data) => {
     data
   }
 }
+
+// const PREFIX = "pins"
+// export const ADD_PIN = '${PREFIX}ADD_PIN'
+// export const UPDATE_PIN = '${PREFIX}UPDATE_PIN'
+// export const DELETE_PIN = '${PREFIX}DELETE_PIN'
