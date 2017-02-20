@@ -40,14 +40,6 @@ const app = (state = [], action) => {
       return Object.assign({}, state, {
         dragging: action.object
       })
-    case 'HIDE_MAGNIFIER':
-      return Object.assign({}, state, {
-        magnifier: null
-      })
-    case 'DRAG_OVER':
-      return Object.assign({}, state, {
-        magnifier: action.data
-      })
     case 'STOP_DRAG':
       return Object.assign({}, state, {
         dragging: null,

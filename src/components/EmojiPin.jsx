@@ -24,6 +24,10 @@ class EmojiPin extends Component {
     this.props.onDragStart(this.props.data)
   }
 
+  onDrop(e) {
+    this.props.onDrop({id: this.props.data.id, lat: e.target._latlng.lat, lng: e.target._latlng.lng})
+  }
+
   onDragOver(e) {
     const y = e.originalEvent.pageY-this.props.offsetTop;
     const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
@@ -38,7 +42,7 @@ class EmojiPin extends Component {
     const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.props.handleDrop}>
+      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.onDrop.bind(this)}>
         <Popup>
           <div>
             <div>

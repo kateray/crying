@@ -27,13 +27,6 @@ export const dropNewPin = (lat, lng) => {
   }
 }
 
-export const dragOver = (data) => {
-  return {
-    type: 'DRAG_OVER',
-    data
-  }
-}
-
 export const updatePin = (id, data) => {
   return {
     type: 'UPDATE_PIN',
@@ -42,15 +35,9 @@ export const updatePin = (id, data) => {
   }
 }
 
-export const hideMagnifier = () => {
-  return {
-    type: 'HIDE_MAGNIFIER'
-  }
-}
-
-export const dropPin = (id, lat, lng) => {
+export const dropPin = (data) => {
   return (dispatch, getState) => {
-    dispatch(updatePin(id, {lat: lat, lng: lng}));
+    dispatch(updatePin(data.id, {lat: data.lat, lng: data.lng}));
     dispatch(stopDrag())
   }
 }

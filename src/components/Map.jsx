@@ -9,8 +9,11 @@ class UserMap extends Component {
   constructor(props) {
     super(props);
     this.dragStart = this.dragStart.bind(this);
+    this.dragPinOver = this.dragPinOver.bind(this);
+    this.pinDrop = this.pinDrop.bind(this);
     this.state = {
-      position: [40.734583, -73.997263]
+      position: [40.734583, -73.997263],
+      magnifier: null
     };
   }
 
@@ -26,20 +29,29 @@ class UserMap extends Component {
     if (targetClass.includes('leaflet-container') ) {
       const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
       const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
-      this.props.handleDragOver(magnifier)
+      this.setState({magnifier: magnifier})
     } else {
       this.props.handleDragLeave()
     }
   }
 
+  dragPinOver(magnifier) {
+    this.setState({magnifier: magnifier})
+  }
+
   dragLeave(e) {
-    this.props.handleDragLeave()
+    this.setState({magnifier: null})
   }
 
   dragEnd(e) {
-    e.preventDefault();
+    this.setState({magnifier: null});
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
     this.props.handleDrop(latlng.lat, latlng.lng)
+  }
+
+  pinDrop(data) {
+    this.setState({magnifier: null})
+    this.props.handlePinDrop(data)
   }
 
   componentDidMount() {
@@ -54,12 +66,12 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = this.props.pins.map((m) =>
-      <EmojiPinContainer key={m.id} data={m} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.props.handleDragOver} onDelete={this.props.deletePin} />
+      <EmojiPinContainer key={m.id} data={m} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
     );
     return (
       <div>
-        {this.props.magnifier && this.props.dragging &&
-          <Magnify draggingObject={this.props.dragging} data={this.props.magnifier} />
+        {this.state.magnifier && this.props.dragging &&
+          <Magnify draggingObject={this.props.dragging} data={this.state.magnifier} />
         }
         <div className="map-container">
           <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} scrollWheelZoom={false}>
