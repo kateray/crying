@@ -13,13 +13,14 @@ class UserMap extends Component {
     this.pinDrop = this.pinDrop.bind(this);
     this.state = {
       position: [40.734583, -73.997263],
-      magnifier: null
+      magnifier: null,
+      dragging: null
     };
   }
 
   dragStart(props) {
     this.leafletMap.leafletElement.closePopup()
-    this.props.handleDragStart(props)
+    this.setState({dragging: props})
   }
 
   dragOver(e) {
@@ -44,14 +45,15 @@ class UserMap extends Component {
   }
 
   dragEnd(e) {
-    this.setState({magnifier: null});
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
-    this.props.handleDrop({lat: latlng.lat, lng: latlng.lng})
+    const data = Object.assign({}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
+    this.props.handleDrop(data)
+    this.setState({magnifier: null, dragging: null});
   }
 
   pinDrop(data) {
-    this.setState({magnifier: null})
     this.props.handleDrop(data)
+    this.setState({magnifier: null, dragging: null})
   }
 
   componentDidMount() {
@@ -70,8 +72,8 @@ class UserMap extends Component {
     );
     return (
       <div>
-        {this.state.magnifier && this.props.dragging &&
-          <Magnify draggingObject={this.props.dragging} data={this.state.magnifier} />
+        {this.state.magnifier && this.state.dragging &&
+          <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
         }
         <div className="map-container">
           <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} scrollWheelZoom={false}>

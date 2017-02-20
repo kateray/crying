@@ -36,14 +36,6 @@ const pins = (state = [], action) => {
 
 const app = (state = [], action) => {
   switch (action.type) {
-    case 'START_DRAG':
-      return Object.assign({}, state, {
-        dragging: action.object
-      })
-    case 'STOP_DRAG':
-      return Object.assign({}, state, {
-        dragging: null
-      })
     default:
       return state
   }

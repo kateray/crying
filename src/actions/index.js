@@ -7,10 +7,6 @@ function addPin(data) {
   }
 }
 
-function stopDrag() {
-  return {type: 'STOP_DRAG'}
-}
-
 export const updatePin = (id, data) => {
   return {
     type: 'UPDATE_PIN',
@@ -24,22 +20,9 @@ export const dropPin = (data) => {
     if (data.id) {
       dispatch(updatePin(data.id, {lat: data.lat, lng: data.lng}));
     } else {
-      const dragging = getState().app.dragging;
-      const newPin = Object.assign({}, dragging, {
-        id: nextPinId++,
-        lat: data.lat,
-        lng: data.lng
-      })
+      const newPin = Object.assign({}, data, {id: nextPinId++})
       dispatch(addPin(newPin))
     }
-    dispatch(stopDrag())
-  }
-}
-
-export const startDrag = (object) => {
-  return {
-    type: 'START_DRAG',
-    object
   }
 }
 
