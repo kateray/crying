@@ -1,8 +1,10 @@
+import * as PinActions from "../actions/PinActions";
+
 const pin = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_PIN':
+    case PinActions.ADD_PIN:
       return Object.assign({description: ''}, action.data);
-    case 'UPDATE_PIN':
+    case PinActions.UPDATE_PIN:
       if (state.id !== action.id) {
         return state
       }
@@ -15,16 +17,16 @@ const pin = (state = {}, action) => {
 
 const pins = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_PIN':
+    case PinActions.ADD_PIN:
       return [
         ...state,
         pin(undefined, action)
       ]
-    case 'UPDATE_PIN':
+    case PinActions.UPDATE_PIN:
       return state.map(m =>
         pin(m, action)
       )
-    case 'DELETE_PIN':
+    case PinActions.DELETE_PIN:
       const pinId = action.data.id;
       return state.filter(pin => pin.id !== pinId);
     default:

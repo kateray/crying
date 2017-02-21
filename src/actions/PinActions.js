@@ -1,16 +1,21 @@
-let nextPinId = 1
+let nextPinId = 1;
+const PREFIX = "pinActions";
 
-function addPin(data) {
+export const UPDATE_PIN = `${PREFIX}.UPDATE_PIN`;
+export const ADD_PIN = `${PREFIX}.ADD_PIN`;
+export const DELETE_PIN = `${PREFIX}.DELETE_PIN`;
+
+export const updatePin = (id, data) => {
   return {
-    type: 'ADD_PIN',
+    type: UPDATE_PIN,
+    id,
     data
   }
 }
 
-export const updatePin = (id, data) => {
+function addPin(data) {
   return {
-    type: 'UPDATE_PIN',
-    id,
+    type: ADD_PIN,
     data
   }
 }
@@ -28,12 +33,7 @@ export const dropPin = (data) => {
 
 export const deletePin = (data) => {
   return {
-    type: 'DELETE_PIN',
+    type: DELETE_PIN,
     data
   }
 }
-
-// const PREFIX = "pins"
-// export const ADD_PIN = '${PREFIX}ADD_PIN'
-// export const UPDATE_PIN = '${PREFIX}UPDATE_PIN'
-// export const DELETE_PIN = '${PREFIX}DELETE_PIN'

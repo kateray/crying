@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { updatePin } from '../actions'
+import * as PinActions from '../actions/PinActions';
 import EmojiPin from '../components/EmojiPin'
 
 const mapStateToProps = (state, ownProps) => {
@@ -9,10 +9,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleTitleChange: (e) => {
-      dispatch(updatePin(ownProps.data.id, {title: e.target.value}))
+      dispatch(PinActions.updatePin(ownProps.data.id, {title: e.target.value}))
     },
     handleDescriptionChange: (e) => {
-      dispatch(updatePin(ownProps.data.id, {description: e.target.value}))
+      dispatch(PinActions.updatePin(ownProps.data.id, {description: e.target.value}))
     }
   }
 }
