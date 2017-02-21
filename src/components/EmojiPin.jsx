@@ -25,7 +25,7 @@ class EmojiPin extends Component {
   }
 
   onDrop(e) {
-    this.props.onDrop({id: this.props.data.id, lat: e.target._latlng.lat, lng: e.target._latlng.lng})
+    this.props.onDrop({id: this.props.id, lat: e.target._latlng.lat, lng: e.target._latlng.lng})
   }
 
   onDragOver(e) {
@@ -35,7 +35,7 @@ class EmojiPin extends Component {
   }
 
   onDelete() {
-    this.props.onDelete(this.props.data)
+    this.props.onDelete(this.props.id, this.props.data)
   }
 
   render() {

@@ -13,9 +13,10 @@ export const updatePin = (id, data) => {
   }
 }
 
-function addPin(data) {
+function addPin(id, data) {
   return {
     type: ADD_PIN,
+    id,
     data
   }
 }
@@ -25,15 +26,16 @@ export const dropPin = (data) => {
     if (data.id) {
       dispatch(updatePin(data.id, {lat: data.lat, lng: data.lng}));
     } else {
-      const newPin = Object.assign({}, data, {id: nextPinId++})
-      dispatch(addPin(newPin))
+      const newPin = Object.assign({}, data)
+      dispatch(addPin(nextPinId++, newPin))
     }
   }
 }
 
-export const deletePin = (data) => {
+export const deletePin = (id, data) => {
   return {
     type: DELETE_PIN,
+    id,
     data
   }
 }

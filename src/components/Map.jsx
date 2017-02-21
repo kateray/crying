@@ -69,8 +69,8 @@ class UserMap extends Component {
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
-    const pins = this.props.pins.map((m) =>
-      <EmojiPinContainer key={m.id} data={m} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
+    const pins = this.props.pinKeys.map((k) =>
+      <EmojiPinContainer key={k} id={k} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
     );
     return (
       <div>
