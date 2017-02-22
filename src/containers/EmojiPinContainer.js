@@ -3,9 +3,7 @@ import * as PinActions from '../actions/PinActions';
 import EmojiPin from '../components/EmojiPin'
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    data: state.pins[ownProps.id]
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

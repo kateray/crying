@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
-import EmojiPinContainer from '../containers/EmojiPinContainer'
+import EmojiPin from './EmojiPin'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
 
@@ -19,6 +19,7 @@ class UserMap extends Component {
   }
 
   dragStart(props) {
+    console.log(props)
     this.leafletMap.leafletElement.closePopup()
     this.setState({dragging: props})
   }
@@ -69,8 +70,8 @@ class UserMap extends Component {
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
-    const pins = this.props.pinKeys.map((k) =>
-      <EmojiPinContainer key={k} id={k} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
+    const pins = Object.keys(this.props.pins).map((k) =>
+      <EmojiPin key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} onUpdate={this.props.updatePin} />
     );
     return (
       <div>
