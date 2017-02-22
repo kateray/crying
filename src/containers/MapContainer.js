@@ -4,9 +4,8 @@ import Map from '../components/Map'
 import emojis from '../emojis.json'
 
 const mapStateToProps = (state, ownProps) => {
-  const pinKeys = Object.keys(state.pins)
   return {
-    pinKeys: pinKeys,
+    pins: state.pins,
     emojis: emojis
   }
 }
@@ -18,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     deletePin: (id, data) => {
       dispatch(PinActions.deletePin(id, data))
+    },
+    updatePin: (id, data) => {
+      dispatch(PinActions.updatePin(id, data))
     }
   }
 }
