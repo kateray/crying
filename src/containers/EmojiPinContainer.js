@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import * as PinActions from '../actions/PinActions';
 import EmojiPin from '../components/EmojiPin'
 
 const mapStateToProps = (state, ownProps) => {
@@ -7,14 +6,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    handleTitleChange: (e) => {
-      dispatch(PinActions.updatePin(ownProps.id, {title: e.target.value}))
-    },
-    handleDescriptionChange: (e) => {
-      dispatch(PinActions.updatePin(ownProps.id, {description: e.target.value}))
-    }
-  }
+  return {}
 }
 
 const EmojiPinContainer = connect(

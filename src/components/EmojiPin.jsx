@@ -21,7 +21,6 @@ class EmojiPin extends Component {
   }
 
   onDragStart() {
-    console.log('we gon or what')
     this.props.onDragStart(this.props.data)
   }
 
@@ -30,10 +29,8 @@ class EmojiPin extends Component {
   }
 
   onDragOver(e) {
-    console.log('yah?')
     const y = e.originalEvent.pageY-this.props.offsetTop;
     const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
-    console.log(magnifier)
     this.props.onDragOver(magnifier)
   }
 
@@ -42,7 +39,6 @@ class EmojiPin extends Component {
   }
 
   render() {
-    console.log(this.props)
     const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
