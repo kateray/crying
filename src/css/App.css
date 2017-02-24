@@ -111,6 +111,10 @@
   color: rgba(142, 22, 0, 1.000);
 }
 
+.floating-text {
+  color: lime;
+  font-size: 30px;
+}
 /*leaflet overrides*/
 
 .leaflet-fade-anim .leaflet-popup {
@@ -127,15 +131,22 @@
 .leaflet-popup-content-wrapper {
   box-shadow: none;
   background: rgba(255, 45, 167, 0.8);
-  width: 180px;
+  width: 450px;
+  height: 200px;
   border: 1px solid #ff2da7;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   border-bottom-left-radius: 0px;
 }
 .leaflet-popup-content {
-  margin: 25px 10px 10px 10px;
+  /*margin: 25px 10px 10px 10px;*/
+  margin: 0;
+}
+
+.popup-stuff {
+  width: 450px;
+  height: 200px;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
@@ -151,7 +162,7 @@
   border-radius: 3px;
   background: rgba(233, 100, 176, 1.000);
   border: none;
-  width: 150px;
+  width: 450px;
   margin-bottom: 5px;
   padding: 3px;
   font-family: 'Share Tech Mono';

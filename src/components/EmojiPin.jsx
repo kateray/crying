@@ -8,6 +8,7 @@ class EmojiPin extends Component {
     this.onDragStart = this.onDragStart.bind(this);
     this.onDragOver = this.onDragOver.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.popupOpen = this.popupOpen.bind(this);
   }
 
   componentDidMount() {
@@ -38,13 +39,40 @@ class EmojiPin extends Component {
     this.props.onDelete(this.props.id, this.props.data)
   }
 
+  popupOpen(e) {
+    const position = {lat: this.props.data.lat, lng: this.props.data.lng}
+    // const map = new window.google.maps.Map(e.popup._contentNode, {
+    //   center: position,
+    //   zoom: 18,
+    //   streetViewControl: false
+    // });
+    // var marker = new window.google.maps.Marker({
+    //     position: position,
+    //     map: map,
+    //     icon: "/images/"+this.props.data.name+".png",
+    //     title: this.props.data.title
+    // });
+    new window.google.maps.StreetViewPanorama(e.popup._contentNode, {
+      fullscreenControl: false,
+      zoomControl: false,
+      addressControl: false,
+      panControl: false,
+      linksControl: false,
+      position: position,
+        pov: {
+          heading: 34,
+          pitch: 10
+        }
+      });
+  }
+
   render() {
     const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.onDrop.bind(this)}>
+      <div lat={this.props.data.lat} lng={this.props.data.lng} text={'hey'} ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart}>
         <Popup>
-          <div>
+          <div className="popup-stuff">
             <div>
               <input type="text" value={this.props.data.title} onChange={(e) => this.props.onUpdate(this.props.id, {title: e.target.value})}/>
             </div>
@@ -54,7 +82,7 @@ class EmojiPin extends Component {
             <div onClick={this.onDelete} className="delete-pin">delete pin</div>
           </div>
         </Popup>
-      </Marker>
+      </div>
     );
   }
 }
