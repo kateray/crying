@@ -8,15 +8,24 @@ import Magnify from './Magnify'
 
 var overlay;
 
+function point2LatLng(e, googleMap, mapper) {
+  const topRight = googleMap.getProjection().fromLatLngToPoint(googleMap.getBounds().getNorthEast());
+  const bottomLeft = googleMap.getProjection().fromLatLngToPoint(googleMap.getBounds().getSouthWest());
+  const scale = Math.pow(2, googleMap.getZoom());
+  const worldPoint = new mapper.Point(e.offsetX / scale + bottomLeft.x, e.offsetY / scale + topRight.y);
+  return googleMap.getProjection().fromPointToLatLng(worldPoint);
+}
+
 class UserMap extends Component {
   constructor(props) {
     super(props);
-    this.dragStart = this.dragStart.bind(this);
-    this.dragPinOver = this.dragPinOver.bind(this);
-    this.dragOver = this.dragOver.bind(this);
-    this.pinDrop = this.pinDrop.bind(this);
-    this.hasLoaded = this.hasLoaded.bind(this)
-    // this.initDraggableCircle = this.initDraggableCircle.bind(this)
+    this.startPinDrag = this.startPinDrag.bind(this)
+    this.pinDrag = this.pinDrag.bind(this)
+    this.pinDrop = this.pinDrop.bind(this)
+    this.setDragging = this.setDragging.bind(this);
+    this.toolDrag = this.toolDrag.bind(this);
+    this.mapLoaded = this.mapLoaded.bind(this)
+    this.toolDrop = this.toolDrop.bind(this)
     this.state = {
       position: {lat: 40.734583, lng: -73.997263},
       magnifier: null,
@@ -24,64 +33,71 @@ class UserMap extends Component {
     };
   }
 
-  dragStart(props) {
-    // this.leafletMap.leafletElement.closePopup()
+  startPinDrag(h, props, mouse) {
+    if (props.object !== 'pin') {
+      return
+    }
+    this.setDragging(props.data)
+  }
+
+  setDragging(props) {
     this.setState({dragging: props})
   }
 
-  dragOver(e) {
-    console.log(e)
+  pinDrag(h, props, mouse) {
+    if (props.object !== 'pin') {
+      return
+    }
+    const magnifier = {lat: mouse.lat, lng: mouse.lng, dragLeft: mouse.x, dragTop: mouse.y};
+    this.setState({magnifier: magnifier})
+    this.props.handleDrop({id: props.id, lat: mouse.lat, lng: mouse.lng})
+  }
+
+  toolDrag(e) {
+    e.preventDefault()
     if (!this.state.dragging) {
       return;
     }
-    const targetClass = e.target.className;
-    console.log(e.target)
-    console.log(targetClass)
-    // Sneky hack so map doesn't go crazy dragging over leaflet attribution
-    if (targetClass.includes('leaflet-container') ) {
-      const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
-      const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
-      this.setState({magnifier: magnifier})
-    } else {
-      this.props.handleDragLeave()
-    }
-  }
 
-  dragPinOver(magnifier) {
+    const latlng = point2LatLng(e.nativeEvent, this.myMap, this.mapper);
+    const magnifier = {lat: latlng.lat(), lng: latlng.lng(), dragLeft: e.nativeEvent.offsetX, dragTop: e.nativeEvent.offsetY};
     this.setState({magnifier: magnifier})
+
+    // const targetClass = e.target.className;
+    // // Sneky hack so map doesn't go crazy dragging over leaflet attribution
+    // if (targetClass.includes('leaflet-container') ) {
+    //   const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
+    //   const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
+    //   this.setState({magnifier: magnifier})
+    // } else {
+    //   this.dragLeave()
+    // }
   }
 
   dragLeave(e) {
     this.setState({magnifier: null})
   }
 
-  dragEnd(e) {
+  pinDrop(h, props, mouse) {
+    if (props.object !== 'pin') {
+      return
+    }
+    this.props.handleDrop({id: props.id, lat: mouse.lat, lng: mouse.lng})
+    this.setState({magnifier: null, dragging: null})
+  }
+
+  toolDrop(e) {
     // Wow. Gotta have this preventDefault or Firefox might suddenly take you to sex.com
     e.preventDefault()
-    const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
-    const data = Object.assign({}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
+    const latlng = point2LatLng(e.nativeEvent, this.myMap, this.mapper);
+    const data = Object.assign({}, this.state.dragging, {lat: latlng.lat(), lng: latlng.lng()})
     this.props.handleDrop(data)
     this.setState({magnifier: null, dragging: null});
   }
 
-  pinDrop(data) {
-    this.props.handleDrop(data)
-    this.setState({magnifier: null, dragging: null})
-  }
-
-  componentDidMount() {
-    // console.log(this.maps)
-    // this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
-    // this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
-    // this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
-    // this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
-  }
-
-  // initDraggableCircle({map, maps}) {
-  //   maps.event.addListener(circle, 'drag', this.dragOver);
-  // }
-
-  hasLoaded({map, maps}) {
+  mapLoaded({map, maps}) {
+    this.myMap = map;
+    this.mapper = maps;
     USGSOverlay.prototype = new maps.OverlayView();
     function USGSOverlay(map, position) {
       this.map_ = map;
@@ -154,18 +170,29 @@ class UserMap extends Component {
 
   render() {
     const emojis = this.props.emojis.icons.map((e) =>
-      <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
+      <EmojiTool key={e.name} data={e} onDragStart={this.setDragging} />
     );
     const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} onUpdate={this.props.updatePin} />
+      <EmojiPinContainer key={k} id={k} object='pin' data={this.props.pins[k]} lat={this.props.pins[k].lat} lng={this.props.pins[k].lng} />
     );
     return (
       <div>
         {this.state.magnifier && this.state.dragging &&
-          <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
+          <Magnify dragging={this.state.dragging} data={this.state.magnifier} />
         }
-        <div className="map-container">
-          <GoogleMapReact draggable={false} onGoogleApiLoaded={this.hasLoaded} onChildMouseMove={this.dragOver} bootstrapURLKeys={{key: 'AIzaSyCPMTBegS_87RC5YX0rrTbWVBqp9o9VINk'}} defaultCenter={this.state.position} defaultZoom={14} scrollWheelZoom={false}>
+        <div className="map-container" onDragOver={this.toolDrag} onDrop={this.toolDrop}>
+          <GoogleMapReact
+            yesIWantToUseGoogleMapApiInternals={true}
+            defaultCenter={this.state.position}
+            defaultZoom={14}
+            bootstrapURLKeys={{key: 'AIzaSyCPMTBegS_87RC5YX0rrTbWVBqp9o9VINk'}}
+            draggable={this.state.dragging ? false : true}
+            onGoogleApiLoaded={this.mapLoaded}
+            onChildMouseDown={this.startPinDrag}
+            onChildMouseMove={this.pinDrag}
+            onChildMouseUp={this.pinDrop}
+            >
+            {pins}
           </GoogleMapReact>
         </div>
         <div className="pin-container">

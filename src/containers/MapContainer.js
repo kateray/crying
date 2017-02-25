@@ -4,11 +4,8 @@ import Map from '../components/Map'
 import emojis from '../emojis.json'
 
 const mapStateToProps = (state, ownProps) => {
-  let pins = {};
-  pins['1'] = {lat: 40.735286, lng: -73.994124, name: 'crying'};
-  pins['2'] = {lat: 40.724706, lng: -73.991745, name: 'crying'};
   return {
-    pins: pins,
+    pins: state.pins,
     emojis: emojis
   }
 }

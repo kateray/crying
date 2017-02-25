@@ -1,4 +1,4 @@
-/* pins */
+/* controls */
 .pin-container {
   z-index: 1000;
   position: absolute;
@@ -79,6 +79,29 @@
   vertical-align: 120%;
 }
 
+/* magnifier */
+.magnifier-container {
+  z-index: 650;
+  width: 180px;
+  position: absolute;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border: 1px solid #ff2da7;
+  pointer-events: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* map */
 .map-container {
@@ -99,6 +122,13 @@
 }
 
 /* map pins */
+.emoji-pin {
+  width: 16px;
+  height: 16px;
+  left: -8px;
+  top: -8px;
+  position: relative;
+}
 .delete-pin {
   display: inline;
   text-decoration: underline;
