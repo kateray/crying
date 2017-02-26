@@ -10,15 +10,6 @@ button:focus, input:focus, textarea:focus {
   box-shadow: none;
 }
 
-#street-view {
-  height: 250px;
-  width: 500px;
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  z-index: 10000;
-}
-
 #header {
   font-family: 'Press Start 2P';
   padding: 10px;

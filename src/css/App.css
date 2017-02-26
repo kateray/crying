@@ -91,7 +91,18 @@
   pointer-events: none;
 }
 
+/* pano */
+.street-view {
+  height: 250px;
+  width: 500px;
+  margin-top: -275px;
+  margin-left: -250px;
+  display: none;
+}
 
+.street-view.open {
+  display: block;
+}
 
 
 

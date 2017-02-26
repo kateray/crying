@@ -3,16 +3,55 @@ import GoogleMapReact from 'google-map-react'
 import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
+import PanoContainer from '../containers/PanoContainer'
 
 
+function createPano(myMap, mapper) {
+  USGSOverlay.prototype = new mapper.OverlayView();
+  function USGSOverlay(map, position) {
+    this.map_ = map;
+    console.log(position)
+    this.position_ = position;
+    this.div_ = null;
+    this.setMap(map);
+  }
+  USGSOverlay.prototype.onAdd = function() {
+    console.log('sup')
+    var div = document.createElement('div');
+    div.className = 'floating-text';
+    div.style.borderStyle = 'none';
+    div.style.borderWidth = '0px';
+    div.style.position = 'absolute';
+    div.innerHTML = 'we stayed here for a long time';
 
-var overlay;
+    this.div_ = div;
 
-function point2LatLng(e, googleMap, mapper) {
+    // Add the element to the "overlayLayer" pane.
+    var panes = this.getPanes();
+    panes.overlayLayer.appendChild(div);
+  };
+
+  USGSOverlay.prototype.draw = function() {
+    console.log('y?')
+    var overlayProjection = this.getProjection();
+    console.log(this.position_)
+    var sw = overlayProjection.fromLatLngToDivPixel(this.position_);
+    console.log(sw)
+
+    // Resize the image's div to fit the indicated dimensions.
+    var div = this.div_;
+    div.style.left = sw.x + 'px';
+    div.style.top = sw.y + 'px';
+    div.style.width = '10px';
+    div.style.height = '10px';
+  };
+}
+
+function point2LatLng(e, googleMap, googleMaps) {
   const topRight = googleMap.getProjection().fromLatLngToPoint(googleMap.getBounds().getNorthEast());
   const bottomLeft = googleMap.getProjection().fromLatLngToPoint(googleMap.getBounds().getSouthWest());
   const scale = Math.pow(2, googleMap.getZoom());
-  const worldPoint = new mapper.Point(e.offsetX / scale + bottomLeft.x, e.offsetY / scale + topRight.y);
+  const worldPoint = new googleMaps.Point(e.offsetX / scale + bottomLeft.x, e.offsetY / scale + topRight.y);
   return googleMap.getProjection().fromPointToLatLng(worldPoint);
 }
 
@@ -26,8 +65,12 @@ class UserMap extends Component {
     this.toolDrag = this.toolDrag.bind(this);
     this.mapLoaded = this.mapLoaded.bind(this)
     this.toolDrop = this.toolDrop.bind(this)
+    this.clickMap = this.clickMap.bind(this)
+    this.googleMaps = null
+    this.myMap = null
     this.state = {
       position: {lat: 40.734583, lng: -73.997263},
+      selected: null,
       magnifier: null,
       dragging: null
     };
@@ -50,7 +93,6 @@ class UserMap extends Component {
     }
     const magnifier = {lat: mouse.lat, lng: mouse.lng, dragLeft: mouse.x, dragTop: mouse.y};
     this.setState({magnifier: magnifier})
-    this.props.handleDrop({id: props.id, lat: mouse.lat, lng: mouse.lng})
   }
 
   toolDrag(e) {
@@ -59,7 +101,7 @@ class UserMap extends Component {
       return;
     }
 
-    const latlng = point2LatLng(e.nativeEvent, this.myMap, this.mapper);
+    const latlng = point2LatLng(e.nativeEvent, this.myMap, this.googleMaps);
     const magnifier = {lat: latlng.lat(), lng: latlng.lng(), dragLeft: e.nativeEvent.offsetX, dragTop: e.nativeEvent.offsetY};
     this.setState({magnifier: magnifier})
 
@@ -89,7 +131,7 @@ class UserMap extends Component {
   toolDrop(e) {
     // Wow. Gotta have this preventDefault or Firefox might suddenly take you to sex.com
     e.preventDefault()
-    const latlng = point2LatLng(e.nativeEvent, this.myMap, this.mapper);
+    const latlng = point2LatLng(e.nativeEvent, this.myMap, this.googleMaps);
     const data = Object.assign({}, this.state.dragging, {lat: latlng.lat(), lng: latlng.lng()})
     this.props.handleDrop(data)
     this.setState({magnifier: null, dragging: null});
@@ -97,75 +139,14 @@ class UserMap extends Component {
 
   mapLoaded({map, maps}) {
     this.myMap = map;
-    this.mapper = maps;
-    USGSOverlay.prototype = new maps.OverlayView();
-    function USGSOverlay(map, position) {
-      this.map_ = map;
-      console.log(position)
-      this.position_ = position;
-      this.div_ = null;
-      this.setMap(map);
+    this.googleMaps = maps
+  }
+
+  clickMap(mouse) {
+    if (mouse.event.target.className === 'widget-scene-canvas') {
+      return
     }
-    USGSOverlay.prototype.onAdd = function() {
-      console.log('sup')
-      var div = document.createElement('div');
-      div.className = 'floating-text';
-      div.style.borderStyle = 'none';
-      div.style.borderWidth = '0px';
-      div.style.position = 'absolute';
-      div.innerHTML = 'we stayed here for a long time';
-
-      this.div_ = div;
-
-      // Add the element to the "overlayLayer" pane.
-      var panes = this.getPanes();
-      panes.overlayLayer.appendChild(div);
-    };
-
-    USGSOverlay.prototype.draw = function() {
-      console.log('y?')
-      var overlayProjection = this.getProjection();
-      console.log(this.position_)
-      var sw = overlayProjection.fromLatLngToDivPixel(this.position_);
-      console.log(sw)
-
-      // Resize the image's div to fit the indicated dimensions.
-      var div = this.div_;
-      div.style.left = sw.x + 'px';
-      div.style.top = sw.y + 'px';
-      div.style.width = '10px';
-      div.style.height = '10px';
-    };
-
-    Object.keys(this.props.pins).map(function(k) {
-      const lat = this.props.pins[k].lat;
-      const lng = this.props.pins[k].lng;
-      const position = {lat: lat, lng: lng}
-
-      const panorama = new maps.StreetViewPanorama(document.getElementById('street-view'), {
-        fullscreenControl: false,
-        addressControl: false,
-        position: position,
-        visible: true,
-          pov: {
-            heading: 34,
-            pitch: 10
-          }
-        });
-      // const marker = new maps.Marker({
-      //   position: position,
-      //   map: panorama,
-      //   icon: 'https://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=cafe|FFFF00',
-      //   title: this.props.pins[k].name,
-      //   visible: true
-      // })
-      // marker.addListener('click', function() {
-      //   panorama.setVisible(true)
-      // });
-      const latLng = new maps.LatLng(lat, lng);
-      console.log(latLng)
-      overlay = new USGSOverlay(panorama, latLng);
-    }.bind(this));
+    this.props.selectPin(null)
   }
 
   render() {
@@ -173,8 +154,14 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.setDragging} />
     );
     const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} object='pin' data={this.props.pins[k]} lat={this.props.pins[k].lat} lng={this.props.pins[k].lng} />
+      <EmojiPinContainer key={k} id={k} object='pin' data={this.props.pins[k]} lat={this.props.pins[k].lat} lng={this.props.pins[k].lng} selectPin={this.props.selectPin} />
     );
+    let panoLat, panoLong;
+    if (this.props.selected) {
+      const selectedPin = this.props.pins[this.props.selected];
+      panoLat = selectedPin.lat;
+      panoLong = selectedPin.lng;
+    }
     return (
       <div>
         {this.state.magnifier && this.state.dragging &&
@@ -191,7 +178,9 @@ class UserMap extends Component {
             onChildMouseDown={this.startPinDrag}
             onChildMouseMove={this.pinDrag}
             onChildMouseUp={this.pinDrop}
+            onClick={this.clickMap}
             >
+            <PanoContainer googleMaps={this.googleMaps} lat={panoLat} lng={panoLong}/>
             {pins}
           </GoogleMapReact>
         </div>
