@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 
 class EmojiPin extends Component {
   constructor(props) {
     super(props);
     this.onDelete = this.onDelete.bind(this);
     this.onClick = this.onClick.bind(this)
-  }
-
-  handleDescriptionKey(e) {
-    if (e.key === 'Enter') {
-    }
   }
 
   onDelete() {

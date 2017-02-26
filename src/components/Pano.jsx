@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 
 class Pano extends Component {
 
@@ -8,7 +7,7 @@ class Pano extends Component {
     this.streetView = null
   }
 
-  initialize(canvas) {
+  initialize() {
     if (this.props.googleMaps && this.streetView === null) {
       const googleMaps = this.props.googleMaps;
       const options = {
@@ -19,18 +18,18 @@ class Pano extends Component {
         addressControl: false,
         pov: {heading: 34, pitch: 10}
       }
-      this.streetView = new googleMaps.StreetViewPanorama(canvas, options)
+      this.streetView = new googleMaps.StreetViewPanorama(this.streetViewContainer, options)
     }
   }
 
   componentDidMount() {
-    this.initialize(ReactDOM.findDOMNode(this))
+    this.initialize()
   }
 
   componentDidUpdate() {
-    this.initialize(ReactDOM.findDOMNode(this))
-    if (this.props.isSelected) {
-      this.streetView.setPosition({lat: this.props.lat, lng: this.props.lng})
+    this.initialize()
+    if (this.props.selectedId) {
+      this.streetView.setPosition({lat: this.props.selectedPin.lat, lng: this.props.selectedPin.lng})
       this.streetView.setVisible(true)
     } else {
       this.streetView.setVisible(false)
@@ -39,7 +38,16 @@ class Pano extends Component {
 
   render() {
     return (
-      <div className={this.props.isSelected ? 'street-view open' : 'street-view'}>
+      <div className={this.props.selectedId ? 'street-view-container open' : 'street-view-container'} >
+        <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
+        {this.props.selectedId &&
+          <div>
+            <input className="pin-form-field" type="text" value={this.props.selectedPin.title} onChange={(e) => this.props.onUpdate(this.props.selectedId, {title: e.target.value})}/>
+            <textarea className="pin-form-field" placeholder="What happened? (optional)" onChange={(e) => this.props.onUpdate(this.props.selectedId, {description: e.target.value})} value={this.props.selectedPin.description}/>
+
+          </div>
+        }
+        <div className="arrow-down" />
       </div>
     )
   }

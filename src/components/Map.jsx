@@ -142,7 +142,8 @@ class UserMap extends Component {
   }
 
   clickMap(mouse) {
-    if (mouse.event.target.className === 'widget-scene-canvas') {
+    const className = mouse.event.target.className;
+    if (className === 'widget-scene-canvas' || className === 'pin-form-field') {
       return
     }
     this.props.selectPin(null)
@@ -179,7 +180,7 @@ class UserMap extends Component {
             {this.state.magnifier && this.state.dragging &&
               <Magnify dragging={this.state.dragging} data={this.state.magnifier} lat={this.state.magnifier.lat} lng={this.state.magnifier.lng} />
             }
-            <PanoContainer googleMaps={this.googleMaps} lat={panoLat} lng={panoLong}/>
+            <PanoContainer key='pano' googleMaps={this.googleMaps} lat={panoLat} lng={panoLong} onUpdate={this.props.updatePin}/>
             {pins}
           </GoogleMapReact>
         </div>

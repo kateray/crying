@@ -93,19 +93,40 @@
   pointer-events: none;
 }
 
+.arrow-down {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+
+  border-top: 20px solid #ff2da7;
+}
 /* pano */
-.street-view {
-  height: 250px;
+.street-view-container {
+  position: relative;
+  height: 300px;
   width: 500px;
-  margin-top: -275px;
+  margin-top: -335px;
   margin-left: -250px;
+  background-color: #ff2da7;
   display: none;
 }
 
-.street-view.open {
+.street-view-container.open {
   display: block;
 }
 
+.street-view {
+  height: 250px;
+  width: 500px;
+}
+
+.street-view-container .arrow-down {
+  position: absolute;
+  top: 300px;
+  left: 230px;
+}
 
 
 
