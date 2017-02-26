@@ -6,10 +6,8 @@ const Marker = ({ name }) => <img className="emoji-pin" src={"/images/"+name+".p
 class Magnify extends Component {
 
   render() {
-    const height = 150;
-
     return (
-      <div className="magnifier-container" style={{height: height, top: this.props.data.dragTop - height, left: this.props.data.dragLeft}}>
+      <div className="magnifier-container">
         <GoogleMapReact
           center={{lat: this.props.data.lat, lng: this.props.data.lng}}
           defaultZoom={16}

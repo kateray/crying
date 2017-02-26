@@ -91,7 +91,7 @@ class UserMap extends Component {
     if (props.object !== 'pin') {
       return
     }
-    const magnifier = {lat: mouse.lat, lng: mouse.lng, dragLeft: mouse.x, dragTop: mouse.y};
+    const magnifier = {lat: mouse.lat, lng: mouse.lng};
     this.setState({magnifier: magnifier})
   }
 
@@ -100,9 +100,8 @@ class UserMap extends Component {
     if (!this.state.dragging) {
       return;
     }
-
     const latlng = point2LatLng(e.nativeEvent, this.myMap, this.googleMaps);
-    const magnifier = {lat: latlng.lat(), lng: latlng.lng(), dragLeft: e.nativeEvent.offsetX, dragTop: e.nativeEvent.offsetY};
+    const magnifier = {lat: latlng.lat(), lng: latlng.lng()};
     this.setState({magnifier: magnifier})
 
     // const targetClass = e.target.className;
@@ -164,9 +163,6 @@ class UserMap extends Component {
     }
     return (
       <div>
-        {this.state.magnifier && this.state.dragging &&
-          <Magnify dragging={this.state.dragging} data={this.state.magnifier} />
-        }
         <div className="map-container" onDragOver={this.toolDrag} onDrop={this.toolDrop}>
           <GoogleMapReact
             yesIWantToUseGoogleMapApiInternals={true}
@@ -180,6 +176,9 @@ class UserMap extends Component {
             onChildMouseUp={this.pinDrop}
             onClick={this.clickMap}
             >
+            {this.state.magnifier && this.state.dragging &&
+              <Magnify dragging={this.state.dragging} data={this.state.magnifier} lat={this.state.magnifier.lat} lng={this.state.magnifier.lng} />
+            }
             <PanoContainer googleMaps={this.googleMaps} lat={panoLat} lng={panoLong}/>
             {pins}
           </GoogleMapReact>
