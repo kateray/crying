@@ -6,7 +6,6 @@ class EmojiPin extends Component {
   constructor(props) {
     super(props);
     this.onDragStart = this.onDragStart.bind(this)
-    this.onDragOver = this.onDragOver.bind(this)
     this.onDelete = this.onDelete.bind(this)
     this.select = this.select.bind(this)
     this.unselect = this.unselect.bind(this)
@@ -30,12 +29,6 @@ class EmojiPin extends Component {
     this.props.onDrop({id: this.props.id, lat: e.target._latlng.lat, lng: e.target._latlng.lng})
   }
 
-  onDragOver(e) {
-    const y = e.originalEvent.pageY-this.props.offsetTop;
-    const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
-    this.props.onDragOver(magnifier)
-  }
-
   onDelete() {
     this.props.onDelete(this.props.id, this.props.data)
   }
@@ -52,7 +45,7 @@ class EmojiPin extends Component {
     const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onPopupOpen={this.select} onPopupClose={this.unselect} onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.onDrop.bind(this)}>
+      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onPopupOpen={this.select} onPopupClose={this.unselect} onDragStart={this.onDragStart} onDrag={this.props.onDragOver} onDragEnd={this.onDrop.bind(this)}>
         <Popup>
           <div>
             <div>

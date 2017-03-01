@@ -39,17 +39,24 @@ class UserMap extends Component {
     e.preventDefault();
     const targetClass = e.target.className;
     // Sneky hack so map doesn't go crazy dragging over leaflet attribution
-    if (targetClass.includes('leaflet-container') ) {
+    if (targetClass.includes('leaflet-container') || targetClass.includes('street-view') ) {
       const position = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY])
       const magnifier = {dragLatLng: position, dragLeft: e.offsetX, dragTop: e.offsetY};
       this.setState({magnifier: magnifier})
     } else {
-      this.props.handleDragLeave()
+      this.dragLeave()
     }
   }
 
-  dragPinOver(magnifier) {
-    this.setState({magnifier: magnifier})
+  dragPinOver(e) {
+    const targetClass = e.originalEvent.target.className;
+    if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') ) {
+      const y = e.originalEvent.pageY-this.offsetTop;
+      const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
+      this.setState({magnifier: magnifier})
+    } else {
+      this.dragLeave()
+    }
   }
 
   dragLeave(e) {
