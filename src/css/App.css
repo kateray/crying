@@ -79,6 +79,32 @@
   vertical-align: 120%;
 }
 
+.street-view-container {
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  height: 300px;
+  width: 500px;
+  /*margin-top: -335px;
+  margin-left: -250px;*/
+  background-color: #ff2da7;
+  opacity: 0;
+}
+
+.street-view-container.open {
+  opacity: 1;
+  z-index: 1000;
+}
+
+.street-view {
+  width: 100%;
+  height: 100%;
+}
+
+.floating-text {
+  color: lime;
+  font-size: 30px;
+}
 
 /* map */
 .map-container {

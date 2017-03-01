@@ -5,9 +5,11 @@ import { Marker, Popup } from 'react-leaflet'
 class EmojiPin extends Component {
   constructor(props) {
     super(props);
-    this.onDragStart = this.onDragStart.bind(this);
-    this.onDragOver = this.onDragOver.bind(this);
-    this.onDelete = this.onDelete.bind(this);
+    this.onDragStart = this.onDragStart.bind(this)
+    this.onDragOver = this.onDragOver.bind(this)
+    this.onDelete = this.onDelete.bind(this)
+    this.select = this.select.bind(this)
+    this.unselect = this.unselect.bind(this)
   }
 
   componentDidMount() {
@@ -38,11 +40,19 @@ class EmojiPin extends Component {
     this.props.onDelete(this.props.id, this.props.data)
   }
 
+  select() {
+    this.props.selectPin(this.props.id)
+  }
+
+  unselect() {
+    this.props.selectPin(null)
+  }
+
   render() {
     const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.onDrop.bind(this)}>
+      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onPopupOpen={this.select} onPopupClose={this.unselect} onDragStart={this.onDragStart} onDrag={this.onDragOver} onDragEnd={this.onDrop.bind(this)}>
         <Popup>
           <div>
             <div>
