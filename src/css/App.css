@@ -107,10 +107,10 @@
   position: relative;
   height: 300px;
   width: 500px;
-  margin-top: -335px;
-  margin-left: -250px;
+  /*margin-top: -335px;
+  margin-left: -250px;*/
   background-color: #ff2da7;
-  display: none;
+  /*display: none;*/
 }
 
 .street-view-container.open {

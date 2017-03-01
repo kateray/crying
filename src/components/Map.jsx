@@ -3,49 +3,6 @@ import GoogleMapReact from 'google-map-react'
 import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
-import PanoContainer from '../containers/PanoContainer'
-
-
-function createPano(myMap, mapper) {
-  USGSOverlay.prototype = new mapper.OverlayView();
-  function USGSOverlay(map, position) {
-    this.map_ = map;
-    console.log(position)
-    this.position_ = position;
-    this.div_ = null;
-    this.setMap(map);
-  }
-  USGSOverlay.prototype.onAdd = function() {
-    console.log('sup')
-    var div = document.createElement('div');
-    div.className = 'floating-text';
-    div.style.borderStyle = 'none';
-    div.style.borderWidth = '0px';
-    div.style.position = 'absolute';
-    div.innerHTML = 'we stayed here for a long time';
-
-    this.div_ = div;
-
-    // Add the element to the "overlayLayer" pane.
-    var panes = this.getPanes();
-    panes.overlayLayer.appendChild(div);
-  };
-
-  USGSOverlay.prototype.draw = function() {
-    console.log('y?')
-    var overlayProjection = this.getProjection();
-    console.log(this.position_)
-    var sw = overlayProjection.fromLatLngToDivPixel(this.position_);
-    console.log(sw)
-
-    // Resize the image's div to fit the indicated dimensions.
-    var div = this.div_;
-    div.style.left = sw.x + 'px';
-    div.style.top = sw.y + 'px';
-    div.style.width = '10px';
-    div.style.height = '10px';
-  };
-}
 
 function point2LatLng(e, googleMap, googleMaps) {
   const topRight = googleMap.getProjection().fromLatLngToPoint(googleMap.getBounds().getNorthEast());
@@ -63,12 +20,24 @@ class UserMap extends Component {
     this.pinDrop = this.pinDrop.bind(this)
     this.setDragging = this.setDragging.bind(this);
     this.toolDrag = this.toolDrag.bind(this);
-    this.mapLoaded = this.mapLoaded.bind(this)
+    this.loadMap = this.loadMap.bind(this)
     this.toolDrop = this.toolDrop.bind(this)
     this.clickMap = this.clickMap.bind(this)
     this.googleMaps = null
     this.myMap = null
+    this.streetViewOptions = {
+      visible: false,
+      panControl: false,
+      linksControl: false,
+      fullscreenControl: false,
+      addressControl: false,
+      pov: {
+        heading: 34,
+        pitch: 10
+      }
+    }
     this.state = {
+      mapLoaded: false,
       position: {lat: 40.734583, lng: -73.997263},
       selected: null,
       magnifier: null,
@@ -136,9 +105,49 @@ class UserMap extends Component {
     this.setState({magnifier: null, dragging: null});
   }
 
-  mapLoaded({map, maps}) {
+  loadMap({map, maps}) {
     this.myMap = map;
-    this.googleMaps = maps
+    this.googleMaps = maps;
+    const streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
+    this.streetView = streetView
+    Graffiti.prototype = new maps.OverlayView();
+    function Graffiti() {
+      this.div_ = null;
+      this.setMap(streetView)
+    }
+    Graffiti.prototype.onAdd = function() {
+      var div = document.createElement('div');
+      div.className = 'floating-text';
+      div.style.position = 'absolute';
+      this.div_ = div;
+      var panes = this.getPanes();
+      panes.overlayLayer.appendChild(div);
+    };
+    Graffiti.prototype.updateProperties = function(position, text){
+      this.position_ = position;
+      this.text_ = text;
+      // only draw if we have already added
+      if (this.div_) {
+        this.draw()
+      }
+    };
+    Graffiti.prototype.draw = function() {
+      const point = this.getProjection().fromLatLngToDivPixel(this.position_);
+      var div = this.div_;
+      div.innerHTML = this.text_;
+      if (point) {
+        div.style.left = point.x + 'px';
+        div.style.top = '40px';
+      }
+      div.style.width = '10px';
+      div.style.height = '10px';
+    };
+    Graffiti.prototype.onRemove = function() {
+      this.div_.parentNode.removeChild(this.div_);
+      this.div_ = null;
+    };
+
+    this.overlay = new Graffiti()
   }
 
   clickMap(mouse) {
@@ -149,6 +158,26 @@ class UserMap extends Component {
     this.props.selectPin(null)
   }
 
+  componentWillUpdate(props) {
+    const visible = this.streetView.getVisible()
+    if (props.selectedId) {
+      const latLng = new this.googleMaps.LatLng(props.selectedPin.lat, props.selectedPin.lng)
+      // only set to visible if it wasn't
+      if (visible === false) {
+        this.streetView.setVisible(true)
+      }
+      // only set position if it has changed
+      if (latLng !== this.streetView.position) {
+        this.streetView.setPosition(latLng)
+      }
+      this.overlay.updateProperties(latLng, props.selectedPin.title)
+    } else {
+      if (visible === true) {
+        this.streetView.setVisible(false)
+      }
+    }
+  }
+
   render() {
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.setDragging} />
@@ -156,12 +185,6 @@ class UserMap extends Component {
     const pins = Object.keys(this.props.pins).map((k) =>
       <EmojiPinContainer key={k} id={k} object='pin' data={this.props.pins[k]} lat={this.props.pins[k].lat} lng={this.props.pins[k].lng} selectPin={this.props.selectPin} />
     );
-    let panoLat, panoLong;
-    if (this.props.selected) {
-      const selectedPin = this.props.pins[this.props.selected];
-      panoLat = selectedPin.lat;
-      panoLong = selectedPin.lng;
-    }
     return (
       <div>
         <div className="map-container" onDragOver={this.toolDrag} onDrop={this.toolDrop}>
@@ -171,7 +194,7 @@ class UserMap extends Component {
             defaultZoom={14}
             bootstrapURLKeys={{key: 'AIzaSyCPMTBegS_87RC5YX0rrTbWVBqp9o9VINk'}}
             draggable={this.state.dragging ? false : true}
-            onGoogleApiLoaded={this.mapLoaded}
+            onGoogleApiLoaded={this.loadMap}
             onChildMouseDown={this.startPinDrag}
             onChildMouseMove={this.pinDrag}
             onChildMouseUp={this.pinDrop}
@@ -180,9 +203,18 @@ class UserMap extends Component {
             {this.state.magnifier && this.state.dragging &&
               <Magnify dragging={this.state.dragging} data={this.state.magnifier} lat={this.state.magnifier.lat} lng={this.state.magnifier.lng} />
             }
-            <PanoContainer key='pano' googleMaps={this.googleMaps} lat={panoLat} lng={panoLong} onUpdate={this.props.updatePin}/>
             {pins}
           </GoogleMapReact>
+          <div className={this.props.selectedId ? 'street-view-container' : 'street-view-container'} >
+            <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
+            {this.props.selectedId &&
+              <div>
+                <input className="pin-form-field" type="text" value={this.props.selectedPin.title} onChange={(e) => this.props.updatePin(this.props.selectedId, {title: e.target.value})}/>
+                <textarea className="pin-form-field" placeholder="What happened? (optional)" onChange={(e) => this.props.updatePin(this.props.selectedId, {description: e.target.value})} value={this.props.selectedPin.description}/>
+              </div>
+            }
+            <div className="arrow-down" />
+          </div>
         </div>
         <div className="pin-container">
           {emojis}

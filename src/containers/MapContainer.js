@@ -8,7 +8,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     pins: state.pins,
     emojis: emojis,
-    selected: state.app.selected
+    selected: state.app.selected,
+    selectedId: state.app.selected,
+    selectedPin: state.app.selected ? state.pins[state.app.selected] : null
   }
 }
 
