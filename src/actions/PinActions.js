@@ -32,10 +32,9 @@ export const dropPin = (data) => {
   }
 }
 
-export const deletePin = (id, data) => {
+export const deletePin = (id) => {
   return {
     type: DELETE_PIN,
-    id,
-    data
+    id
   }
 }
