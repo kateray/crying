@@ -1,5 +1,6 @@
 body {
-  font-family: 'Press Start 2P';
+  font-family: 'Special Elite';
+
   background: #ff2da7;
   margin: 0px;
   padding: 0px;
@@ -11,7 +12,8 @@ button:focus, input:focus, textarea:focus {
 }
 
 #header {
-  font-family: 'Press Start 2P';
+  font-family: 'Special Elite';
+
   padding: 10px;
 }
 
@@ -29,7 +31,7 @@ button:focus, input:focus, textarea:focus {
 }
 
 #app-description {
-  font-size: 10px;
+  font-size: 14px;
   display: inline-block;
   width: 35%;
   margin-left: 1%;
@@ -54,7 +56,8 @@ button:focus, input:focus, textarea:focus {
 }
 
 button {
-  font-family: 'Press Start 2P';
+  font-family: 'Special Elite';
+
   border: none;
   cursor: pointer;
 }
@@ -62,7 +65,7 @@ button {
 .nav-button {
   color: #fff;
   padding: 10px;
-  font-size: 9px;
+  font-size: 11px;
   background: #000;
 }
 

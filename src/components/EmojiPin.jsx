@@ -8,17 +8,10 @@ class EmojiPin extends Component {
     this.onDragStart = this.onDragStart.bind(this)
     this.onDelete = this.onDelete.bind(this)
     this.select = this.select.bind(this)
-    this.unselect = this.unselect.bind(this)
   }
 
   componentDidMount() {
     this.leafletMap.leafletElement.openPopup();
-  }
-
-  handleDescriptionKey(e) {
-    if (e.key === 'Enter') {
-      this.leafletMap.leafletElement.closePopup();
-    }
   }
 
   onDragStart() {
@@ -34,27 +27,18 @@ class EmojiPin extends Component {
   }
 
   select() {
-    this.props.selectPin(this.props.id)
-  }
-
-  unselect() {
-    this.props.selectPin(null)
+    this.props.selectPin(this.props.id, this.props.data)
   }
 
   render() {
-    const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [90,12]});
+    const emojiIcon = icon({iconUrl: "/images/"+this.props.data.name+".png", iconSize: 16, popupAnchor: [0,-20]});
     const position = [this.props.data.lat, this.props.data.lng];
     return (
-      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onPopupOpen={this.select} onPopupClose={this.unselect} onDragStart={this.onDragStart} onDrag={this.props.onDragOver} onDragEnd={this.onDrop.bind(this)}>
+      <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onPopupOpen={this.select} onPopupClose={this.props.unselect} onDragStart={this.onDragStart} onDrag={this.props.onDragOver} onDragEnd={this.onDrop.bind(this)}>
         <Popup>
-          <div>
-            <div>
-              <input type="text" value={this.props.data.title} onChange={(e) => this.props.onUpdate(this.props.id, {title: e.target.value})}/>
-            </div>
-            <div>
-              <textarea placeholder="What happened? (optional)" onKeyPress={this.handleDescriptionKey.bind(this)} onChange={(e) => this.props.onUpdate(this.props.id, {description: e.target.value})} defaultValue={this.props.data.description}/>
-            </div>
+          <div className="pin-popup">
             <div onClick={this.onDelete} className="delete-pin">delete pin</div>
+            <div className="arrow-down" />
           </div>
         </Popup>
       </Marker>

@@ -12,6 +12,8 @@ class UserMap extends Component {
     this.dragPinOver = this.dragPinOver.bind(this)
     this.pinDrop = this.pinDrop.bind(this)
     this.setupStreetView = this.setupStreetView.bind(this)
+    this.selectPin = this.selectPin.bind(this)
+    this.unselectPin = this.unselectPin.bind(this)
     this.streetViewOptions = {
       visible: false,
       panControl: false,
@@ -80,37 +82,36 @@ class UserMap extends Component {
   setupStreetView(maps){
     const streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
     this.streetView = streetView
+
+    const updatePin = function(e){
+      if (this.props.selectedId) {
+        this.props.updatePin(this.props.selectedId, {title: e.target.value})
+      }
+    }.bind(this)
+
     Graffiti.prototype = new maps.OverlayView();
     function Graffiti() {
-      this.div_ = null;
+      this.content_ = null;
       this.setMap(streetView)
     }
     Graffiti.prototype.onAdd = function() {
-      var div = document.createElement('div');
-      div.className = 'floating-text';
-      div.style.position = 'absolute';
-      this.div_ = div;
+      var content = document.createElement('textarea');
+      content.className = 'floating-text';
+      this.content_ = content;
+      content.addEventListener("keydown", updatePin);
       var panes = this.getPanes();
-      panes.overlayLayer.appendChild(div);
+      panes.overlayLayer.appendChild(content);
     };
-    Graffiti.prototype.updateProperties = function(position, text){
-      this.position_ = position;
+    Graffiti.prototype.updateProperties = function(text){
       this.text_ = text;
       // only draw if we have already added
-      if (this.div_) {
+      if (this.content_) {
         this.draw()
       }
     };
     Graffiti.prototype.draw = function() {
-      const point = this.getProjection().fromLatLngToDivPixel(this.position_);
-      var div = this.div_;
-      div.innerHTML = this.text_;
-      if (point) {
-        div.style.left = point.x + 'px';
-        div.style.top = '40px';
-      }
-      div.style.width = '100px';
-      div.style.height = '10px';
+      var content = this.content_;
+      content.value = this.text_;
     };
     Graffiti.prototype.onRemove = function() {
       this.div_.parentNode.removeChild(this.div_);
@@ -128,32 +129,31 @@ class UserMap extends Component {
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
   }
 
-  componentWillUpdate(props) {
-    const visible = this.streetView.getVisible()
-    if (props.selectedId) {
-      const latLng = new window.google.maps.LatLng(props.selectedPin.lat, props.selectedPin.lng)
-      // only set to visible if it wasn't
-      if (visible === false) {
-        this.streetView.setVisible(true)
-      }
-      // only set position if it has changed
-      if (latLng !== this.streetView.position) {
-        this.streetView.setPosition(latLng)
-      }
-      this.overlay.updateProperties(latLng, props.selectedPin.title)
-    } else {
-      if (visible === true) {
-        this.streetView.setVisible(false)
-      }
-    }
+  selectPin(id, data) {
+    const latLng = new window.google.maps.LatLng(data.lat, data.lng)
+    this.streetView.setPosition(latLng)
+    this.overlay.updateProperties(data.title)
+    this.streetView.setVisible(true)
+    this.props.selectPin(id)
+  }
+
+  unselectPin() {
+    this.streetView.setVisible(false)
+    this.props.selectPin(null)
   }
 
   render() {
+    let panoTop, panoLeft;
+    if (this.props.selectedId) {
+      const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: this.props.selectedPin.lat, lng: this.props.selectedPin.lng})
+      panoTop = pt.y-350;
+      panoLeft = pt.x-250;
+    }
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.props.selectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} onUpdate={this.props.updatePin} />
+      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} onUpdate={this.props.updatePin} />
     );
     return (
       <div>
@@ -169,7 +169,7 @@ class UserMap extends Component {
             {pins}
           </Map>
         </div>
-        <div className={this.props.selectedId ? 'street-view-container open' : 'street-view-container'}>
+        <div className={this.props.selectedId ? 'street-view-container open' : 'street-view-container'} style={{top: panoTop, left: panoLeft}}>
           <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
         </div>
         <div className="pin-container">

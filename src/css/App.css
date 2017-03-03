@@ -6,12 +6,14 @@
   top: 0px;
   display: inline;
   font-size: 30px;
+  background-color: #ff2ea7;
 }
 
 .pin-entry {
-  background-color: rgba(255, 45, 167, 0.8);
-  margin: 1px 0px;
-  padding: 8px 10px;
+  background-color: #fff;
+  margin: 0px 10px;
+  margin-bottom: 10px;
+  padding: 1px 5px;
   position: relative;
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
@@ -20,7 +22,8 @@
 .pin-direction {
   display: none;
   color: #fff;
-  font-family: 'Press Start 2P';
+  font-family: 'Special Elite';
+
   font-size: 8px;
   position: absolute;;
   right: 10px;
@@ -33,10 +36,6 @@
 
 .pin-entry:hover .pin-direction {
   display: block;
-}
-
-.pin-entry:hover .pin-description {
-  /*color: rgba(255, 38, 0, 1.000);*/
 }
 
 @keyframes pulse_animation {
@@ -62,7 +61,7 @@
 .movable-pin {
   background: transparent;
   display: inline-block;
-  width: 30px;
+  width: 20px;
 }
 
 .movable-pin:active {
@@ -70,13 +69,13 @@
   background: transparent;
 }
 
-.pin-description {
-  font-family: 'Press Start 2P';
-  font-size: 8px;
+.pin-title {
+  font-family: 'Special Elite';
+  font-size: 11px;
   display: inline;
   margin-left: 10px;
-  text-transform: uppercase;
-  vertical-align: 120%;
+  /*text-transform: uppercase;*/
+  vertical-align: 20%;
 }
 
 .street-view-container {
@@ -102,8 +101,18 @@
 }
 
 .floating-text {
-  color: lime;
-  font-size: 30px;
+  border: 0px;
+  position: absolute;
+  outline: none;
+  cursor: text;
+  font-size: 13px;
+  font-family: 'Special Elite';
+  padding: 5px;
+  color: #000;
+  background-color: #fff;
+  width: 200px;
+  top: 50px;
+  left: 50px;
 }
 
 /* map */
@@ -115,7 +124,7 @@
 
 .mini-map {
   z-index: 650;
-  width: 180px;
+  width: 250px;
   position: absolute;
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
@@ -125,17 +134,27 @@
 }
 
 /* map pins */
+.pin-popup {
+  width: 500px;
+  height: 20px;
+}
 .delete-pin {
-  display: inline;
-  text-decoration: underline;
+  /*display: inline;*/
+  /*text-decoration: underline;*/
   cursor: pointer;
-  color: rgba(190, 29, 0, 1.000);
+  color: #000;
+  float: right;
+  font-family: 'Special Elite';
+  line-height: 15px;
+  padding-right: 10px;
+  padding-top: 5px;
 }
 
 .delete-pin:hover {
   text-decoration: none;
   color: rgba(142, 22, 0, 1.000);
 }
+
 
 /*leaflet overrides*/
 
@@ -152,16 +171,18 @@
 }
 .leaflet-popup-content-wrapper {
   box-shadow: none;
-  background: rgba(255, 45, 167, 0.8);
-  width: 180px;
-  border: 1px solid #ff2da7;
+  background: #ff2ea7;
+  width: 500px;
+  border-radius: 0px;
+  padding: 1px 0px;
+  /*border: 1px solid #ff2da7;
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
-  border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0px;*/
 }
 .leaflet-popup-content {
-  margin: 25px 10px 10px 10px;
+  margin: 0px;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
@@ -169,6 +190,7 @@
   top: 5px;
   font-weight: normal;
   color: #7c7c7b;
+  display: none;
 }
 .leaflet-popup-content ::-webkit-input-placeholder {
   color: rgba(95, 95, 95, 1.000);
@@ -186,5 +208,27 @@
   /*border-bottom: 1px solid #000;*/
 }
 .leaflet-popup-content textarea {
-  height: 3em;
+  height: 4em;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+
+  border-top: 20px solid #ff2ea7;
+  position: absolute;
+  left: 230px;
+  top: 20px;
+}
+
+/*google streetview*/
+.gmnoprint, .gm-style-cc {
+  display: none;
+}
+
+.gm-style a img {
+  display: none;
+  opacity: 0;
 }
