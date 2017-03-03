@@ -84,9 +84,14 @@ class UserMap extends Component {
     const streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
     this.streetView = streetView
 
+    const stopGoogle = function(e) {
+      e.stopPropagation()
+    }
+
     const updatePin = function(e){
+      e.stopPropagation()
       if (this.props.selectedId) {
-        this.props.updatePin(this.props.selectedId, {title: e.target.value})
+        this.props.updatePin(this.props.selectedId, {title: e.target.innerHTML})
       }
     }.bind(this)
 
@@ -96,11 +101,12 @@ class UserMap extends Component {
       this.setMap(streetView)
     }
     Graffiti.prototype.onAdd = function() {
-      var content = document.createElement('textarea');
-      content.setAttribute('autofocus', true)
+      var content = document.createElement('div');
+      content.setAttribute('contenteditable', true)
       content.className = 'floating-text';
       this.content_ = content;
-      content.addEventListener("keydown", updatePin);
+      content.addEventListener("keypress", stopGoogle);
+      content.addEventListener("keyup", updatePin);
       var panes = this.getPanes();
       panes.overlayLayer.appendChild(content);
     };
@@ -113,7 +119,7 @@ class UserMap extends Component {
     };
     Graffiti.prototype.draw = function() {
       var content = this.content_;
-      content.value = this.text_;
+      content.innerHTML = this.text_;
     };
     Graffiti.prototype.onRemove = function() {
       this.div_.parentNode.removeChild(this.div_);
