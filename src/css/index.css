@@ -34,7 +34,7 @@ button:focus, input:focus, textarea:focus {
   font-size: 14px;
   display: inline-block;
   width: 35%;
-  margin-left: 1%;
+  margin-left: 2%;
 }
 
 #app-buttons-container {

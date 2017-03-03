@@ -2,17 +2,15 @@
 .pin-container {
   z-index: 1000;
   position: absolute;
-  right: 0px;
-  top: 0px;
+  left: 0px;
+  top: 25px;
   display: inline;
   font-size: 30px;
-  background-color: #ff2ea7;
+  background-color: #ff2da7;
 }
 
 .pin-entry {
-  background-color: #fff;
-  margin: 0px 10px;
-  margin-bottom: 10px;
+  margin: 5px;
   padding: 1px 5px;
   position: relative;
   cursor: move; /* fallback if grab cursor is unsupported */
@@ -30,21 +28,23 @@
   bottom: 5px;
 }
 
-.pin-entry:hover {
-  background: #ff2da7;
+.pin-entry:hover .pin-title{
+  display: block;
+  /*background: #ff2da7;*/
 }
 
 .pin-entry:hover .pin-direction {
-  display: block;
+  /*display: block;*/
 }
 
 @keyframes pulse_animation {
   0% { transform: scale(1); }
+  10% { transform: scale(0.95); }
+  20% { transform: scale(1); }
   30% { transform: scale(1); }
-  40% { transform: scale(0.95); }
+  40% { transform: scale(1); }
   50% { transform: scale(1); }
-  60% { transform: scale(1); }
-  70% { transform: scale(0.9); }
+  60% { transform: scale(0.85); }
   80% { transform: scale(1); }
   100% { transform: scale(1); }
 }
@@ -61,7 +61,6 @@
 .movable-pin {
   background: transparent;
   display: inline-block;
-  width: 20px;
 }
 
 .movable-pin:active {
@@ -71,11 +70,19 @@
 
 .pin-title {
   font-family: 'Special Elite';
-  font-size: 11px;
-  display: inline;
-  margin-left: 10px;
+  font-size: 13px;
+  pointer-events: none;
+  /*display: inline;*/
+  /*margin-left: 10px;*/
+  /*background-color: #fff;*/
+  padding: 3px;
   /*text-transform: uppercase;*/
-  vertical-align: 20%;
+  vertical-align: 80%;
+  display: none;
+  position: absolute;
+  left: 50px;
+  top: 5px;
+  width: 100px;
 }
 
 .street-view-container {
@@ -122,14 +129,8 @@
   position: relative;
 }
 
-.mini-map {
-  z-index: 650;
-  width: 250px;
-  position: absolute;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
-  border: 1px solid #ff2da7;
+.magnify-map {
+  height: 200px;
   pointer-events: none;
 }
 
@@ -211,16 +212,33 @@
   height: 4em;
 }
 
+.pin-popup .arrow-down {
+  left: 230px;
+  top: 20px;
+}
+
 .arrow-down {
   width: 0;
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-
   border-top: 20px solid #ff2ea7;
   position: absolute;
-  left: 230px;
-  top: 20px;
+}
+
+.magnify-container {
+  position: absolute;
+  z-index: 650;
+  width: 500px;
+  margin-left: -250px;
+  margin-top: -40px;
+  border: 1px solid #ff2da7;
+}
+
+.magnify-container .arrow-down {
+  top: 200px;
+  left: 225px;
+  z-index: 1000;
 }
 
 /*google streetview*/
@@ -229,6 +247,5 @@
 }
 
 .gm-style a img {
-  display: none;
   opacity: 0;
 }

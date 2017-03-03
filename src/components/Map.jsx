@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Map, TileLayer } from 'react-leaflet'
+import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
@@ -20,6 +20,7 @@ class UserMap extends Component {
       linksControl: false,
       fullscreenControl: false,
       addressControl: false,
+      zoomControl: false,
       pov: {
         heading: 34,
         pitch: 10
@@ -96,6 +97,7 @@ class UserMap extends Component {
     }
     Graffiti.prototype.onAdd = function() {
       var content = document.createElement('textarea');
+      content.setAttribute('autofocus', true)
       content.className = 'floating-text';
       this.content_ = content;
       content.addEventListener("keydown", updatePin);
@@ -161,7 +163,8 @@ class UserMap extends Component {
           <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
         }
         <div className="map-container">
-          <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} scrollWheelZoom={false}>
+          <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
+            <ZoomControl position='bottomright' />
             <TileLayer
               url='https://api.mapbox.com/styles/v1/kray/ciz1fyu1f000t2sphzml1bxtd/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
