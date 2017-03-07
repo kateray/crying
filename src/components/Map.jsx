@@ -3,6 +3,7 @@ import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
+import Graffiti from '../Graffiti'
 
 
 class UserMap extends Component {
@@ -14,17 +15,16 @@ class UserMap extends Component {
     this.setupStreetView = this.setupStreetView.bind(this)
     this.selectPin = this.selectPin.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
+    this.povChanged = this.povChanged.bind(this)
+    this.positionChanged = this.positionChanged.bind(this)
+    this.titleChanged = this.titleChanged.bind(this)
     this.streetViewOptions = {
       visible: false,
       panControl: false,
       linksControl: false,
       fullscreenControl: false,
       addressControl: false,
-      zoomControl: false,
-      pov: {
-        heading: 34,
-        pitch: 10
-      }
+      zoomControl: false
     }
     this.state = {
       position: [40.734583, -73.997263],
@@ -80,53 +80,27 @@ class UserMap extends Component {
     this.setState({magnifier: null, dragging: null})
   }
 
+  povChanged() {
+    const pov = this.streetView.getPov()
+    this.props.updateSelected({heading: pov.heading, pitch: pov.pitch})
+  }
+
+  positionChanged() {
+    const position = this.streetView.getPosition()
+    this.props.updateSelected({lat: position.lat(), lng: position.lng()})
+  }
+
+  titleChanged(e) {
+    e.stopPropagation()
+    this.props.updateSelected({title: e.target.innerHTML})
+  }
+
   setupStreetView(maps){
     const streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
     this.streetView = streetView
 
-    const stopGoogle = function(e) {
-      e.stopPropagation()
-    }
-
-    const updatePin = function(e){
-      e.stopPropagation()
-      if (this.props.selectedId) {
-        this.props.updatePin(this.props.selectedId, {title: e.target.innerHTML})
-      }
-    }.bind(this)
-
-    Graffiti.prototype = new maps.OverlayView();
-    function Graffiti() {
-      this.content_ = null;
-      this.setMap(streetView)
-    }
-    Graffiti.prototype.onAdd = function() {
-      var content = document.createElement('div');
-      content.setAttribute('contenteditable', true)
-      content.className = 'floating-text';
-      this.content_ = content;
-      content.addEventListener("keypress", stopGoogle);
-      content.addEventListener("keyup", updatePin);
-      var panes = this.getPanes();
-      panes.overlayLayer.appendChild(content);
-    };
-    Graffiti.prototype.updateProperties = function(text){
-      this.text_ = text;
-      // only draw if we have already added
-      if (this.content_) {
-        this.draw()
-      }
-    };
-    Graffiti.prototype.draw = function() {
-      var content = this.content_;
-      content.innerHTML = this.text_;
-    };
-    Graffiti.prototype.onRemove = function() {
-      this.div_.parentNode.removeChild(this.div_);
-      this.div_ = null;
-    };
-
-    this.overlay = new Graffiti()
+    maps.event.addListener(streetView, "pov_changed", this.povChanged)
+    maps.event.addListener(streetView, "position_changed", this.positionChanged)
   }
 
   componentDidMount() {
@@ -138,11 +112,36 @@ class UserMap extends Component {
   }
 
   selectPin(id, data) {
+    this.props.selectPin(id)
     const latLng = new window.google.maps.LatLng(data.lat, data.lng)
     this.streetView.setPosition(latLng)
-    this.overlay.updateProperties(data.title)
+    this.streetView.setPov({heading: data.heading, pitch: data.pitch})
     this.streetView.setVisible(true)
-    this.props.selectPin(id)
+  }
+
+  componentWillUpdate(props) {
+    // something is selected
+    if (props.selectedId) {
+      // we have not changed selection
+      if (this.props.selectedId === props.selectedId) {
+        if (props.selectedPin.title !== this.overlay.text_) {
+          this.overlay.updateText(props.selectedPin.title)
+        }
+      // we have changed selection
+      } else {
+        if (this.overlay) {
+          this.overlay.setMap(null)
+          this.overlay = null
+        }
+        this.overlay = new Graffiti(this)
+      }
+    // nothing is selected
+    } else {
+      if (this.overlay) {
+        this.overlay.setMap(null)
+        this.overlay = null
+      }
+    }
   }
 
   unselectPin() {
@@ -161,7 +160,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} onUpdate={this.props.updatePin} />
+      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
     );
     return (
       <div>

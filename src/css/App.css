@@ -153,7 +153,8 @@
 
 .delete-pin:hover {
   text-decoration: none;
-  color: rgba(142, 22, 0, 1.000);
+  background-color: #fff;
+  /*color: rgba(142, 22, 0, 1.000);*/
 }
 
 

@@ -4,7 +4,11 @@ import _ from 'lodash'
 const pins = (state = {}, action) => {
   switch (action.type) {
     case PinActions.ADD_PIN:
-      const newPin = Object.assign({}, action.data)
+      const newPin = Object.assign({}, action.data, {
+        heading: 34,
+        pitch: 10,
+        zoom: 1
+      })
       return Object.assign({}, state, {
         [action.id]: newPin,
       });

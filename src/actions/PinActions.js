@@ -13,6 +13,15 @@ export const updatePin = (id, data) => {
   }
 }
 
+export const updateSelected = (data) => {
+  return (dispatch, getState) => {
+    const selected = getState().app.selected
+    if (selected) {
+      dispatch(updatePin(selected, data))
+    }
+  }
+}
+
 function addPin(id, data) {
   return {
     type: ADD_PIN,

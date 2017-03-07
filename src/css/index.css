@@ -31,7 +31,7 @@ button:focus, input:focus, textarea:focus {
 }
 
 #app-description {
-  font-size: 14px;
+  font-size: 13px;
   display: inline-block;
   width: 35%;
   margin-left: 2%;
@@ -65,7 +65,7 @@ button {
 .nav-button {
   color: #fff;
   padding: 10px;
-  font-size: 11px;
+  font-size: 13px;
   background: #000;
 }
 

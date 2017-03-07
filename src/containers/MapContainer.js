@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(AppActions.selectPin(null))
       dispatch(PinActions.deletePin(id))
     },
-    updatePin: (id, data) => {
-      dispatch(PinActions.updatePin(id, data))
+    updateSelected: (data) => {
+      dispatch(PinActions.updateSelected(data))
     }
   }
 }
