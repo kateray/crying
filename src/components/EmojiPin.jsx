@@ -22,7 +22,7 @@ class EmojiPin extends Component {
   }
 
   select() {
-    this.props.selectPin(this.props.id, this.props.data)
+    this.props.selectPin(this.props.id)
   }
 
   render() {

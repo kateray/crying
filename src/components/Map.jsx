@@ -13,7 +13,6 @@ class UserMap extends Component {
     this.dragPinOver = this.dragPinOver.bind(this)
     this.pinDrop = this.pinDrop.bind(this)
     this.setupStreetView = this.setupStreetView.bind(this)
-    this.selectPin = this.selectPin.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
     this.povChanged = this.povChanged.bind(this)
     this.positionChanged = this.positionChanged.bind(this)
@@ -96,11 +95,9 @@ class UserMap extends Component {
   }
 
   setupStreetView(maps){
-    const streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
-    this.streetView = streetView
-
-    maps.event.addListener(streetView, "pov_changed", this.povChanged)
-    maps.event.addListener(streetView, "position_changed", this.positionChanged)
+    this.streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
+    maps.event.addListener(this.streetView, "pov_changed", this.povChanged)
+    maps.event.addListener(this.streetView, "position_changed", this.positionChanged)
   }
 
   componentDidMount() {
@@ -109,14 +106,6 @@ class UserMap extends Component {
     this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
     this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
-  }
-
-  selectPin(id, data) {
-    this.props.selectPin(id)
-    const latLng = new window.google.maps.LatLng(data.lat, data.lng)
-    this.streetView.setPosition(latLng)
-    this.streetView.setPov({heading: data.heading, pitch: data.pitch})
-    this.streetView.setVisible(true)
   }
 
   componentWillUpdate(props) {
@@ -129,6 +118,10 @@ class UserMap extends Component {
         }
       // we have changed selection
       } else {
+        const latLng = new window.google.maps.LatLng(props.selectedPin.lat, props.selectedPin.lng)
+        this.streetView.setPosition(latLng)
+        this.streetView.setPov({heading: props.selectedPin.heading, pitch: props.selectedPin.pitch})
+        this.streetView.setVisible(true)
         if (this.overlay) {
           this.overlay.setMap(null)
           this.overlay = null
@@ -141,11 +134,13 @@ class UserMap extends Component {
         this.overlay.setMap(null)
         this.overlay = null
       }
+      if (this.streetView.getVisible()){
+        this.streetView.setVisible(false)
+      }
     }
   }
 
   unselectPin() {
-    this.streetView.setVisible(false)
     this.props.selectPin(null)
   }
 
@@ -160,7 +155,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
+      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.props.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
     );
     return (
       <div>
