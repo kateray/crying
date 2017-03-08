@@ -14,8 +14,10 @@ class UserMap extends Component {
     this.pinDrop = this.pinDrop.bind(this)
     this.setupStreetView = this.setupStreetView.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
+    this.selectPin = this.selectPin.bind(this)
     this.povChanged = this.povChanged.bind(this)
     this.positionChanged = this.positionChanged.bind(this)
+    this.visibleChanged = this.visibleChanged.bind(this)
     this.titleChanged = this.titleChanged.bind(this)
     this.streetViewOptions = {
       visible: false,
@@ -95,11 +97,18 @@ class UserMap extends Component {
     this.props.updateSelected({title: e.target.innerHTML})
   }
 
+  visibleChanged() {
+    if (this.streetView.getVisible()){
+      setTimeout(function(){ this.setState({loading: false}) }.bind(this), 850);
+    }
+  }
+
   setupStreetView(maps){
     this.streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
     this.streetViewService = new maps.StreetViewService()
     maps.event.addListener(this.streetView, "pov_changed", this.povChanged)
     maps.event.addListener(this.streetView, "position_changed", this.positionChanged)
+    maps.event.addListener(this.streetView, "visible_changed", this.visibleChanged)
   }
 
   componentDidMount() {
@@ -139,7 +148,7 @@ class UserMap extends Component {
             if (this.streetView.getVisible()){
               this.streetView.setVisible(false)
             }
-            this.setState({noPano: true})
+            this.setState({noPano: true, loading: false})
           }
         }.bind(this))
       }
@@ -159,6 +168,11 @@ class UserMap extends Component {
     this.props.selectPin(null)
   }
 
+  selectPin(id) {
+    this.setState({loading: true})
+    this.props.selectPin(id)
+  }
+
   render() {
     let panoTop, panoLeft;
     if (this.props.selectedId) {
@@ -170,7 +184,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.props.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
+      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
     );
     return (
       <div>
@@ -193,6 +207,10 @@ class UserMap extends Component {
               <div className="no-pano">No streetview available</div>
             </div>
           }
+          {this.state.loading &&
+            <div className="loading-street-view" />
+          }
+
           <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
         </div>
         <div className="pin-container">

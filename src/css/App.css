@@ -110,6 +110,25 @@
   background-color: rgba(255, 45, 167, 1.000);
 }
 
+@keyframes fade {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.loading-street-view {
+  opacity: 0;
+  z-index: 101;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 45, 167, 1.000);
+  animation-name: fade;
+  animation-duration: 850ms;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
 .no-pano {
   text-align: center;
   font-style: italic;
