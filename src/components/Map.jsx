@@ -19,11 +19,11 @@ class UserMap extends Component {
     this.titleChanged = this.titleChanged.bind(this)
     this.streetViewOptions = {
       visible: false,
-      panControl: true,
-      linksControl: false,
+      panControl: false,
+      linksControl: true,
       fullscreenControl: false,
       addressControl: false,
-      zoomControl: true
+      zoomControl: false
     }
     this.state = {
       position: [40.734583, -73.997263],
