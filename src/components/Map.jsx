@@ -19,11 +19,11 @@ class UserMap extends Component {
     this.titleChanged = this.titleChanged.bind(this)
     this.streetViewOptions = {
       visible: false,
-      panControl: false,
+      panControl: true,
       linksControl: false,
       fullscreenControl: false,
       addressControl: false,
-      zoomControl: false
+      zoomControl: true
     }
     this.state = {
       position: [40.734583, -73.997263],
@@ -35,6 +35,7 @@ class UserMap extends Component {
   dragStart(props) {
     this.leafletMap.leafletElement.closePopup()
     this.setState({dragging: props})
+    this.unselectPin()
   }
 
   dragOver(e) {
@@ -96,6 +97,7 @@ class UserMap extends Component {
 
   setupStreetView(maps){
     this.streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
+    this.streetViewService = new maps.StreetViewService()
     maps.event.addListener(this.streetView, "pov_changed", this.povChanged)
     maps.event.addListener(this.streetView, "position_changed", this.positionChanged)
   }
@@ -108,25 +110,38 @@ class UserMap extends Component {
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
   }
 
+
   componentWillUpdate(props) {
     // something is selected
     if (props.selectedId) {
       // we have not changed selection
       if (this.props.selectedId === props.selectedId) {
-        if (props.selectedPin.title !== this.overlay.text_) {
-          this.overlay.updateText(props.selectedPin.title)
+        if (this.overlay) {
+          if (props.selectedPin.title !== this.overlay.text_) {
+            this.overlay.updateText(props.selectedPin.title)
+          }
         }
       // we have changed selection
       } else {
         const latLng = new window.google.maps.LatLng(props.selectedPin.lat, props.selectedPin.lng)
-        this.streetView.setPosition(latLng)
-        this.streetView.setPov({heading: props.selectedPin.heading, pitch: props.selectedPin.pitch})
-        this.streetView.setVisible(true)
-        if (this.overlay) {
-          this.overlay.setMap(null)
-          this.overlay = null
-        }
-        this.overlay = new Graffiti(this)
+        this.streetViewService.getPanorama({location: latLng}, function(result, status){
+          if (status === 'OK') {
+            this.streetView.setPosition(latLng)
+            this.streetView.setPov({heading: props.selectedPin.heading, pitch: props.selectedPin.pitch})
+            this.streetView.setVisible(true)
+            if (this.overlay) {
+              this.overlay.setMap(null)
+              this.overlay = null
+            }
+            this.overlay = new Graffiti(this)
+            this.setState({noPano: false})
+          } else {
+            if (this.streetView.getVisible()){
+              this.streetView.setVisible(false)
+            }
+            this.setState({noPano: true})
+          }
+        }.bind(this))
       }
     // nothing is selected
     } else {
@@ -173,6 +188,11 @@ class UserMap extends Component {
           </Map>
         </div>
         <div className={this.props.selectedId ? 'street-view-container open' : 'street-view-container'} style={{top: panoTop, left: panoLeft}}>
+          {this.state.noPano &&
+            <div className="no-pano-container">
+              <div className="no-pano">No streetview available</div>
+            </div>
+          }
           <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
         </div>
         <div className="pin-container">

@@ -102,6 +102,22 @@
   z-index: 1000;
 }
 
+.street-view-container .no-pano-container {
+  position: absolute;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 45, 167, 1.000);
+}
+
+.no-pano {
+  text-align: center;
+  font-style: italic;
+  font-size: 25px;
+  color: rgba(233, 104, 178, 0.890);
+  margin-top: 25%;
+}
+
 .street-view {
   width: 100%;
   height: 100%;
@@ -140,8 +156,6 @@
   height: 20px;
 }
 .delete-pin {
-  /*display: inline;*/
-  /*text-decoration: underline;*/
   cursor: pointer;
   color: #000;
   float: right;
@@ -153,8 +167,7 @@
 
 .delete-pin:hover {
   text-decoration: none;
-  background-color: #fff;
-  /*color: rgba(142, 22, 0, 1.000);*/
+  color: #fff;
 }
 
 
