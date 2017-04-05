@@ -112,6 +112,7 @@ class UserMap extends Component {
   }
 
   componentDidMount() {
+    this.props.getPins()
     this.setupStreetView(window.google.maps)
     this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
     this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));

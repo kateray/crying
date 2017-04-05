@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import * as AppActions from '../actions/AppActions'
+import * as PinActions from '../actions/PinActions'
 import Header from '../components/Header'
 
 const mapStateToProps = (state, ownProps) => {
@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSave: () => {
-      dispatch(AppActions.save())
+      dispatch(PinActions.save())
     }
   }
 }

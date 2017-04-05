@@ -15,6 +15,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    getPins: () => {
+      dispatch(PinActions.getPins())
+    },
     handleDrop: (data) => {
       dispatch(PinActions.dropPin(data))
     },

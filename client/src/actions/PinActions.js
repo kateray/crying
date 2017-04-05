@@ -47,3 +47,42 @@ export const deletePin = (id) => {
     id
   }
 }
+
+export const save = (data) => {
+  return (dispatch, getState) => {
+    const pin = getState().pins[1]
+    return fetch("/pins/save", {
+        method: 'POST',
+        body: JSON.stringify(pin),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      .then(response => response.json())
+      .then(json =>
+        console.log(json)
+      )
+  }
+}
+
+export const RECEIVE_PINS = `${PREFIX}.RECEIVE_PINS`;
+function receivePins(json) {
+  // convert the lat&lng stored as strings into floats
+  const pins = json.data.map(function(p){
+    return Object.assign(p, {lat: parseFloat(p.lat), lng: parseFloat(p.lng)})
+  })
+  return {
+    type: RECEIVE_PINS,
+    pins: pins
+  }
+}
+
+export const getPins = () => {
+  return (dispatch) => {
+    return fetch("/pins/")
+      .then(response => response.json())
+      .then(json =>
+        dispatch(receivePins(json))
+      )
+  }
+}
