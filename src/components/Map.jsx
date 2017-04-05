@@ -1,10 +1,35 @@
 import React, { Component } from 'react'
-import { Map, TileLayer, ZoomControl } from 'react-leaflet'
+import { Map, TileLayer, ZoomControl, GridLayer, MapLayer, latLng, Marker } from 'react-leaflet'
 import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
 import Graffiti from '../Graffiti'
+import { divIcon } from 'leaflet'
 
+
+class Thing extends Marker {
+  // createLeafletLement(coords, done) {
+    // console.log('yyyyyyyyy')
+    // console.log(coords)
+  // }
+
+  // _initImage(thing) {
+  //   console.log('okayyyyyyyy')
+  // }
+  //
+  // componentDidMount() {
+  //   console.log(this.props.bounds)
+  //   // this.props.map.fitBounds(this.props.bounds);
+  //
+  //   console.log('okay')
+  //   console.log(this)
+  // }
+  // componentDidUpdate() {
+  //   // console.log(this.props)
+  //   console.log(this.props.position)
+  //   // this.leafletElement.setBounds(this.props.bounds);
+  // }
+}
 
 class UserMap extends Component {
   constructor(props) {
@@ -104,7 +129,9 @@ class UserMap extends Component {
   }
 
   setupStreetView(maps){
-    this.streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
+    console.log(this.streetViewContainer)
+    this.streetView = new maps.StreetViewPanorama(this.streetViewContainer.leafletElement._icon, this.streetViewOptions)
+    console.log(this.streetView)
     this.streetViewService = new maps.StreetViewService()
     maps.event.addListener(this.streetView, "pov_changed", this.povChanged)
     maps.event.addListener(this.streetView, "position_changed", this.positionChanged)
@@ -112,17 +139,69 @@ class UserMap extends Component {
   }
 
   componentDidMount() {
-    this.setupStreetView(window.google.maps)
+    // console.log('man')
+    // console.log(this.leafletRectangle)
+    // this.leafletMap.leafletElement.openPopup()
+    // console.log(this.streetViewContainer)
     this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
     this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
     this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
   }
 
+  componentDidUpdate() {
+    if (!this.streetview && this.streetViewContainer) {
+      console.log('yyyyy')
+      this.setupStreetView(window.google.maps)
+    }
+
+    // console.log(this.leafletRectangle)
+    // if (this.leafletRectangle && !this.streetViewContainer) {
+    //   this.streetViewContainer = this.leafletRectangle.leafletElement._path;
+    //   console.log(this.streetViewContainer.leafletElement._path)
+    //   this.setupStreetView(window.google.maps)
+    // }
+
+    // if (this.leafletRectangle && !this.streetViewContainer) {
+    //   // console.log(this.leafletRectangle)
+    //   console.log(this.leafletRectangle)
+    //   this.streetViewContainer = this.leafletRectangle.leafletElement._icon;
+    //   console.log(this.streetViewContainer)
+    //   if (this.streetViewContainer) {
+    //     this.setupStreetView(window.google.maps)
+    //
+    //   }
+    //   // console.log(this.streetViewContainer.leafletElement._path)
+    // }
+  }
 
   componentWillUpdate(props) {
+    // console.log(this.stree)
+    // console.log('will update')
+    // if (this.leafletRectangle && !this.streetViewContainer) {
+    //   // console.log(this.leafletRectangle)
+    //   console.log(this.leafletRectangle)
+    //   this.streetViewContainer = this.leafletRectangle.leafletElement._icon;
+    //   console.log(this.streetViewContainer)
+    //   if (this.streetViewContainer) {
+    //     this.setupStreetView(window.google.maps)
+    //
+    //   }
+    //   // console.log(this.streetViewContainer.leafletElement._path)
+    // }
     // something is selected
+    if (!this.streetView) {
+      return;
+    }
+    // console.log(this.streetViewContainer)
+    let panoTop, panoLeft;
     if (props.selectedId) {
+      const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: props.selectedPin.lat, lng: props.selectedPin.lng})
+      panoTop = pt.y-350;
+      panoLeft = pt.x-250;
+      // console.log(this.streetViewContainer)
+      // this.streetViewContainer.style.left = panoLeft+'px';
+      // this.streetViewContainer.style.top = panoTop+'px';
       // we have not changed selection
       if (this.props.selectedId === props.selectedId) {
         if (this.overlay) {
@@ -174,12 +253,31 @@ class UserMap extends Component {
   }
 
   render() {
-    let panoTop, panoLeft;
+    let panoTop, panoLeft, northEast;
+    let pttt = this.state.position;
+    let bounds = [[this.state.position[0]+0.0035, this.state.position[1]-0.02], [this.state.position[0]+0.025, this.state.position[1]+0.02]]
     if (this.props.selectedId) {
       const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: this.props.selectedPin.lat, lng: this.props.selectedPin.lng})
       panoTop = pt.y-350;
       panoLeft = pt.x-250;
+      const lat = this.props.selectedPin.lat
+      const lng = this.props.selectedPin.lng
+      // console.log(lat)
+      // console.log(lng)
+      // bounds = bounds([lat+0.0035, lng-0.02], [lat+0.025, lng+0.02])
+      // bounds = [[lat+0.0035, lng-0.02], [lat+0.025, lng+0.02]]
+      // const southWest = L.latLng(lat+0.0035, lng-0.02)
+      // northEast = L.latLng(lat+0.025, lng+0.02)
+      // bounds = L.latLngBounds(southWest, northEast);
+      pttt = [lat, lng]
+      // console.log(bounds)
+      // console.log(southWest)
+      // console.log(pttt)
+
+
     }
+    const street = divIcon({className: "xxx", iconSize: [500, 200],});
+
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
@@ -198,20 +296,9 @@ class UserMap extends Component {
               url='https://api.mapbox.com/styles/v1/kray/ciz1fyu1f000t2sphzml1bxtd/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
+            <Marker ref={(el) => {this.streetViewContainer = el; }} position={pttt} zIndex={10000001} icon={street} className="grid-layer" />
             {pins}
           </Map>
-        </div>
-        <div className={this.props.selectedId ? 'street-view-container open' : 'street-view-container'} style={{top: panoTop, left: panoLeft}}>
-          {this.state.noPano &&
-            <div className="no-pano-container">
-              <div className="no-pano">No streetview available</div>
-            </div>
-          }
-          {this.state.loading &&
-            <div className="loading-street-view" />
-          }
-
-          <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
         </div>
         <div className="pin-container">
           {emojis}

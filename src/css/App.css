@@ -85,6 +85,21 @@
   width: 100px;
 }
 
+.grid-layer {
+  width: 500px;
+  height: 300px;
+}
+
+.street {
+  width: 500px;
+  height: 200px;
+  background-color: rgba(233, 88, 171, 0.890);
+}
+
+.street-inside {
+  width: 100%;
+  height: 100%;
+}
 .street-view-container {
   position: absolute;
   top: 0px;
@@ -99,7 +114,7 @@
 
 .street-view-container.open {
   opacity: 1;
-  z-index: 1000;
+  /*z-index: 1000;*/
 }
 
 .street-view-container .no-pano-container {
@@ -137,6 +152,9 @@
   margin-top: 25%;
 }
 
+.streetview-rectangle {
+  background-color: #000;
+}
 .street-view {
   width: 100%;
   height: 100%;
@@ -171,7 +189,7 @@
 
 /* map pins */
 .pin-popup {
-  width: 500px;
+  width: 467px;
   height: 20px;
 }
 .delete-pin {
@@ -206,7 +224,7 @@
 .leaflet-popup-content-wrapper {
   box-shadow: none;
   background: #ff2ea7;
-  width: 500px;
+  width: 467px;
   border-radius: 0px;
   padding: 1px 0px;
   /*border: 1px solid #ff2da7;
@@ -246,7 +264,7 @@
 }
 
 .pin-popup .arrow-down {
-  left: 230px;
+  left: 213px;
   top: 20px;
 }
 
@@ -262,7 +280,7 @@
 .magnify-container {
   position: absolute;
   z-index: 650;
-  width: 500px;
+  width: 467px;
   margin-left: -250px;
   margin-top: -40px;
   border: 1px solid #ff2da7;
