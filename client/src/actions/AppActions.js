@@ -15,9 +15,7 @@ export const save = (data) => {
     const localPins = data
     const fetchedPins = getState().app.fetchedPins
     const pins = fetchedPins.map((pin) => {
-      console.log(pin)
       const localMatch = _.find(localPins, ['uid', pin.uid])
-      console.log(localMatch)
       // if the pin is part of our current set
       if (localMatch !== undefined) {
         // if it has changed
@@ -30,7 +28,6 @@ export const save = (data) => {
         return {type: "DELETE", uid: pin.uid}
       }
     })
-    console.log(localPins)
     const newPins = localPins.map((pin) => {
       const serverMatch = _.find(fetchedPins, ['uid', pin.uid])
       if (!serverMatch) {
@@ -39,9 +36,7 @@ export const save = (data) => {
         return false
       }
     })
-    console.log(newPins)
     const sendData = _.compact(pins).concat(_.compact(newPins))
-    console.log(sendData)
     return fetch("/pins/save", {
         method: 'POST',
         body: JSON.stringify(sendData),
@@ -51,6 +46,7 @@ export const save = (data) => {
       })
       .then(response => response.json())
       .then(json =>
+        // TODO show user feedback
         console.log(json)
       )
   }

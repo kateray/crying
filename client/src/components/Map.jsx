@@ -136,7 +136,6 @@ class UserMap extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.fetchedPins !== nextProps.fetchedPins) {
-      console.log(nextProps.fetchedPins)
       this.setState({pins: nextProps.fetchedPins})
     }
   }
@@ -144,10 +143,7 @@ class UserMap extends Component {
   componentWillUpdate(props) {
     // something is selected
     if (props.selectedId) {
-      console.log(typeof props.selectedId)
-      console.log(this.state.pins)
       const selectedPin = _.find(this.state.pins, ['uid', props.selectedId])
-      console.log(selectedPin)
 
       // we have not changed selection
       if (this.props.selectedId === props.selectedId) {
@@ -205,7 +201,6 @@ class UserMap extends Component {
   }
 
   render() {
-    console.log(this.state.pins)
     let panoTop, panoLeft;
     if (this.props.selectedId) {
       const selectedPin = _.find(this.state.pins, ['uid', this.props.selectedId])

@@ -28,10 +28,9 @@ function getAllPins(req, res, next) {
 
 function savePins(req, res, next) {
   const list = req.body
+  // TODO ensure the user is allowed
   db.tx(t => {
-    console.log(list)
       const queries = list.map((entry) => {
-        console.log(entry)
         if (entry.type === 'ADD'){
           return t.none('insert into pins(uid, name, title, hex, lat, lng, heading, pitch, zoom) values($1, $2, $3, $4, $5, $6, $7, $8, $9)', [entry.data.uid, entry.data.name, entry.data.title, entry.data.hex, entry.data.lat, entry.data.lng, entry.data.heading, entry.data.pitch, entry.data.zoom])
         } else if (entry.type === 'SET'){
@@ -40,33 +39,19 @@ function savePins(req, res, next) {
           return t.none('delete from pins where uid=$1', [entry.uid])
         }
       })
-      console.log(queries)
       return t.batch(queries)
     })
     .then(function () {
       res.status(200)
         .json({
           status: 'success',
-          message: 'Inserted one pin'
+          message: 'saved'
         });
     })
     .catch(function (err) {
       // TODO handle error
       return next(err);
     });
-  // db.none('insert into pins(uid, name, title, hex, lat, lng, heading, pitch, zoom) values($1, $2, $3, $4, $5, $6, $7, $8, $9)',
-  //   [req.body.uid, req.body.name, req.body.title, req.body.hex, req.body.lat, req.body.lng, req.body.heading, req.body.pitch, req.body.zoom])
-  //   .then(function () {
-  //     res.status(200)
-  //       .json({
-  //         status: 'success',
-  //         message: 'Inserted one pin'
-  //       });
-  //   })
-  //   .catch(function (err) {
-  //     // TODO handle error
-  //     return next(err);
-  //   });
 }
 
 module.exports = {
