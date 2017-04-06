@@ -4,6 +4,7 @@ import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
 import Graffiti from '../Graffiti'
+import _ from 'lodash'
 
 
 class UserMap extends Component {
@@ -12,7 +13,9 @@ class UserMap extends Component {
     this.dragStart = this.dragStart.bind(this)
     this.dragPinOver = this.dragPinOver.bind(this)
     this.pinDrop = this.pinDrop.bind(this)
+    this.updatePin = this.updatePin.bind(this)
     this.setupStreetView = this.setupStreetView.bind(this)
+    this.deletePin = this.deletePin.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
     this.selectPin = this.selectPin.bind(this)
     this.povChanged = this.povChanged.bind(this)
@@ -28,6 +31,7 @@ class UserMap extends Component {
       zoomControl: false
     }
     this.state = {
+      pins: [],
       position: [40.734583, -73.997263],
       magnifier: null,
       dragging: null
@@ -72,29 +76,39 @@ class UserMap extends Component {
     // Wow. Gotta have this preventDefault or Firefox might suddenly take you to sex.com
     e.preventDefault()
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
-    const data = Object.assign({}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
-    this.props.handleDrop(data)
-    this.setState({magnifier: null, dragging: null});
+    const newPin = Object.assign({uid: Date.now().toString(), heading: 34, pitch: 10, zoom: 1}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
+    const pins = [...this.state.pins, newPin]
+    this.setState({pins: pins, magnifier: null, dragging: null});
   }
 
-  pinDrop(data) {
-    this.props.handleDrop(data)
+  updatePin(uid, data) {
+    const pins = this.state.pins.map((item) => {
+      if (item.uid === uid) {
+        return Object.assign({}, item, data)
+      }
+      return item
+    })
+    this.setState({pins: pins})
+  }
+
+  pinDrop(uid, data) {
+    this.updatePin(uid, data)
     this.setState({magnifier: null, dragging: null})
   }
 
   povChanged() {
     const pov = this.streetView.getPov()
-    this.props.updateSelected({heading: pov.heading, pitch: pov.pitch})
+    this.updatePin(this.props.selectedId, {heading: pov.heading, pitch: pov.pitch})
   }
 
   positionChanged() {
     const position = this.streetView.getPosition()
-    this.props.updateSelected({lat: position.lat(), lng: position.lng()})
+    this.updatePin(this.props.selectedId, {lat: position.lat(), lng: position.lng()})
   }
 
   titleChanged(e) {
     e.stopPropagation()
-    this.props.updateSelected({title: e.target.innerHTML})
+    this.updatePin(this.props.selectedId, {title: e.target.innerHTML})
   }
 
   visibleChanged() {
@@ -120,24 +134,35 @@ class UserMap extends Component {
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.fetchedPins !== nextProps.fetchedPins) {
+      console.log(nextProps.fetchedPins)
+      this.setState({pins: nextProps.fetchedPins})
+    }
+  }
 
   componentWillUpdate(props) {
     // something is selected
     if (props.selectedId) {
+      console.log(typeof props.selectedId)
+      console.log(this.state.pins)
+      const selectedPin = _.find(this.state.pins, ['uid', props.selectedId])
+      console.log(selectedPin)
+
       // we have not changed selection
       if (this.props.selectedId === props.selectedId) {
         if (this.overlay) {
-          if (props.selectedPin.title !== this.overlay.text_) {
-            this.overlay.updateText(props.selectedPin.title)
+          if (selectedPin.title !== this.overlay.text_) {
+            this.overlay.updateText(selectedPin.title)
           }
         }
       // we have changed selection
       } else {
-        const latLng = new window.google.maps.LatLng(props.selectedPin.lat, props.selectedPin.lng)
+        const latLng = new window.google.maps.LatLng(selectedPin.lat, selectedPin.lng)
         this.streetViewService.getPanorama({location: latLng}, function(result, status){
           if (status === 'OK') {
             this.streetView.setPosition(latLng)
-            this.streetView.setPov({heading: props.selectedPin.heading, pitch: props.selectedPin.pitch})
+            this.streetView.setPov({heading: selectedPin.heading, pitch: selectedPin.pitch})
             this.streetView.setVisible(true)
             if (this.overlay) {
               this.overlay.setMap(null)
@@ -169,26 +194,43 @@ class UserMap extends Component {
     this.props.selectPin(null)
   }
 
-  selectPin(id) {
+  selectPin(uid) {
     this.setState({loading: true})
-    this.props.selectPin(id)
+    this.props.selectPin(uid)
+  }
+
+  deletePin(uid) {
+    this.unselectPin()
+    this.setState({pins: this.state.pins.filter((item) => item.uid !== uid)})
   }
 
   render() {
+    console.log(this.state.pins)
     let panoTop, panoLeft;
     if (this.props.selectedId) {
-      const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: this.props.selectedPin.lat, lng: this.props.selectedPin.lng})
+      const selectedPin = _.find(this.state.pins, ['uid', this.props.selectedId])
+      const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
       panoTop = pt.y-295;
       panoLeft = pt.x-250;
     }
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
-    const pins = Object.keys(this.props.pins).map((k) =>
-      <EmojiPinContainer key={k} id={k} data={this.props.pins[k]} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.props.deletePin} />
+    const pins = this.state.pins.map((k) =>
+      <EmojiPinContainer key={k.uid} data={k} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.deletePin} />
     );
     return (
       <div>
+        <div id="header">
+          <div id="app-title"><img src="/images/cry.png" /><h1>Crying in Public</h1><img src="/images/cry.png" /></div>
+          <div id="app-description">
+            An emotional map of New York City, made out of the important things that happen to us outside.
+          </div>
+          <div id="app-buttons-container">
+            <button className="nav-button" id="save" onClick={() => {this.props.onSave(this.state.pins)}}>Save</button>
+            <button className="nav-button" id="logout">Logout</button>
+          </div>
+        </div>
         {this.state.magnifier && this.state.dragging &&
           <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
         }

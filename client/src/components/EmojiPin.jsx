@@ -18,11 +18,11 @@ class EmojiPin extends Component {
   }
 
   onDrop(e) {
-    this.props.onDrop({id: this.props.id, lat: e.target._latlng.lat, lng: e.target._latlng.lng})
+    this.props.onDrop(this.props.data.uid, {lat: e.target._latlng.lat, lng: e.target._latlng.lng})
   }
 
   select() {
-    this.props.selectPin(this.props.id)
+    this.props.selectPin(this.props.data.uid)
   }
 
   render() {
@@ -32,7 +32,7 @@ class EmojiPin extends Component {
       <Marker ref={(el) => { this.leafletMap = el; }} position={position} icon={emojiIcon} draggable='true' onPopupOpen={this.select} onPopupClose={this.props.unselect} onDragStart={this.onDragStart} onDrag={this.props.onDragOver} onDragEnd={this.onDrop.bind(this)}>
         <Popup>
           <div className="pin-popup">
-            <div onClick={() => {this.props.onDelete(this.props.id)}} className="delete-pin">delete pin</div>
+            <div onClick={() => {this.props.onDelete(this.props.data.uid)}} className="delete-pin">delete pin</div>
             <div className="arrow-down" />
           </div>
         </Popup>

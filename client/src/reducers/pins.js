@@ -1,27 +1,38 @@
 import * as PinActions from "../actions/PinActions";
 import _ from 'lodash'
 
-const pins = (state = {}, action) => {
+const pins = (state = {items: []}, action) => {
   switch (action.type) {
-    case PinActions.RECEIVE_PINS:
-      return Object.assign({}, action.pins);
     case PinActions.ADD_PIN:
+      console.log('are we here or something?')
       const newPin = Object.assign({}, action.data, {
+        uid: Date.now().toString(),
         heading: 34,
         pitch: 10,
         zoom: 1
       })
       return Object.assign({}, state, {
-        [action.id]: newPin,
+        items: [
+          ...state.items,
+          newPin
+        ]
       });
     case PinActions.UPDATE_PIN:
-      const updatedPin = Object.assign({}, state[action.id], action.data);
+      console.log('no we must be here')
       return Object.assign({}, state, {
-        [action.id]: updatedPin
+        items: state.items.map((item) => {
+          if (item.uid === action.uid) {
+            return Object.assign({}, item, action.data)
+          }
+          return item
+        })
       });
     case PinActions.DELETE_PIN:
-      const newState = _.omit(state, action.id);
-      return newState;
+      console.log(action)
+      const newItems = _.omit(state.items, _.find(state.items, ['uid', action.uid]))
+      return Object.assign({}, state, {
+        items: state.items.filter((item) => item.uid !== action.uid)
+      });
     default:
       return state
   }

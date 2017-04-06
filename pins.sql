@@ -5,6 +5,7 @@ CREATE DATABASE crying;
 
 CREATE TABLE pins (
   ID SERIAL PRIMARY KEY,
+  uid VARCHAR,
   name VARCHAR,
   title VARCHAR,
   hex VARCHAR,

@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 router.get('/', db.getAllPins)
-router.post('/save', db.createPin)
+router.post('/save', db.savePins)
 
 app.use('/pins', router);
 

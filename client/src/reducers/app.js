@@ -6,6 +6,10 @@ const app = (state = {}, action) => {
       return Object.assign({}, state, {
         selected: action.payload
       })
+    case AppActions.RECEIVE_PINS:
+      return Object.assign({}, state, {
+        fetchedPins: action.pins
+      });
     default:
       return state
   }
