@@ -199,11 +199,13 @@ class UserMap extends Component {
 
   unselectPin() {
     this.props.selectPin(null)
+    this.leafletMap.leafletElement.dragging.enable()
   }
 
   selectPin(uid) {
     this.setState({loading: true, newPin: null})
     this.props.selectPin(uid)
+    this.leafletMap.leafletElement.dragging.disable()
   }
 
   deletePin(uid) {
