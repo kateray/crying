@@ -32,6 +32,7 @@ class UserMap extends Component {
     }
     this.state = {
       pins: [],
+      newPin: null,
       position: [40.734583, -73.997263],
       magnifier: null,
       dragging: null
@@ -76,9 +77,10 @@ class UserMap extends Component {
     // Wow. Gotta have this preventDefault or Firefox might suddenly take you to sex.com
     e.preventDefault()
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
-    const newPin = Object.assign({uid: Date.now().toString(), heading: 34, pitch: 10, zoom: 1}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
+    const uid = Date.now().toString()
+    const newPin = Object.assign({uid: uid, heading: 34, pitch: 10, zoom: 1}, this.state.dragging, {lat: latlng.lat, lng: latlng.lng})
     const pins = [...this.state.pins, newPin]
-    this.setState({pins: pins, magnifier: null, dragging: null});
+    this.setState({pins: pins, magnifier: null, dragging: null, newPin: uid});
   }
 
   updatePin(uid, data) {
@@ -191,7 +193,7 @@ class UserMap extends Component {
   }
 
   selectPin(uid) {
-    this.setState({loading: true})
+    this.setState({loading: true, newPin: null})
     this.props.selectPin(uid)
   }
 
@@ -212,7 +214,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = this.state.pins.map((k) =>
-      <EmojiPinContainer key={k.uid} data={k} offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.deletePin} />
+      <EmojiPinContainer key={k.uid} data={k} isNew={ this.state.newPin === k.uid } offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.deletePin} />
     );
     return (
       <div>

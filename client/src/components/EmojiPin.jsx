@@ -10,7 +10,9 @@ class EmojiPin extends Component {
   }
 
   componentDidMount() {
-    this.leafletMap.leafletElement.openPopup();
+    if (this.props.isNew) {
+      this.leafletMap.leafletElement.openPopup();
+    }
   }
 
   onDragStart() {
