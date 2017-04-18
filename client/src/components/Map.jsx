@@ -127,6 +127,14 @@ class UserMap extends Component {
     maps.event.addListener(this.streetView, "visible_changed", this.visibleChanged)
   }
 
+  confirmSave(e){
+    if (this.props.fetchedPins !== this.state.pins) {
+      const confirmationMessage = "You have unsaved changes that you'll lose if you leave now";
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    }
+  }
+
   componentDidMount() {
     this.props.getPins()
     this.setupStreetView(window.google.maps)
@@ -134,6 +142,7 @@ class UserMap extends Component {
     this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
     this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
+    window.addEventListener("beforeunload", this.confirmSave.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
