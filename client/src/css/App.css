@@ -1,0 +1,357 @@
+/* header */
+#header {
+  padding: 10px;
+}
+
+#app-title {
+  font-size: 30px;
+  display: inline-block;
+}
+
+#app-title h1 {
+  display: inline-block;
+  margin: 0px 10px;
+  font-size: 17px;
+  vertical-align: middle;
+  line-height: 35px;
+}
+
+#app-description {
+  font-size: 13px;
+  display: inline-block;
+  width: 35%;
+  margin-left: 2%;
+}
+
+#app-buttons-container {
+  float: right;
+  line-height: 35px;
+}
+
+.nav-button {
+  color: #fff;
+  padding: 10px;
+  font-size: 13px;
+  background: #000;
+  margin-left: 10px;
+}
+
+.nav-button.saving {
+  background: #fff;
+  color: #000;
+}
+
+.nav-button:hover{
+  background: #fff;
+  color: #000;
+}
+
+@media (max-width: 825px) {
+  #app-description {
+    display: block;
+  }
+
+  #app-buttons-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    line-height: 35px;
+  }
+}
+
+/* pins */
+.pin-container {
+  z-index: 1000;
+  position: absolute;
+  left: 0px;
+  top: 75px;
+  display: inline;
+  font-size: 30px;
+  background-color: #ff2da7;
+}
+
+.pin-entry {
+  margin: 5px;
+  padding: 1px 5px;
+  position: relative;
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+}
+
+.pin-direction {
+  display: none;
+  color: #fff;
+  font-family: 'Special Elite';
+
+  font-size: 8px;
+  position: absolute;;
+  right: 10px;
+  bottom: 5px;
+}
+
+.pin-entry:hover .pin-title{
+  display: block;
+  /*background: #ff2da7;*/
+}
+
+.pin-entry:hover .pin-direction {
+  /*display: block;*/
+}
+
+@keyframes pulse_animation {
+  0% { transform: scale(1); }
+  10% { transform: scale(0.95); }
+  20% { transform: scale(1); }
+  30% { transform: scale(1); }
+  40% { transform: scale(1); }
+  50% { transform: scale(1); }
+  60% { transform: scale(0.85); }
+  80% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.pin-entry:hover .movable-pin {
+  border-radius: 20%;
+  animation-name: pulse_animation;
+  animation-duration: 800ms;
+  transform-origin:70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.movable-pin {
+  background: transparent;
+  display: inline-block;
+}
+
+.movable-pin:active {
+  cursor: grabbing;
+  background: transparent;
+}
+
+.pin-title {
+  font-family: 'Special Elite';
+  font-size: 13px;
+  pointer-events: none;
+  /*display: inline;*/
+  /*margin-left: 10px;*/
+  /*background-color: #fff;*/
+  padding: 3px;
+  /*text-transform: uppercase;*/
+  vertical-align: 80%;
+  display: none;
+  position: absolute;
+  left: 50px;
+  top: 5px;
+  width: 100px;
+}
+
+.street-view-container {
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  height: 300px;
+  width: 500px;
+  /*margin-top: -335px;
+  margin-left: -250px;*/
+  background-color: #ff2da7;
+  opacity: 0;
+}
+
+.street-view-container.open {
+  opacity: 1;
+  z-index: 1000;
+}
+
+.street-view-container .no-pano-container {
+  position: absolute;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 45, 167, 1.000);
+}
+
+@keyframes fade {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.loading-street-view {
+  opacity: 0;
+  z-index: 101;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 45, 167, 1.000);
+  animation-name: fade;
+  animation-duration: 850ms;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+.no-pano {
+  text-align: center;
+  font-style: italic;
+  font-size: 25px;
+  color: rgba(233, 104, 178, 0.890);
+  margin-top: 25%;
+}
+
+.street-view {
+  width: 100%;
+  height: 100%;
+}
+
+.floating-text {
+  border: 0px;
+  position: absolute;
+  outline: none;
+  cursor: text;
+  font-size: 13px;
+  font-family: 'Special Elite';
+  padding: 5px;
+  color: #000;
+  background-color: #fff;
+  width: 200px;
+  top: 50px;
+  left: 50px;
+}
+
+/* map */
+.map-container {
+  height: 600px;
+  width: 100%;
+  position: relative;
+}
+
+.magnify-map {
+  pointer-events: none;
+}
+
+/* map pins */
+.pin-popup {
+  width: 500px;
+  height: 20px;
+}
+.delete-pin {
+  cursor: pointer;
+  color: #000;
+  float: right;
+  font-family: 'Special Elite';
+  line-height: 15px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.delete-pin:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+
+/*leaflet overrides*/
+
+.leaflet-fade-anim .leaflet-popup {
+  transition: none;
+}
+
+.leaflet-container {
+  height: 720px;
+}
+
+.leaflet-popup-tip {
+  display: none;
+}
+.leaflet-popup-content-wrapper {
+  box-shadow: none;
+  background: #ff2ea7;
+  width: 500px;
+  border-radius: 0px;
+  padding: 1px 0px;
+  /*border: 1px solid #ff2da7;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 0px;*/
+}
+.leaflet-popup-content {
+  margin: 0px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  right: 15px;
+  top: 5px;
+  font-weight: normal;
+  color: #7c7c7b;
+  display: none;
+}
+.leaflet-popup-content ::-webkit-input-placeholder {
+  color: rgba(95, 95, 95, 1.000);
+}
+.leaflet-popup-content input, .leaflet-popup-content textarea {
+  border-radius: 3px;
+  background: rgba(233, 100, 176, 1.000);
+  border: none;
+  width: 150px;
+  margin-bottom: 5px;
+  padding: 3px;
+  font-family: 'Share Tech Mono';
+  font-size: 12px;
+  font-weight: normal;
+  /*border-bottom: 1px solid #000;*/
+}
+.leaflet-popup-content textarea {
+  height: 4em;
+}
+
+.pin-popup .arrow-down {
+  left: 230px;
+  top: 20px;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #ff2ea7;
+  position: absolute;
+}
+
+.magnify-container {
+  position: absolute;
+  z-index: 650;
+  width: 500px;
+  margin-left: -250px;
+  margin-top: -40px;
+  border: 1px solid #ff2da7;
+}
+
+.magnify-container .arrow-down {
+  top: 200px;
+  left: 225px;
+  z-index: 1000;
+}
+
+/*google streetview*/
+.gmnoprint, .gm-style-cc {
+  opacity: 0.7;
+  visibility: hidden;
+}
+
+.gm-style a img {
+  opacity: 0;
+}
+
+.street-view-container:hover .gmnoprint {
+  visibility: visible;
+}
+
+.street-view-container:hover .gm-style-cc {
+  visibility: visible;
+}
+
+.street-view-container:hover .gm-style a img {
+  opacity: 0.5;
+}
