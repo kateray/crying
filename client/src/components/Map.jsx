@@ -22,6 +22,7 @@ class UserMap extends Component {
     this.positionChanged = this.positionChanged.bind(this)
     this.visibleChanged = this.visibleChanged.bind(this)
     this.titleChanged = this.titleChanged.bind(this)
+    this.setLeafletMap = this.setLeafletMap.bind(this)
     this.streetViewOptions = {
       visible: false,
       panControl: false,
@@ -213,6 +214,12 @@ class UserMap extends Component {
     this.setState({pins: this.state.pins.filter((item) => item.uid !== uid)})
   }
 
+  // important to define ref as bound method rather than inline so that it doesn't get called with null
+  // https://facebook.github.io/react/docs/refs-and-the-dom.html#caveats
+  setLeafletMap(el) {
+    this.leafletMap = el
+  }
+
   render() {
     let panoTop, panoLeft;
     if (this.props.selectedId) {
@@ -243,7 +250,7 @@ class UserMap extends Component {
           <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
         }
         <div className="map-container">
-          <Map ref={(el) => { this.leafletMap = el; }} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
+          <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
             <ZoomControl position='bottomright' />
             <TileLayer
               url='https://api.mapbox.com/styles/v1/kray/ciz1fyu1f000t2sphzml1bxtd/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw'
