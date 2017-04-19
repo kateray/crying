@@ -6,6 +6,7 @@ CREATE DATABASE crying;
 CREATE TABLE pins (
   ID SERIAL PRIMARY KEY,
   uid VARCHAR,
+  user_id INTEGER,
   name VARCHAR,
   title VARCHAR,
   hex VARCHAR,
@@ -15,3 +16,11 @@ CREATE TABLE pins (
   pitch INTEGER,
   zoom INTEGER
 );
+
+CREATE TABLE users (
+  ID SERIAL PRIMARY KEY,
+  username VARCHAR
+);
+
+INSERT INTO users (username)
+  VALUES ('kray');

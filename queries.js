@@ -11,8 +11,10 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://localhost:5432/crying';
 var db = pgp(connectionString);
 
+var current_user_id = 1;
+
 function getAllPins(req, res, next) {
-  db.any('select * from pins')
+  db.any('select * from pins WHERE user_id = $1', [current_user_id])
     .then(function (data) {
       res.status(200)
         .json({
@@ -32,7 +34,7 @@ function savePins(req, res, next) {
   db.tx(t => {
     const queries = list.map((entry) => {
       if (entry.type === 'ADD'){
-        return t.none('insert into pins(uid, name, title, hex, lat, lng, heading, pitch, zoom) values($1, $2, $3, $4, $5, $6, $7, $8, $9)', [entry.data.uid, entry.data.name, entry.data.title, entry.data.hex, entry.data.lat, entry.data.lng, entry.data.heading, entry.data.pitch, entry.data.zoom])
+        return t.none('insert into pins(uid, user_id, name, title, hex, lat, lng, heading, pitch, zoom) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [entry.data.uid, current_user_id, entry.data.name, entry.data.title, entry.data.hex, entry.data.lat, entry.data.lng, entry.data.heading, entry.data.pitch, entry.data.zoom])
       } else if (entry.type === 'SET'){
         return t.none('update pins set name=$2, title=$3, hex=$4, lat=$5, lng=$6, heading=$7, pitch=$8, zoom=$9 where uid=$1', [entry.data.uid, entry.data.name, entry.data.title, entry.data.hex, entry.data.lat, entry.data.lng, entry.data.heading, entry.data.pitch, entry.data.zoom])
       } else if (entry.type === 'DELETE'){
@@ -42,7 +44,7 @@ function savePins(req, res, next) {
     return t.batch(queries)
   })
   .then( () => {
-    db.any('select * from pins')
+    db.any('select * from pins WHERE user_id = $1', [current_user_id])
       .then( data => {
         res.status(200)
           .json({
