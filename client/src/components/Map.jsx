@@ -129,6 +129,7 @@ class UserMap extends Component {
   }
 
   confirmSave(e){
+    if (!_.isEqual(this.props.fetchedPins, this.state.pins) ) {
       const confirmationMessage = "You have unsaved changes that you'll lose if you leave now";
       e.returnValue = confirmationMessage;
       return confirmationMessage;
@@ -138,6 +139,8 @@ class UserMap extends Component {
   componentDidMount() {
     this.props.getPins()
     this.setupStreetView(window.google.maps)
+    this.leafletMap.container.addEventListener("dragover", this.toolDrag.bind(this));
+    this.leafletMap.container.addEventListener("drop", this.toolDrop.bind(this));
     this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
     window.addEventListener("beforeunload", this.confirmSave.bind(this));
@@ -229,6 +232,7 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = this.state.pins.map((k) =>
+      <EmojiPinContainer key={k.uid} data={k} isNew={ this.state.newPin === k.uid } offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.pinDrag} onDrop={this.pinDrop} onDelete={this.deletePin} />
     );
     return (
       <div>
