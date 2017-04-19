@@ -10,8 +10,16 @@ export const selectPin = (payload) => {
   }
 }
 
+export const REQUEST_SAVE = `${PREFIX}.REQUEST_SAVE`;
+function requestSave(){
+  return {
+    type: REQUEST_SAVE
+  }
+}
+
 export const save = (data) => {
   return (dispatch, getState) => {
+    dispatch(requestSave())
     const localPins = data
     const fetchedPins = getState().app.fetchedPins
     const pins = fetchedPins.map((pin) => {

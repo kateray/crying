@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    isSaving: state.app.isSaving,
     fetchedPins: state.app.fetchedPins,
     emojis: emojis,
     selectedId: state.app.selected

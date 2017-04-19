@@ -36,6 +36,11 @@
   margin-left: 10px;
 }
 
+.nav-button.saving {
+  background: #fff;
+  color: #000;
+}
+
 .nav-button:hover{
   background: #fff;
   color: #000;

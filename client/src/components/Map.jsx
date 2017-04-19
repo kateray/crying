@@ -242,7 +242,7 @@ class UserMap extends Component {
             An emotional map of New York City, made out of the important things that happen to us outside.
           </div>
           <div id="app-buttons-container">
-            <button className="nav-button" id="save" onClick={() => {this.props.onSave(this.state.pins)}}>Save</button>
+            <button className={this.props.isSaving ? "nav-button saving" : "nav-button"} id="save" onClick={() => {this.props.onSave(this.state.pins)}}>{this.props.isSaving ? "Saving..." : "Save"}</button>
             <button className="nav-button" id="logout">Logout</button>
           </div>
         </div>
