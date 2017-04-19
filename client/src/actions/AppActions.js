@@ -45,10 +45,9 @@ export const save = (data) => {
         },
       })
       .then(response => response.json())
-      .then(json =>
-        // TODO show user feedback
-        console.log(json)
-      )
+      .then(json => {
+        dispatch(receivePins(json))
+      })
   }
 }
 

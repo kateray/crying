@@ -11,7 +11,7 @@ class UserMap extends Component {
   constructor(props) {
     super(props)
     this.dragStart = this.dragStart.bind(this)
-    this.dragPinOver = this.dragPinOver.bind(this)
+    this.pinDrag = this.pinDrag.bind(this)
     this.pinDrop = this.pinDrop.bind(this)
     this.updatePin = this.updatePin.bind(this)
     this.setupStreetView = this.setupStreetView.bind(this)
@@ -46,7 +46,7 @@ class UserMap extends Component {
     this.unselectPin()
   }
 
-  dragOver(e) {
+  toolDrag(e) {
     e.preventDefault();
     const targetClass = e.target.className;
     // Sneky hack so map doesn't go crazy dragging over leaflet attribution
@@ -59,7 +59,7 @@ class UserMap extends Component {
     }
   }
 
-  dragPinOver(e) {
+  pinDrag(e) {
     const targetClass = e.originalEvent.target.className;
     if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') ) {
       const y = e.originalEvent.pageY-this.offsetTop;
@@ -74,7 +74,7 @@ class UserMap extends Component {
     this.setState({magnifier: null})
   }
 
-  dragEnd(e) {
+  toolDrop(e) {
     // Wow. Gotta have this preventDefault or Firefox might suddenly take you to sex.com
     e.preventDefault()
     const latlng = this.leafletMap.leafletElement.containerPointToLatLng([e.offsetX, e.offsetY]);
@@ -129,7 +129,6 @@ class UserMap extends Component {
   }
 
   confirmSave(e){
-    if (this.props.fetchedPins !== this.state.pins) {
       const confirmationMessage = "You have unsaved changes that you'll lose if you leave now";
       e.returnValue = confirmationMessage;
       return confirmationMessage;
@@ -139,8 +138,6 @@ class UserMap extends Component {
   componentDidMount() {
     this.props.getPins()
     this.setupStreetView(window.google.maps)
-    this.leafletMap.container.addEventListener("dragover", this.dragOver.bind(this));
-    this.leafletMap.container.addEventListener("drop", this.dragEnd.bind(this));
     this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
     window.addEventListener("beforeunload", this.confirmSave.bind(this));
@@ -232,7 +229,6 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.dragStart} />
     );
     const pins = this.state.pins.map((k) =>
-      <EmojiPinContainer key={k.uid} data={k} isNew={ this.state.newPin === k.uid } offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.dragStart} onDragOver={this.dragPinOver} onDrop={this.pinDrop} onDelete={this.deletePin} />
     );
     return (
       <div>
