@@ -14,11 +14,10 @@ var routes = require('./server/routes/index')
   , models = require('./server/models/index');
 
 const app = express()
-app.use(express.static('client/build'));
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('client/build'));
-// }
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -69,7 +68,7 @@ app.use('/pins', routes);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', passport.authenticate('facebook',
-    { successRedirect: '/',
+    { successRedirect: 'http://localhost:3000/',
     failureRedirect: '/login' }
   )
 );
