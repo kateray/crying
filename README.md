@@ -1,4 +1,9 @@
+client development
 $ npm start
 
-to drop database:
-$ psql -f pins.sql
+to test login
+cd /client
+npm run build
+
+from root
+node server

@@ -21,11 +21,17 @@
   "dependencies": {
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
-    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "morgan": "^1.8.1",
-    "pg-promise": "^5.6.4"
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.4",
+    "sequelize-cli": "^2.7.0"
   },
   "devDependencies": {
     "concurrently": "^3.4.0"

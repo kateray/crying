@@ -46,6 +46,7 @@ export const save = (data) => {
     })
     const sendData = _.compact(pins).concat(_.compact(newPins))
     return fetch("/pins/save", {
+        credentials: 'include',
         method: 'POST',
         body: JSON.stringify(sendData),
         headers: {
@@ -73,7 +74,7 @@ function receivePins(json) {
 
 export const getPins = () => {
   return (dispatch) => {
-    return fetch("/pins/")
+    return fetch("/pins/", {credentials: 'include'})
       .then(response => response.json())
       .then(json =>
         dispatch(receivePins(json))
