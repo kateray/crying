@@ -64,6 +64,10 @@ passport.use(new FacebookStrategy({
   }
 ));
 
+app.get('/map', (req, res) => {
+  res.render('map');
+})
+
 app.use('/pins', routes);
 
 app.get('/auth/facebook', passport.authenticate('facebook'));

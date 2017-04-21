@@ -55,15 +55,15 @@ export const save = (data) => {
       })
       .then(response => response.json())
       .then(json => {
-        dispatch(receivePins(json))
+        dispatch(receivePins(json.data.pins))
       })
   }
 }
 
 export const RECEIVE_PINS = `${PREFIX}.RECEIVE_PINS`;
-function receivePins(json) {
+function receivePins(data) {
   // convert the lat&lng stored as strings into floats
-  const pins = json.data.map(function(p){
+  const pins = data.map(function(p){
     return Object.assign(p, {lat: parseFloat(p.lat), lng: parseFloat(p.lng)})
   })
   return {
@@ -72,12 +72,21 @@ function receivePins(json) {
   }
 }
 
+export const RECEIVE_USER = `${PREFIX}.RECEIVE_USER`;
+function receiveUser(payload) {
+  return {
+    type: RECEIVE_USER,
+    payload
+  }
+}
+
 export const getPins = () => {
   return (dispatch) => {
     return fetch("http://localhost:3001/pins/", {credentials: 'include'})
       .then(response => response.json())
-      .then(json =>
-        dispatch(receivePins(json))
-      )
+      .then(json => {
+        dispatch(receivePins(json.data.pins))
+        dispatch(receiveUser(json.data.user))
+      })
   }
 }

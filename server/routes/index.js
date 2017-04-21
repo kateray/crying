@@ -9,11 +9,23 @@ router.all('/', function(req, res, next) {
   next();
  });
 
+ router.all('/save', function(req, res, next) {
+   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+   res.header("Access-Control-Allow-Credentials", "true");
+   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+   next();
+  });
+
 router.get('/', (req, res) => {
+  var query = {}
+  var user = req.isAuthenticated()
+  if (user) {
+    query = {where: {userId: req.user.id}}
+  }
   models.Pin
-    .findAll({where: {userId: req.user.id}})
+    .findAll(query)
     .then(function(pins){
-      res.json({status: 'success', message: 'Retrieved all pins', data: pins});
+      res.json({status: 'success', message: 'Retrieved all pins', data: {user: user, pins: pins}});
     })
 })
 
@@ -58,7 +70,7 @@ router.post('/save', (req, res) => {
     models.Pin
       .findAll({where: {userId: req.user.id}})
       .then(function(pins){
-        res.json({status: 'success', message: 'Saved pins', data: pins});
+        res.json({status: 'success', message: 'Saved pins', data: {pins: pins}});
       })
   })
 })

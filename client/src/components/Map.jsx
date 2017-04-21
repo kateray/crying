@@ -241,10 +241,17 @@ class UserMap extends Component {
           <div id="app-description">
             An emotional map of New York City, made out of the important things that happen to us outside.
           </div>
-          <div id="app-buttons-container">
-            <button className={this.props.isSaving ? "nav-button saving" : "nav-button"} id="save" onClick={() => {this.props.onSave(this.state.pins)}}>{this.props.isSaving ? "Saving..." : "Save"}</button>
-            <button className="nav-button" id="logout">Logout</button>
-          </div>
+          {this.props.user &&
+            <div id="app-buttons-container">
+              <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} id="save" onClick={() => {this.props.onSave(this.state.pins)}}>{this.props.isSaving ? "Saving..." : "Save"}</a>
+              <a className="nav-button" id="logout">Logout</a>
+            </div>
+          }
+          {!this.props.user &&
+            <div id="app-buttons-container">
+              <a className="nav-button" id="login" href="http://localhost:3001/auth/facebook">Login</a>
+            </div>
+          }
         </div>
         {this.state.magnifier && this.state.dragging &&
           <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />

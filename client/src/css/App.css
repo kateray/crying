@@ -29,6 +29,8 @@
 }
 
 .nav-button {
+  text-decoration: none;
+  cursor: pointer;
   color: #fff;
   padding: 10px;
   font-size: 13px;

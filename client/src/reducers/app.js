@@ -1,6 +1,6 @@
 import * as AppActions from "../actions/AppActions";
 
-const app = (state = {isSaving: false}, action) => {
+const app = (state = {isSaving: false, user: false}, action) => {
   switch (action.type) {
     case AppActions.SELECT_PIN:
       return Object.assign({}, state, {
@@ -14,6 +14,10 @@ const app = (state = {isSaving: false}, action) => {
       return Object.assign({}, state, {
         isSaving: false,
         fetchedPins: action.pins
+      });
+    case AppActions.RECEIVE_USER:
+      return Object.assign({}, state, {
+        user: action.payload
       });
     default:
       return state
