@@ -70,6 +70,11 @@ app.get('/map', (req, res) => {
 
 app.use('/pins', routes);
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('http://localhost:3000/');
+});
+
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', passport.authenticate('facebook',
     { successRedirect: 'http://localhost:3000/',

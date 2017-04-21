@@ -244,7 +244,7 @@ class UserMap extends Component {
           {this.props.user &&
             <div id="app-buttons-container">
               <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} id="save" onClick={() => {this.props.onSave(this.state.pins)}}>{this.props.isSaving ? "Saving..." : "Save"}</a>
-              <a className="nav-button" id="logout">Logout</a>
+              <a className="nav-button" id="logout" href="http://localhost:3001/logout">Logout</a>
             </div>
           }
           {!this.props.user &&
