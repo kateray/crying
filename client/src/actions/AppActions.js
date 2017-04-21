@@ -55,7 +55,7 @@ export const save = (data) => {
       })
       .then(response => response.json())
       .then(json => {
-        dispatch(receivePins(json.data.pins))
+        dispatch(receivePins(json.data))
       })
   }
 }
@@ -85,8 +85,17 @@ export const getPins = () => {
     return fetch("http://localhost:3001/pins/", {credentials: 'include'})
       .then(response => response.json())
       .then(json => {
-        dispatch(receivePins(json.data.pins))
-        dispatch(receiveUser(json.data.user))
+        dispatch(receivePins(json.data))
+      })
+  }
+}
+
+export const getUser = () => {
+  return (dispatch) => {
+    return fetch("http://localhost:3001/user/", {credentials: 'include'})
+      .then(response => response.json())
+      .then(json => {
+        dispatch(receiveUser(json.data))
       })
   }
 }

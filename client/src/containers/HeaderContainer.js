@@ -3,13 +3,16 @@ import * as AppActions from '../actions/AppActions'
 import Header from '../components/Header'
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  return {
+    user: state.app.user,
+    isSaving: state.app.isSaving
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onSave: () => {
-      dispatch(AppActions.save())
+    getUser: () => {
+      dispatch(AppActions.getUser())
     }
   }
 }

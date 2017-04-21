@@ -17,15 +17,10 @@ router.all('/', function(req, res, next) {
   });
 
 router.get('/', (req, res) => {
-  var query = {}
-  var user = req.isAuthenticated()
-  if (user) {
-    query = {where: {userId: req.user.id}}
-  }
   models.Pin
-    .findAll(query)
+    .findAll({where: {userId: req.user.id}})
     .then(function(pins){
-      res.json({status: 'success', message: 'Retrieved all pins', data: {user: user, pins: pins}});
+      res.json({status: 'success', message: 'Retrieved all pins', data: pins});
     })
 })
 
@@ -70,7 +65,7 @@ router.post('/save', (req, res) => {
     models.Pin
       .findAll({where: {userId: req.user.id}})
       .then(function(pins){
-        res.json({status: 'success', message: 'Saved pins', data: {pins: pins}});
+        res.json({status: 'success', message: 'Saved pins', data: pins});
       })
   })
 })

@@ -5,6 +5,10 @@ body {
   padding: 0px;
 }
 
+a {
+  color: inherit;
+}
+
 button:focus, input:focus, textarea:focus {
   outline:0;
   box-shadow: none;

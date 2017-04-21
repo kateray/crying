@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
+import HeaderContainer from '../containers/HeaderContainer'
 import EmojiPinContainer from '../containers/EmojiPinContainer'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
@@ -16,6 +17,7 @@ class UserMap extends Component {
     this.updatePin = this.updatePin.bind(this)
     this.setupStreetView = this.setupStreetView.bind(this)
     this.deletePin = this.deletePin.bind(this)
+    this.onSave = this.onSave.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
     this.selectPin = this.selectPin.bind(this)
     this.povChanged = this.povChanged.bind(this)
@@ -220,6 +222,10 @@ class UserMap extends Component {
     this.leafletMap = el
   }
 
+  onSave() {
+    this.props.onSave(this.state.pins)
+  }
+
   render() {
     let panoTop, panoLeft;
     if (this.props.selectedId) {
@@ -236,23 +242,7 @@ class UserMap extends Component {
     );
     return (
       <div>
-        <div id="header">
-          <div id="app-title"><img src="/images/cry.png" /><h1>Crying in Public</h1><img src="/images/cry.png" /></div>
-          <div id="app-description">
-            An emotional map of New York City, made out of the important things that happen to us outside.
-          </div>
-          {this.props.user &&
-            <div id="app-buttons-container">
-              <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} id="save" onClick={() => {this.props.onSave(this.state.pins)}}>{this.props.isSaving ? "Saving..." : "Save"}</a>
-              <a className="nav-button" id="logout" href="http://localhost:3001/logout">Logout</a>
-            </div>
-          }
-          {!this.props.user &&
-            <div id="app-buttons-container">
-              <a className="nav-button" id="login" href="http://localhost:3001/auth/facebook">Login</a>
-            </div>
-          }
-        </div>
+        <HeaderContainer onSave={this.onSave} />
         {this.state.magnifier && this.state.dragging &&
           <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
         }

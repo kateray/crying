@@ -158,11 +158,13 @@
   margin-left: -250px;*/
   background-color: #ff2da7;
   opacity: 0;
+  pointer-events: none;
 }
 
 .street-view-container.open {
   opacity: 1;
   z-index: 1000;
+  pointer-events: auto;
 }
 
 .street-view-container .no-pano-container {

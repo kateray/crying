@@ -64,8 +64,15 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-app.get('/map', (req, res) => {
-  res.render('map');
+app.all('/user', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
+app.get('/user', function(req, res){
+  res.json({status: 'success', message: 'Got user', data: req.isAuthenticated()})
 })
 
 app.use('/pins', routes);
@@ -77,8 +84,8 @@ app.get('/logout', function(req, res){
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', passport.authenticate('facebook',
-    { successRedirect: 'http://localhost:3000/',
-    failureRedirect: '/login' }
+    { successRedirect: 'http://localhost:3000/map',
+    failureRedirect: 'http://localhost:3000/' }
   )
 );
 
