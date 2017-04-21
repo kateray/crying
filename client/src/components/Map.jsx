@@ -53,8 +53,8 @@ class UserMap extends Component {
     const targetClass = e.target.className;
     // Sneky hack so map doesn't go crazy dragging over leaflet attribution
     if (targetClass.includes('leaflet-container') || targetClass.includes('street-view') ) {
-      const position = this.leafletMap.leafletElement.containerPointToLatLng([e.pageX, e.pageY])
-      const magnifier = {dragLatLng: position, dragLeft: e.pageX, dragTop: e.pageY};
+      const position = this.leafletMap.leafletElement.containerPointToLatLng([e.pageX, e.offsetY])
+      const magnifier = {dragLatLng: position, dragLeft: e.pageX, dragTop: e.offsetY};
       this.setState({magnifier: magnifier})
     } else {
       this.dragLeave()
@@ -202,7 +202,9 @@ class UserMap extends Component {
 
   unselectPin() {
     this.props.selectPin(null)
-    this.leafletMap.leafletElement.dragging.enable()
+    if (this.leafletMap) {
+      this.leafletMap.leafletElement.dragging.enable()
+    }
   }
 
   selectPin(uid) {
