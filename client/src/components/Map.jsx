@@ -54,7 +54,7 @@ class UserMap extends Component {
     // Sneky hack so map doesn't go crazy dragging over leaflet attribution
     if (targetClass.includes('leaflet-container') || targetClass.includes('street-view') ) {
       const position = this.leafletMap.leafletElement.containerPointToLatLng([e.pageX, e.offsetY])
-      const magnifier = {dragLatLng: position, dragLeft: e.pageX, dragTop: e.offsetY};
+      const magnifier = {dragLatLng: position, dragLeft: e.pageX, dragTop: e.pageY};
       this.setState({magnifier: magnifier})
     } else {
       this.dragLeave()
