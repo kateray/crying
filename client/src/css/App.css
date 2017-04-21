@@ -220,6 +220,21 @@
   width: 200px;
   top: 50px;
   left: 50px;
+
+}
+
+.save-text {
+  position: absolute;
+  top: 50px;
+  left: 260px;
+  font-size: 13px;
+  padding: 5px;
+  background: #ff2da7;
+  visibility: hidden;
+}
+
+.save-text:hover {
+  color: #fff;
 }
 
 /* map */
@@ -346,6 +361,10 @@
 
 .gm-style a img {
   opacity: 0;
+}
+
+.street-view-container:hover .save-text {
+  visibility: visible;
 }
 
 .street-view-container:hover .gmnoprint {

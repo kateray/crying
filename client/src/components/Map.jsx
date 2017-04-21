@@ -19,6 +19,7 @@ class UserMap extends Component {
     this.deletePin = this.deletePin.bind(this)
     this.onSave = this.onSave.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
+    this.closePopups = this.closePopups.bind(this)
     this.selectPin = this.selectPin.bind(this)
     this.povChanged = this.povChanged.bind(this)
     this.positionChanged = this.positionChanged.bind(this)
@@ -42,10 +43,14 @@ class UserMap extends Component {
     };
   }
 
-  dragStart(props) {
+  closePopups(){
     this.leafletMap.leafletElement.closePopup()
+  }
+
+  dragStart(props) {
+    this.closePopups()
     this.setState({dragging: props})
-    this.unselectPin()
+    // this.unselectPin()
   }
 
   toolDrag(e) {
