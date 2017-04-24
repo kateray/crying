@@ -3,11 +3,17 @@ import { Route, Link } from 'react-router-dom'
 
 class Header extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getUser()
   }
 
   render() {
+    let saveNote;
+    if (this.props.isSaving) {
+      saveNote = 'Saving...';
+    } else if (this.props.lastSave) {
+      saveNote = 'saved ' + (new Date(this.props.lastSave)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
     return (
       <div id="header">
         <Link to="/">
@@ -28,7 +34,10 @@ class Header extends Component {
             </Link>
           )}/>
           <Route path="/map" render={() => (
-            <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} id="save" onClick={this.props.onSave}>{this.props.isSaving ? "Saving..." : "Save"}</a>
+            <span>
+              <span className="save-note">{saveNote}</span>
+              <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>Save</a>
+            </span>
           )}/>
             <a className="nav-button" id="logout" href="http://localhost:3001/logout">Logout</a>
           </div>

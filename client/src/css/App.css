@@ -39,13 +39,18 @@
 }
 
 .nav-button.saving {
-  background: #fff;
-  color: #000;
+  background: rgba(66, 66, 66, 0.630);
 }
 
 .nav-button:hover{
-  background: #fff;
-  color: #000;
+  background: rgba(66, 66, 66, 0.630);
+}
+
+.save-note {
+  font-family: Sans-Serif;
+  font-size: 10px;
+  color: rgba(103, 103, 103, 0.50);
+  text-transform: lowercase;
 }
 
 @media (max-width: 825px) {

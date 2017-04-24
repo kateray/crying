@@ -8,7 +8,8 @@ const app = (state = {isSaving: false, user: false}, action) => {
       })
     case AppActions.REQUEST_SAVE:
       return Object.assign({}, state, {
-        isSaving: true
+        isSaving: true,
+        lastSave: Date.now()
       });
     case AppActions.RECEIVE_PINS:
       return Object.assign({}, state, {
