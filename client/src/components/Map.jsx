@@ -27,6 +27,7 @@ class UserMap extends Component {
     this.titleChanged = this.titleChanged.bind(this)
     this.autoSave = this.autoSave.bind(this)
     this.setLeafletMap = this.setLeafletMap.bind(this)
+    this.preload = this.preload.bind(this)
     this.streetViewOptions = {
       visible: false,
       panControl: false,
@@ -40,7 +41,8 @@ class UserMap extends Component {
       newPin: null,
       position: [40.734583, -73.997263],
       magnifier: null,
-      dragging: null
+      dragging: null,
+      loadedPoints: []
     };
   }
 
@@ -153,7 +155,9 @@ class UserMap extends Component {
 
   componentDidMount() {
     this.props.getPins()
+    this.preload()
     this.setupStreetView(window.google.maps)
+    this.leafletMap.leafletElement.on("moveend", this.preload);
     this.leafletMap.container.addEventListener("dragover", this.toolDrag.bind(this));
     this.leafletMap.container.addEventListener("drop", this.toolDrop.bind(this));
     this.leafletMap.container.addEventListener("dragleave", this.dragLeave.bind(this));
@@ -240,6 +244,27 @@ class UserMap extends Component {
 
   onSave() {
     this.props.onSave(this.state.pins)
+  }
+
+  preload() {
+    let bounds = this.leafletMap.leafletElement.getBounds()
+    let min = this.leafletMap.leafletElement.project(bounds.getNorthWest(), 16).divideBy(256).floor(),
+      max = this.leafletMap.leafletElement.project(bounds.getSouthEast(), 16).divideBy(256).floor();
+    let loaded = this.state.loadedPoints;
+    for (let i = min.x; i <= max.x; i++) {
+      for (let j = min.y; j <= max.y; j++) {
+        if (!_.find(loaded, {x: i, y: j})){
+          loaded.push({x: i, y: j})
+          const url = '/images/mapbox/'+i.toString()+'/'+j.toString()+'.png';
+          let img=new Image();
+          img.className = 'hidden';
+          img.src=url;
+          document.body.append(img)
+        }
+      }
+    }
+    this.setState({loadedPoints: loaded})
+    console.log(JSON.stringify(loaded))
   }
 
   render() {

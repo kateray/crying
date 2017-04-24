@@ -66,6 +66,10 @@
   }
 }
 
+.hidden {
+  display: none;
+}
+
 /* pins */
 .pin-container {
   z-index: 1000;
@@ -244,7 +248,7 @@
 
 /* map */
 .map-container {
-  height: 600px;
+  height: 1000px;
   width: 100%;
   position: relative;
 }
@@ -281,7 +285,7 @@
 }
 
 .leaflet-container {
-  height: 720px;
+  height: 1000px;
 }
 
 .leaflet-popup-tip {

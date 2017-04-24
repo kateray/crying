@@ -18,9 +18,9 @@ class Header extends Component {
       <div id="header">
         <Link to="/">
           <div id="app-title">
-            <img src="/images/cry.png" />
+            <img src="/images/cry.png" alt="&#x1f62d" />
             <h1>Crying in Public</h1>
-            <img src="/images/cry.png" />
+            <img src="/images/cry.png" alt="&#x1f62d" />
           </div>
         </Link>
         <div id="app-description">
