@@ -71,6 +71,12 @@
 }
 
 /* pins */
+.draggable-tool {
+  position: absolute;
+  z-index: 10000;
+  cursor: grabbing;
+  pointer-events: none;
+}
 .pin-container {
   z-index: 1000;
   position: absolute;
