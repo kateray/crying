@@ -72,7 +72,8 @@ app.all('/user', function(req, res, next) {
  });
 
 app.get('/user', function(req, res){
-  res.json({status: 'success', message: 'Got user', data: req.isAuthenticated()})
+  var currentUserUid = req.isAuthenticated() ? req.user.uid : false;
+  res.json({status: 'success', message: 'Got user', data: currentUserUid})
 })
 
 app.use('/pins', routes);
@@ -82,16 +83,23 @@ app.get('/logout', function(req, res){
   res.redirect('http://localhost:3000/');
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', passport.authenticate('facebook',
-    { successRedirect: 'http://localhost:3000/map',
-    failureRedirect: 'http://localhost:3000/' }
-  )
-);
-
-app.get('/map', function(req, res){
-  res.sendfile('client/build/index.html');
+app.get('/auth/facebook', (req, res, next) => {
+  passport.authenticate('facebook')(req, res, next)
 });
+app.get("/auth/facebook/callback", (req, res, next) => {
+  passport.authenticate('facebook', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login')}
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.redirect('http://localhost:3000/maps/' + user.uid)
+    });
+  })(req, res, next)
+})
+
+// app.get('/map', function(req, res){
+//   res.sendfile('client/build/index.html');
+// });
 
 app.listen(app.get('port'), () => {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console

@@ -11,6 +11,8 @@ class Header extends Component {
     let saveNote;
     if (this.props.isSaving) {
       saveNote = 'Saving...';
+    } else if (this.props.error) {
+      saveNote = this.props.error;
     } else if (this.props.lastSave) {
       saveNote = 'saved ' + (new Date(this.props.lastSave)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
@@ -29,11 +31,11 @@ class Header extends Component {
         {this.props.user &&
           <div id="app-buttons-container">
           <Route exact path="/" render={() => (
-            <Link className="nav-button" to="/map">
+            <Link className="nav-button" to={"/maps/"+this.props.user}>
               Your Map
             </Link>
           )}/>
-          <Route path="/map" render={() => (
+          <Route path="/maps/:id" render={() => (
             <span>
               <span className="save-note">{saveNote}</span>
               <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>Save</a>

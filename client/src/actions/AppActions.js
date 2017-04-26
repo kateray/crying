@@ -17,7 +17,7 @@ function requestSave(){
   }
 }
 
-export const save = (data) => {
+export const save = (uid, data) => {
   return (dispatch, getState) => {
     dispatch(requestSave())
     const localPins = data
@@ -45,7 +45,7 @@ export const save = (data) => {
       }
     })
     const sendData = _.compact(pins).concat(_.compact(newPins))
-    return fetch("http://localhost:3001/pins/save", {
+    return fetch("http://localhost:3001/pins/"+uid+"/save", {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify(sendData),
@@ -53,10 +53,27 @@ export const save = (data) => {
           "Content-Type": "application/json"
         },
       })
+      .then( response => {
+        if (!response.ok){
+          throw new Error(response.statusText)
+        }
+        return response
+      })
       .then(response => response.json())
       .then(json => {
         dispatch(receivePins(json.data))
       })
+      .catch(e => {
+        dispatch(savePinsError(e))
+      })
+  }
+}
+
+export const SAVE_PINS_ERROR = `${PREFIX}.SAVE_PINS_ERROR`;
+function savePinsError(payload) {
+  return {
+    type: SAVE_PINS_ERROR,
+    payload
   }
 }
 
@@ -80,9 +97,11 @@ function receiveUser(payload) {
   }
 }
 
-export const getPins = () => {
+export const getPins = (uid) => {
   return (dispatch) => {
-    return fetch("http://localhost:3001/pins/", {credentials: 'include'})
+    return fetch("http://localhost:3001/pins/"+uid, {
+        credentials: 'include',
+      })
       .then(response => response.json())
       .then(json => {
         dispatch(receivePins(json.data))

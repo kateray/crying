@@ -360,6 +360,7 @@
   margin-left: -250px;
   margin-top: -40px;
   border: 1px solid #ff2da7;
+  pointer-events: none;
 }
 
 .magnify-container .arrow-down {

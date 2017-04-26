@@ -10,7 +10,7 @@ const Root = ({ store }) => (
     <Router>
       <div>
         <Route exact path="/" component={Home}/>
-        <Route path="/map" component={MapContainer}/>
+        <Route path="/maps/:id" component={MapContainer}/>
       </div>
     </Router>
   </Provider>

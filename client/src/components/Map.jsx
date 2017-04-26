@@ -155,21 +155,23 @@ class UserMap extends Component {
 
   autoSave() {
     if (!_.isEqual(this.props.fetchedPins, this.state.pins) ) {
-      this.props.onSave(this.state.pins)
+      this.props.onSave(this.props.match.params.id, this.state.pins)
     }
     setTimeout(this.autoSave, 60000)
   }
 
   stopDrag(e) {
-    const targetClass = e.target.className
-    if (targetClass !== 'leaflet-container') {
-      this.leafletMap.leafletElement.removeEventListener('mousemove');
-      this.setState({magnifier: null, dragging: null, draggableTool: null})
+    if (this.state.dragging) {
+      const targetClass = e.target.className
+      if (targetClass !== 'leaflet-container') {
+        this.leafletMap.leafletElement.removeEventListener('mousemove');
+        this.setState({magnifier: null, dragging: null, draggableTool: null})
+      }
     }
   }
 
   componentDidMount() {
-    this.props.getPins()
+    this.props.getPins(this.props.match.params.id)
     this.preload()
     this.setupStreetView(window.google.maps)
     this.leafletMap.leafletElement.on("moveend", this.preload);
@@ -178,7 +180,7 @@ class UserMap extends Component {
 
     this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
     window.addEventListener("beforeunload", this.confirmSave.bind(this));
-    setTimeout(this.autoSave, 10000)
+    setTimeout(this.autoSave, 60000)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -258,7 +260,7 @@ class UserMap extends Component {
   }
 
   onSave() {
-    this.props.onSave(this.state.pins)
+    this.props.onSave(this.props.match.params.id, this.state.pins)
   }
 
   preload() {
