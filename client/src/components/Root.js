@@ -3,14 +3,14 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import '../css/App.css'
 import Home from './Home'
-import MapContainer from '../containers/MapContainer'
+import AppContainer from '../containers/AppContainer'
 
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router>
       <div>
         <Route exact path="/" component={Home}/>
-        <Route path="/maps/:id" component={MapContainer}/>
+        <Route path="/maps/:id" component={AppContainer}/>
       </div>
     </Router>
   </Provider>

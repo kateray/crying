@@ -70,6 +70,11 @@
   display: none;
 }
 
+.share-pin-popup {
+  height: 300px;
+  width: 500px;
+}
+
 /* pins */
 .draggable-tool {
   position: absolute;
@@ -302,7 +307,7 @@
   background: #ff2ea7;
   width: 500px;
   border-radius: 0px;
-  padding: 1px 0px;
+  padding: 0px;
   /*border: 1px solid #ff2da7;
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
@@ -342,6 +347,11 @@
 .pin-popup .arrow-down {
   left: 230px;
   top: 20px;
+}
+
+.share-pin-popup .arrow-down {
+  left: 230px;
+  top: 300px;
 }
 
 .arrow-down {

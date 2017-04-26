@@ -289,7 +289,7 @@ class UserMap extends Component {
     if (this.props.selectedId) {
       const selectedPin = _.find(this.state.pins, ['uid', this.props.selectedId])
       const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
-      panoTop = pt.y-295;
+      panoTop = pt.y-293;
       panoLeft = pt.x-250;
     }
     const emojis = this.props.emojis.icons.map((e) =>
