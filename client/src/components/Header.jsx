@@ -3,10 +3,6 @@ import { Route, Link } from 'react-router-dom'
 
 class Header extends Component {
 
-  componentWillMount() {
-    this.props.getUser()
-  }
-
   render() {
     let saveNote;
     if (this.props.isSaving) {

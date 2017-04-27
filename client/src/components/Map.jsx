@@ -171,8 +171,11 @@ class UserMap extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getPins(this.props.match.params.id)
+  }
+
+  componentDidMount() {
     this.preload()
     this.setupStreetView(window.google.maps)
     this.leafletMap.leafletElement.on("moveend", this.preload);

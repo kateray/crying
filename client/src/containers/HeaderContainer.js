@@ -12,11 +12,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getUser: () => {
-      dispatch(AppActions.getUser())
-    }
-  }
+  return {}
 }
 
 const HeaderContainer = connect(
