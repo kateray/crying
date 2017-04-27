@@ -70,6 +70,7 @@ class UserMap extends Component {
     const y = e.originalEvent.pageY-this.offsetTop;
     const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
     let draggableTool = this.state.draggableTool || {};
+    draggableTool.hex = this.state.dragging.hex;
     draggableTool.src = "/images/"+this.state.dragging.name+".png";
     draggableTool.top = (e.originalEvent.pageY-15).toString()+'px';
     draggableTool.left = (e.originalEvent.pageX-15).toString()+'px';
@@ -275,6 +276,7 @@ class UserMap extends Component {
           const url = '/images/mapbox/'+i.toString()+'/'+j.toString()+'.png';
           let img=new Image();
           img.className = 'hidden';
+          img.alt = "mapbox";
           img.src=url;
           document.body.append(img)
         }
@@ -305,7 +307,7 @@ class UserMap extends Component {
           <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
         }
         {this.state.draggableTool &&
-          <img className="draggable-tool" src={this.state.draggableTool.src} style={{top: this.state.draggableTool.top, left: this.state.draggableTool.left}} />
+          <img className="draggable-tool" alt={this.state.draggableTool.hex} src={this.state.draggableTool.src} style={{top: this.state.draggableTool.top, left: this.state.draggableTool.left}} />
         }
         <div className="map-container">
           <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>

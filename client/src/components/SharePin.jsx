@@ -12,7 +12,7 @@ class SharePin extends Component {
         <Popup autoPan={false}>
           <div className="share-pin-popup">
             <div className="floating-text">{this.props.data.title}</div>
-            <img className="pano-image" src={src} />
+            <img className="pano-image" alt="streetview" src={src} />
             <div className="arrow-down" />
           </div>
         </Popup>
