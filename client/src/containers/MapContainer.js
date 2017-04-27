@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    user: state.app.user,
     isSaving: state.app.isSaving,
     fetchedPins: state.app.fetchedPins,
     emojis: emojis,
@@ -15,11 +16,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getPins: () => {
-      dispatch(AppActions.getPins())
+    getPins: (uid) => {
+      dispatch(AppActions.getPins(uid))
     },
-    onSave: (pins) => {
-      dispatch(AppActions.save(pins))
+    onSave: (uid, pins) => {
+      dispatch(AppActions.save(uid, pins))
     },
     selectPin: (data) => {
       dispatch(AppActions.selectPin(data))

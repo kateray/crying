@@ -7,7 +7,11 @@ function Graffiti(parent) {
   this.setMap(parent.streetView)
 }
 Graffiti.prototype.onAdd = function() {
+  var form = document.createElement('div')
   var content = document.createElement('div');
+  var button = document.createElement('button')
+  form.appendChild(content)
+  form.appendChild(button)
   content.setAttribute('contenteditable', true)
   content.className = 'floating-text';
   this.content_ = content;
@@ -15,8 +19,13 @@ Graffiti.prototype.onAdd = function() {
     e.stopPropagation()
   });
   content.addEventListener("keyup", this.parent_.titleChanged);
+  button.innerHTML = 'Save'
+  button.className = 'save-text'
+  button.addEventListener("click", function(e){
+    this.parent_.closePopups()
+  }.bind(this));
   var panes = this.getPanes();
-  panes.overlayLayer.appendChild(content);
+  panes.overlayLayer.appendChild(form);
   this.content_.innerHTML = this.text_;
   this.focusCaret()
 };
@@ -43,6 +52,7 @@ Graffiti.prototype.focusCaret = function() {
 }
 Graffiti.prototype.draw = function() {
   this.content_.innerHTML = this.text_;
+  this.focusCaret()
 };
 Graffiti.prototype.onRemove = function() {
   this.content_.parentNode.removeChild(this.content_);

@@ -13,7 +13,7 @@ class Magnify extends Component {
     return (
       <div className="magnify-container" style={{height: height, top: top, left: left}}>
         <Map className="magnify-map" style={{height: height}} zoomControl={false} attributionControl={false} opacity={0.5} zoom={16} center={position}>
-          <TileLayer url='https://api.mapbox.com/styles/v1/kray/cizcz53tq00bh2spmmkpwoqj6/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw' />
+          <TileLayer url='/images/mapbox/{x}/{y}.png' />
           <Marker position={position} icon={emojiIcon} />
         </Map>
         <div className="arrow-down" />
