@@ -15,11 +15,11 @@ var routes = require('./server/routes/index')
   , models = require('./server/models/index');
 
 const app = express()
-var path = "http://localhost:3000/";
+var pathName = "http://localhost:3000/";
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/build', {maxAge: 86400000}));
-  path = '/';
+  pathName = '/';
 }
 
 app.use(cookieParser());
@@ -71,7 +71,7 @@ app.use(routes);
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect(path);
+  res.redirect(pathName);
 });
 
 app.get('/auth/facebook', (req, res, next) => {
@@ -83,7 +83,7 @@ app.get("/auth/facebook/callback", (req, res, next) => {
     if (!user) { return res.redirect('/login')}
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.redirect(path+'maps/' + user.uid)
+      return res.redirect(pathName+'maps/' + user.uid)
     });
   })(req, res, next)
 })
