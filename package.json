@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "heroku-postbuild": "cd react-ui/ && npm install --only=dev && npm install && npm run build",
+    "heroku-postbuild": "cd client/ && npm install --only=dev && npm install && npm run build",
     "server": "babel-node server.js",
     "client": "babel-node start-client.js"
   },
