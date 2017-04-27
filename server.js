@@ -94,5 +94,8 @@ app.get('*', function(req, res) {
 // app.get('/map', function(req, res){
 //   res.sendfile('client/build/index.html');
 // });
-
-app.listen(app.get('port'));
+models.sequelize.sync().then(function() {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });
+});
