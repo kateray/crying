@@ -1,7 +1,8 @@
 'use strict';
+
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Pins', {
+    return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,39 +12,8 @@ module.exports = {
       uid: {
         type: Sequelize.STRING
       },
-      name: {
+      facebookId: {
         type: Sequelize.STRING
-      },
-      title: {
-        type: Sequelize.STRING
-      },
-      hex: {
-        type: Sequelize.STRING
-      },
-      lat: {
-        type: Sequelize.DECIMAL
-      },
-      lng: {
-        type: Sequelize.DECIMAL
-      },
-      heading: {
-        type: Sequelize.INTEGER
-      },
-      pitch: {
-        type: Sequelize.INTEGER
-      },
-      zoom: {
-        type: Sequelize.INTEGER
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'Users',
-            key: 'id',
-            as: 'userId'
-        },
-        onUpdate: 'cascade',
-        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,
@@ -56,6 +26,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Pins');
+    return queryInterface.dropTable('Users');
   }
 };
