@@ -3,6 +3,7 @@
 // https://www.akawebdesign.com/2016/11/30/combining-create-react-app-express/
 
 var express = require('express')
+  , http    = require('http')
   , bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , morgan = require('morgan')
