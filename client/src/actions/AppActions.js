@@ -45,7 +45,8 @@ export const save = (uid, data) => {
       }
     })
     const sendData = _.compact(pins).concat(_.compact(newPins))
-    return fetch("http://localhost:3001/pins/"+uid+"/save", {
+    const path = getState().app.path;
+    return fetch(path+"pins/"+uid+"/save", {
         credentials: 'include',
         method: 'POST',
         body: JSON.stringify(sendData),
@@ -98,8 +99,9 @@ function receiveUser(payload) {
 }
 
 export const getPins = (uid) => {
-  return (dispatch) => {
-    return fetch("http://localhost:3001/pins/"+uid, {
+  return (dispatch, getState) => {
+    const path = getState().app.path;
+    return fetch(path+"pins/"+uid, {
         credentials: 'include',
       })
       .then(response => response.json())
@@ -110,8 +112,9 @@ export const getPins = (uid) => {
 }
 
 export const getUser = () => {
-  return (dispatch) => {
-    return fetch("http://localhost:3001/user/", {credentials: 'include'})
+  return (dispatch, getState) => {
+    const path = getState().app.path;
+    return fetch(path+"user/", {credentials: 'include'})
       .then(response => response.json())
       .then(json => {
         dispatch(receiveUser(json.data))

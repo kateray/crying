@@ -37,12 +37,12 @@ class Header extends Component {
               <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>Save</a>
             </span>
           )}/>
-            <a className="nav-button" id="logout" href="http://localhost:3001/logout">Logout</a>
+            <a className="nav-button" id="logout" href={this.props.path+"logout"}>Logout</a>
           </div>
         }
         {!this.props.user &&
           <div id="app-buttons-container">
-            <a className="nav-button" id="login" href="http://localhost:3001/auth/facebook">
+            <a className="nav-button" id="login" href={this.props.path+"auth/facebook"}>
               <img className="fb-logo" src="/images/FB-f-Logo__white_29.png" alt="facebook" />
               Login
             </a>

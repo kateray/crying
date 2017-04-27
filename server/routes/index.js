@@ -2,21 +2,25 @@ var models = require('../models/index');
 var express = require('express');
 var router  = express.Router();
 
-router.all('/:id', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
- });
+// need CORS because of development two-server setup
+if (process.env.NODE_ENV !== 'production') {
+  function cors(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    next();
+  }
+  router.all('/user', cors)
+  router.all('/pins/:id', cors)
+  router.all('/pins/:id/save', cors)
+}
 
- router.all('/:id/save', function(req, res, next) {
-   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-   res.header("Access-Control-Allow-Credentials", "true");
-   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-   next();
-  });
+router.get('/user', function(req, res){
+  var currentUserUid = req.isAuthenticated() ? req.user.uid : false;
+  res.json({status: 'success', message: 'Got user', data: currentUserUid})
+})
 
-router.get('/:id', (req, res) => {
+router.get('/pins/:id', (req, res) => {
   models.User.findOne({uid: req.params.id})
     .then( (user) => {
       models.Pin
@@ -62,7 +66,7 @@ function saveData(t, entry, id, promises){
 }
 
 // helpful: http://stackoverflow.com/questions/35705622/using-loops-and-promises-in-transactions-in-sequelize
-router.post('/:id/save', (req, res) => {
+router.post('/pins/:id/save', (req, res) => {
   var currentUserUid = req.isAuthenticated() ? req.user.uid : false;
   if (req.params.id === currentUserUid) {
     return models.sequelize.transaction( (t) => {

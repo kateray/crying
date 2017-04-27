@@ -3,6 +3,7 @@ import Header from '../components/Header'
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    path: state.app.path,
     lastSave: state.app.lastSave,
     user: state.app.user,
     isSaving: state.app.isSaving,

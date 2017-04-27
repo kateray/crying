@@ -14,9 +14,11 @@ var routes = require('./server/routes/index')
   , models = require('./server/models/index');
 
 const app = express()
+var path = "http://localhost:3000/";
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build', {maxAge: 86400000}));
+  path = '/';
 }
 
 app.use(cookieParser());
@@ -53,7 +55,7 @@ function randId() {
 passport.use(new FacebookStrategy({
     clientID: '1911737592393826',
     clientSecret: 'e06623785b1043222dfe076dce159420',
-    callbackURL: "http://localhost:3001/auth/facebook/callback"
+    callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     models.User
@@ -64,23 +66,11 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-app.all('/user', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
- });
-
-app.get('/user', function(req, res){
-  var currentUserUid = req.isAuthenticated() ? req.user.uid : false;
-  res.json({status: 'success', message: 'Got user', data: currentUserUid})
-})
-
-app.use('/pins', routes);
+app.use(routes);
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect('http://localhost:3000/');
+  res.redirect(path);
 });
 
 app.get('/auth/facebook', (req, res, next) => {
@@ -92,7 +82,7 @@ app.get("/auth/facebook/callback", (req, res, next) => {
     if (!user) { return res.redirect('/login')}
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.redirect('http://localhost:3000/maps/' + user.uid)
+      return res.redirect(path+'maps/' + user.uid)
     });
   })(req, res, next)
 })
@@ -101,6 +91,4 @@ app.get("/auth/facebook/callback", (req, res, next) => {
 //   res.sendfile('client/build/index.html');
 // });
 
-app.listen(app.get('port'), () => {
-  console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
-})
+app.listen(app.get('port'));

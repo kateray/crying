@@ -6,9 +6,12 @@ import crying from './reducers'
 import Root from './components/Root'
 import './css/index.css'
 
-let store = createStore(crying, applyMiddleware(thunk))
+let el = document.getElementById('root')
+let path = el.dataset.env === 'development' ? "http://localhost:3001/" : "/";
+let initialState = {env: el.dataset.env, path: path, isSaving: false, user: false, error: null, fetchedPins: []}
+let store = createStore(crying, {app: initialState}, applyMiddleware(thunk))
 
 render(
   <Root store={store} />,
-  document.getElementById('root')
+  el
 )
