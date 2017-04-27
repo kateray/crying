@@ -17,7 +17,7 @@ const app = express()
 var path = "http://localhost:3000/";
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build', {maxAge: 86400000}));
+  app.use(express.static('./client/build', {maxAge: 86400000}));
   path = '/';
 }
 
@@ -86,6 +86,10 @@ app.get("/auth/facebook/callback", (req, res, next) => {
     });
   })(req, res, next)
 })
+
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+});
 
 // app.get('/map', function(req, res){
 //   res.sendfile('client/build/index.html');
