@@ -1,5 +1,5 @@
 client development
-$ npm start
+$ npm run start:dev
 
 to test production code
 cd /client
