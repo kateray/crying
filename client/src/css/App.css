@@ -53,6 +53,11 @@
   text-transform: lowercase;
 }
 
+.fb-logo {
+  vertical-align: middle;
+  padding-right: 7px;
+}
+
 @media (max-width: 825px) {
   #app-description {
     display: block;
@@ -259,7 +264,7 @@
 
 /* map */
 .map-container {
-  height: 1000px;
+  height: 750px;
   width: 100%;
   position: relative;
 }
@@ -296,7 +301,7 @@
 }
 
 .leaflet-container {
-  height: 1000px;
+  height: 100%;
 }
 
 .leaflet-popup-tip {

@@ -46,7 +46,10 @@ class Header extends Component {
         }
         {!this.props.user &&
           <div id="app-buttons-container">
-            <a className="nav-button" id="login" href="http://localhost:3001/auth/facebook">Login</a>
+            <a className="nav-button" id="login" href="http://localhost:3001/auth/facebook">
+              <img className="fb-logo" src="/images/FB-f-Logo__white_29.png" alt="facebook" />
+              Login
+            </a>
           </div>
         }
       </div>
