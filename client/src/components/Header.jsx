@@ -42,6 +42,9 @@ class Header extends Component {
         }
         {!this.props.user &&
           <div id="app-buttons-container">
+            <span>
+              Create your own map ->
+            </span>
             <a className="nav-button" id="login" href={this.props.path+"auth/facebook"}>
               <img className="fb-logo" src="/images/FB-f-Logo__white_29.png" alt="facebook" />
               Login

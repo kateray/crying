@@ -1,6 +1,7 @@
 /* header */
 #header {
   padding: 10px;
+  font-size: 13px;
 }
 
 #app-title {
@@ -17,7 +18,6 @@
 }
 
 #app-description {
-  font-size: 13px;
   display: inline-block;
   width: 35%;
   margin-left: 2%;
