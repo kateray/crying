@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import { Route, Link } from 'react-router-dom'
+import ShareMenu from './ShareMenu'
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.onShareToggle = this.onShareToggle.bind(this)
+    this.state = {
+      shareMenuOpen: false
+    }
+  }
+
+  onShareToggle() {
+    this.setState({shareMenuOpen: !this.state.shareMenuOpen})
+  }
 
   render() {
     let saveNote;
@@ -34,10 +46,18 @@ class Header extends Component {
           <Route path="/maps/:id" render={() => (
             <span>
               <span className="save-note">{saveNote}</span>
-              <a className={this.props.isSaving ? "nav-button saving" : "nav-button"} disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>Save</a>
+              <a className={this.props.isSaving ? "nav-button highlight" : "nav-button"} disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>save</a>
             </span>
           )}/>
-            <a className="nav-button" id="logout" href={this.props.path+"logout"}>Logout</a>
+            <a className="nav-button" id="logout" href={this.props.path+"logout"}>logout</a>
+            <Route path="/maps/:id" render={() => (
+              <span>
+                <a className={this.state.shareMenuOpen ? "nav-button highlight" : "nav-button"} onClick={this.onShareToggle}>share</a>
+                {this.state.shareMenuOpen &&
+                  <ShareMenu />
+                }
+              </span>
+            )}/>
           </div>
         }
         {!this.props.user &&
@@ -47,7 +67,7 @@ class Header extends Component {
             </span>
             <a className="nav-button" id="login" href={this.props.path+"auth/facebook"}>
               <img className="fb-logo" src="/images/FB-f-Logo__white_29.png" alt="facebook" />
-              Login
+              login
             </a>
           </div>
         }

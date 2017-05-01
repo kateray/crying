@@ -19,7 +19,7 @@ Graffiti.prototype.onAdd = function() {
     e.stopPropagation()
   });
   content.addEventListener("keyup", this.parent_.titleChanged);
-  button.innerHTML = 'Save'
+  button.innerHTML = 'save'
   button.className = 'save-text'
   button.addEventListener("click", function(e){
     this.parent_.closePopups()
