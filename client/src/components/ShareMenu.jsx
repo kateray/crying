@@ -5,7 +5,7 @@ class ShareMenu extends Component {
     window.FB.ui({
       method: 'share',
       display: 'popup',
-      href: 'https://developers.facebook.com/docs/',
+      href: window.location.href,
     }, function(response){});
   }
 
