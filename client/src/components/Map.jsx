@@ -80,8 +80,10 @@ class UserMap extends Component {
   pinDrag(e) {
     const targetClass = e.originalEvent.target.className;
     if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') ) {
-      const y = e.originalEvent.pageY-this.offsetTop;
-      const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
+      const pt1 = this.leafletMap.leafletElement.latLngToContainerPoint(e.latlng)
+      const y = pt1.y;
+      const x = pt1.x;
+      const magnifier = {dragLatLng: e.latlng, dragLeft: x, dragTop: y};
       this.setState({magnifier: magnifier})
     } else {
       this.dragLeave()
@@ -181,8 +183,7 @@ class UserMap extends Component {
     this.leafletMap.leafletElement.on("moveend", this.preload);
     this.leafletMap.leafletElement.on("mouseup", this.toolDrop)
     document.body.addEventListener("mouseup", this.stopDrag);
-
-    this.offsetTop = this.leafletMap.container.offsetParent.offsetParent.offsetTop;
+    this.offsetTop = this.leafletMap.container.offsetParent.offsetTop;
     window.addEventListener("beforeunload", this.confirmSave.bind(this));
     setTimeout(this.autoSave, 60000)
   }
@@ -294,8 +295,8 @@ class UserMap extends Component {
     if (this.props.selectedId) {
       const selectedPin = _.find(this.state.pins, ['uid', this.props.selectedId])
       const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
-      panoTop = pt.y-293;
-      panoLeft = pt.x-250;
+      panoTop = pt.y;
+      panoLeft = pt.x;
     }
     const emojis = this.props.emojis.icons.map((e) =>
       <EmojiTool key={e.name} data={e} onDragStart={this.toolDragStart} />
@@ -322,7 +323,7 @@ class UserMap extends Component {
             {pins}
           </Map>
         </div>
-        <div className={this.props.selectedId ? 'street-view-container open' : 'street-view-container'} style={{top: panoTop, left: panoLeft}}>
+        <div className={this.props.selectedId ? 'street-view-container pin-map-container open' : 'street-view-container pin-map-container'} style={{top: panoTop, left: panoLeft}}>
           {this.state.noPano &&
             <div className="no-pano-container">
               <div className="no-pano">No streetview available</div>

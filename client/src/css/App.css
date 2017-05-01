@@ -109,8 +109,12 @@
 }
 
 .share-pin-popup {
-  height: 300px;
+  height: 320px;
   width: 500px;
+}
+
+.share-map .share-pin-popup {
+  height: 300px;
 }
 
 /* pins */
@@ -206,17 +210,25 @@
   width: 100px;
 }
 
-.street-view-container {
+.pin-map-container {
+  z-index: 650;
   position: absolute;
-  top: 0px;
-  z-index: 1;
-  height: 300px;
   width: 500px;
-  /*margin-top: -335px;
-  margin-left: -250px;*/
+  margin-left: -250px;
+  margin-top: -290px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.magnify-container {
+  height: 320px;
+  border: 1px solid #ff2da7;
+}
+
+.street-view-container {
+  height: 300px;
   background-color: #ff2da7;
   opacity: 0;
-  pointer-events: none;
 }
 
 .street-view-container.open {
@@ -306,18 +318,21 @@
 }
 
 .magnify-map {
+  height: 100%;
   pointer-events: none;
 }
 
 /* map pins */
 .pin-popup {
   width: 500px;
-  height: 20px;
+  height: 300px;
 }
 .delete-pin {
   cursor: pointer;
   color: #000;
-  float: right;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
   font-family: 'Special Elite';
   line-height: 15px;
   padding-right: 5px;
@@ -389,16 +404,6 @@
   height: 4em;
 }
 
-.pin-popup .arrow-down {
-  left: 230px;
-  top: 20px;
-}
-
-.share-pin-popup .arrow-down {
-  left: 230px;
-  top: 300px;
-}
-
 .arrow-down {
   width: 0;
   height: 0;
@@ -406,22 +411,12 @@
   border-right: 20px solid transparent;
   border-top: 20px solid #ff2ea7;
   position: absolute;
-}
-
-.magnify-container {
-  position: absolute;
-  z-index: 650;
-  width: 500px;
-  margin-left: -250px;
-  margin-top: -40px;
-  border: 1px solid #ff2da7;
-  pointer-events: none;
+  left: 229px;
+  top: 300px;
 }
 
 .magnify-container .arrow-down {
-  top: 200px;
-  left: 225px;
-  z-index: 1000;
+  top: 318px;
 }
 
 /*google streetview*/
