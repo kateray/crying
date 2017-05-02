@@ -40,7 +40,7 @@ class UserMap extends Component {
       linksControl: true,
       fullscreenControl: false,
       addressControl: false,
-      zoomControl: false
+      zoomControl: true
     }
     this.state = {
       pins: [],
