@@ -22,7 +22,7 @@ class ShareMap extends Component {
     return (
       <div className="share-map">
         <HeaderContainer />
-        <div className="map-container">
+        <div id="map-container">
           <Map center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
             <ZoomControl position='bottomright' />
             <TileLayer

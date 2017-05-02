@@ -312,8 +312,7 @@
 }
 
 /* map */
-.map-container {
-  height: 750px;
+#map-container {
   width: 100%;
   position: relative;
 }
