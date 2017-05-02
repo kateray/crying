@@ -46,7 +46,7 @@ class Header extends Component {
           <Route path="/maps/:id" render={() => (
             <span>
               <span className="save-note">{saveNote}</span>
-              <a className={this.props.isSaving ? "nav-button highlight" : "nav-button"} disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>save</a>
+              <a className="nav-button" disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>save</a>
             </span>
           )}/>
             <a className="nav-button" id="logout" href={this.props.path+"logout"}>logout</a>

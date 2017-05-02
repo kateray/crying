@@ -44,9 +44,7 @@ class UserMap extends Component {
       pins: [],
       newPin: null,
       position: [40.734583, -73.997263],
-      magnifier: null,
       dragging: null,
-      draggableTool: null,
       loadedPoints: []
     };
   }
@@ -57,50 +55,60 @@ class UserMap extends Component {
 
   toolDragStart(data) {
     this.closePopups()
-    this.setState({dragging: data})
+    this.setState({dragging: {type: 'tool', data: data}})
     this.leafletMap.leafletElement.on("mousemove", this.toolDrag)
   }
 
   pinDragStart(data){
     this.closePopups()
-    this.setState({dragging: data})
+    this.setState({dragging: {type: 'pin', data: data}})
   }
 
   toolDrag(e) {
-    const y = e.originalEvent.pageY-this.offsetTop;
-    const magnifier = {dragLatLng: e.latlng, dragLeft: e.originalEvent.pageX, dragTop: y};
-    let draggableTool = this.state.draggableTool || {};
-    draggableTool.hex = this.state.dragging.hex;
-    draggableTool.src = "/images/"+this.state.dragging.name+".png";
-    draggableTool.top = (e.originalEvent.pageY-15).toString()+'px';
-    draggableTool.left = (e.originalEvent.pageX-15).toString()+'px';
-    this.setState({magnifier: magnifier, draggableTool: draggableTool})
+    const targetClass = e.originalEvent.target.className;
+    if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') || targetClass.includes('leaflet-marker-icon') ) {
+      const dragging = this.state.dragging;
+      dragging.showMagnifier = true;
+      dragging.latLng = e.latlng;
+      dragging.magLeft = e.originalEvent.pageX;
+      dragging.magTop = e.originalEvent.pageY-this.offsetTop;
+      dragging.showDraggableTool = true;
+      dragging.toolTop = e.originalEvent.pageY-15;
+      dragging.toolLeft = e.originalEvent.pageX-15;
+      this.setState({dragging: dragging})
+    } else {
+      this.magnifierHide()
+    }
   }
 
   pinDrag(e) {
     const targetClass = e.originalEvent.target.className;
-    if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') ) {
-      const pt1 = this.leafletMap.leafletElement.latLngToContainerPoint(e.latlng)
-      const y = pt1.y;
-      const x = pt1.x;
-      const magnifier = {dragLatLng: e.latlng, dragLeft: x, dragTop: y};
-      this.setState({magnifier: magnifier})
+    if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') || targetClass.includes('leaflet-marker-icon') ) {
+      const pt = this.leafletMap.leafletElement.latLngToContainerPoint(e.latlng)
+      const dragging = this.state.dragging;
+      dragging.showMagnifier = true;
+      dragging.latLng = e.latlng;
+      dragging.magLeft = pt.x;
+      dragging.magTop = pt.y;
+      this.setState({dragging: dragging})
     } else {
-      this.dragLeave()
+      this.magnifierHide()
     }
   }
 
-  dragLeave(e) {
-    this.setState({magnifier: null})
+  magnifierHide() {
+    const dragging = this.state.dragging;
+    dragging.showMagnifier = false;
+    this.setState({dragging: dragging})
   }
 
   toolDrop(e) {
     this.leafletMap.leafletElement.removeEventListener('mousemove');
-    if (this.state.dragging) {
+    if (this.state.dragging && this.state.dragging.type === 'tool') {
       const uid = Date.now().toString()
-      const newPin = Object.assign({uid: uid, heading: 34, pitch: 10, zoom: 1}, this.state.dragging, {lat: e.latlng.lat, lng: e.latlng.lng})
+      const newPin = Object.assign({uid: uid, heading: 34, pitch: 10, zoom: 1}, this.state.dragging.data, {lat: e.latlng.lat, lng: e.latlng.lng})
       const pins = [...this.state.pins, newPin]
-      this.setState({pins: pins, magnifier: null, dragging: null, newPin: uid, draggableTool: null});
+      this.setState({pins: pins, dragging: null, newPin: uid});
     }
   }
 
@@ -116,7 +124,7 @@ class UserMap extends Component {
 
   pinDrop(uid, data) {
     this.updatePin(uid, data)
-    this.setState({magnifier: null, dragging: null})
+    this.setState({dragging: null})
   }
 
   povChanged() {
@@ -168,7 +176,7 @@ class UserMap extends Component {
       const targetClass = e.target.className
       if (targetClass !== 'leaflet-container') {
         this.leafletMap.leafletElement.removeEventListener('mousemove');
-        this.setState({magnifier: null, dragging: null, draggableTool: null})
+        this.setState({dragging: null})
       }
     }
   }
@@ -307,13 +315,13 @@ class UserMap extends Component {
     return (
       <div>
         <HeaderContainer onSave={this.onSave} />
-        {this.state.magnifier && this.state.dragging &&
-          <Magnify draggingObject={this.state.dragging} data={this.state.magnifier} />
+        {this.state.dragging && this.state.dragging.showMagnifier &&
+          <Magnify data={this.state.dragging} />
         }
-        {this.state.draggableTool &&
-          <img className="draggable-tool" alt={this.state.draggableTool.hex} src={this.state.draggableTool.src} style={{top: this.state.draggableTool.top, left: this.state.draggableTool.left}} />
+        {this.state.dragging && this.state.dragging.showDraggableTool &&
+          <img className="draggable-tool" alt={this.state.dragging.data.name} src={"/images/"+this.state.dragging.data.name+".png"} style={{top: this.state.dragging.toolTop, left: this.state.dragging.toolLeft}} />
         }
-        <div className="map-container">
+        <div className={this.state.dragging ? "map-container dragging" : "map-container"}>
           <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
             <ZoomControl position='bottomright' />
             <TileLayer

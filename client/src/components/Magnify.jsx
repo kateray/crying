@@ -5,10 +5,10 @@ import { icon } from 'leaflet'
 class Magnify extends Component {
 
   render() {
-    const emojiIcon = icon({className: 'emoji-pin', iconUrl: "/images/"+this.props.draggingObject.name+".png", iconSize: 16});
-    const position = this.props.data.dragLatLng;
-    const top = this.props.data.dragTop;
-    const left = this.props.data.dragLeft;
+    const emojiIcon = icon({className: 'emoji-pin', iconUrl: "/images/"+this.props.data.data.name+".png", iconSize: 16});
+    const position = this.props.data.latLng;
+    const top = this.props.data.magTop;
+    const left = this.props.data.magLeft;
     return (
       <div className="magnify-container pin-map-container" style={{top: top, left: left}}>
         <Map className="magnify-map" zoomControl={false} attributionControl={false} opacity={0.5} zoom={16} center={position}>

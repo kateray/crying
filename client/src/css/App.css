@@ -211,6 +211,7 @@
 }
 
 .pin-map-container {
+  top: 0px;
   z-index: 650;
   position: absolute;
   width: 500px;
