@@ -6,7 +6,9 @@ import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
 import Graffiti from '../Graffiti'
 import _ from 'lodash'
+import airbrakeJs from 'airbrake-js'
 
+let airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'});
 
 class UserMap extends Component {
   constructor(props) {
@@ -45,7 +47,8 @@ class UserMap extends Component {
       newPin: null,
       position: [40.734583, -73.997263],
       dragging: null,
-      loadedPoints: []
+      loadedPoints: [],
+      errorPoints: []
     };
   }
 
@@ -281,6 +284,7 @@ class UserMap extends Component {
     let min = this.leafletMap.leafletElement.project(bounds.getNorthWest(), 16).divideBy(256).floor(),
       max = this.leafletMap.leafletElement.project(bounds.getSouthEast(), 16).divideBy(256).floor();
     let loaded = this.state.loadedPoints;
+    let errored = this.state.errorPoints;
     for (let i = min.x; i <= max.x; i++) {
       for (let j = min.y; j <= max.y; j++) {
         if (!_.find(loaded, {x: i, y: j})){
@@ -291,11 +295,23 @@ class UserMap extends Component {
           img.alt = "mapbox";
           img.src=url;
           document.body.append(img)
+          img.onerror = function() {
+            if (!_.find(errored, {x: i, y: j})){
+              errored.push({x: i, y: j})
+            }
+          }
         }
       }
     }
+    if (errored.length > 0) {
+      // console.log(JSON.stringify(errored))
+      clearTimeout(this.sendMissingTiles);
+      this.sendMissingTiles = setTimeout( () => {
+        airbrake.notify(JSON.stringify(errored));
+        this.setState({errored: []})
+      }, 60000);
+    }
     this.setState({loadedPoints: loaded})
-    // console.log(JSON.stringify(loaded))
   }
 
   render() {
@@ -325,7 +341,7 @@ class UserMap extends Component {
           <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
             <ZoomControl position='bottomright' />
             <TileLayer
-              url='https://api.mapbox.com/styles/v1/kray/ciz1fyu1f000t2sphzml1bxtd/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw'
+              url='https://api.mapbox.com/styles/v1/kray/cj27sh4ld00002sqc4cl4hnza/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {pins}
