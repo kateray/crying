@@ -21,7 +21,7 @@ router.get('/user', function(req, res){
 })
 
 router.get('/pins/:id', (req, res) => {
-  models.User.findOne({uid: req.params.id})
+  models.User.findOne({where: {uid: req.params.id}})
     .then( (user) => {
       models.Pin
         .findAll({where: {userId: user.id}})
