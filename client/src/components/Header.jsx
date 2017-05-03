@@ -11,6 +11,12 @@ class Header extends Component {
     }
   }
 
+  componentWillMount() {
+    if (this.props.user === '{{USER}}') {
+      this.props.getUser()
+    }
+  }
+
   onShareToggle() {
     this.setState({shareMenuOpen: !this.state.shareMenuOpen})
   }

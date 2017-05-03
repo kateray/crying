@@ -5,6 +5,7 @@
 var express = require('express')
   , http    = require('http')
   , path    = require('path')
+  , fs = require('fs')
   , bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , morgan = require('morgan')
@@ -90,7 +91,17 @@ app.get("/auth/facebook/callback", (req, res, next) => {
 })
 
 app.get('*', function(req, res) {
-  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  const filePath = path.resolve(__dirname, './client/build', 'index.html');
+
+  fs.readFile(filePath, 'utf8', (err, htmlData)=>{
+    if (err) {
+      console.error('read err', err)
+      return res.status(404).end()
+    }
+    const RenderedApp = htmlData.replace('{{USER}}', req.isAuthenticated() ? req.user.uid : false)
+    res.send(RenderedApp)
+  })
+
 });
 
 // app.get('/map', function(req, res){

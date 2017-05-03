@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import Header from '../components/Header'
+import * as AppActions from '../actions/AppActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -12,7 +13,11 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    getUser: () => {
+      dispatch(AppActions.getUser())
+    }
+  }
 }
 
 const HeaderContainer = connect(

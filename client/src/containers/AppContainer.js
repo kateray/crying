@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import * as AppActions from '../actions/AppActions'
 import App from '../components/App'
 
 const mapStateToProps = (state, ownProps) => {
@@ -9,11 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    getUser: () => {
-      dispatch(AppActions.getUser())
-    }
-  }
+  return {}
 }
 
 const AppContainer = connect(
