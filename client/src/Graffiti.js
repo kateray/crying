@@ -18,6 +18,9 @@ Graffiti.prototype.onAdd = function() {
   content.addEventListener("keypress", function(e){
     e.stopPropagation()
   });
+  content.addEventListener("mousedown", function(e){
+    e.stopPropagation()
+  });
   content.addEventListener("keyup", this.parent_.titleChanged);
   button.innerHTML = 'save'
   button.className = 'save-text'
