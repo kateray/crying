@@ -14,7 +14,7 @@ class Home extends Component {
     return (
       <div>
         <HeaderContainer />
-        <div id="map-container" style={{height: window.innerHeight-60}}>
+        <div id="map-container" style={{height: window.innerHeight}}>
           <Map center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
             <ZoomControl position='bottomright' />
             <TileLayer

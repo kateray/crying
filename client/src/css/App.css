@@ -1,8 +1,12 @@
 /* header */
 #header {
-  position: relative;
-  margin: 10px;
+  position: absolute;
+  z-index: 20000;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
   font-size: 13px;
+  background-color: rgba(255, 0, 122, 0.65);
 }
 
 #app-title {
@@ -60,7 +64,7 @@
 .save-note {
   font-family: Sans-Serif;
   font-size: 10px;
-  color: rgba(103, 103, 103, 0.50);
+  color: rgba(103, 103, 103, 0.80);
   text-transform: lowercase;
 }
 
@@ -70,7 +74,7 @@
   position: absolute;
   z-index: 1000;
   right: 0px;
-  top: 29px
+  top: 40px;
 }
 
 .share-option {
@@ -131,7 +135,7 @@
   top: 75px;
   display: inline;
   font-size: 30px;
-  background-color: #ff2da7;
+  background-color: rgba(255, 0, 122, 0.65);
 }
 
 .pin-entry {
@@ -183,6 +187,15 @@
   animation-timing-function: linear;
 }
 
+.pin-entry.pulsing .movable-pin {
+  border-radius: 20%;
+  animation-name: pulse_animation;
+  animation-duration: 800ms;
+  transform-origin:70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
 .movable-pin {
   background: transparent;
   display: inline-block;
@@ -216,19 +229,19 @@
   position: absolute;
   width: 500px;
   margin-left: -250px;
-  margin-top: -290px;
+  margin-top: -350px;
   box-sizing: border-box;
   pointer-events: none;
 }
 
 .magnify-container {
   height: 320px;
-  border: 1px solid #ff2da7;
+  border: 1px solid #ff409b;
 }
 
 .street-view-container {
   height: 300px;
-  background-color: #ff2da7;
+  background-color: #ff409b;
   opacity: 0;
 }
 
@@ -258,7 +271,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgba(255, 45, 167, 1.000);
+  background-color: #ff409b;
   animation-name: fade;
   animation-duration: 850ms;
   animation-iteration-count: 1;
@@ -364,7 +377,7 @@
 }
 .leaflet-popup-content-wrapper {
   box-shadow: none;
-  background: #ff2ea7;
+  background: #ff409b;
   width: 500px;
   border-radius: 0px;
   padding: 0px;
@@ -409,7 +422,7 @@
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid #ff2ea7;
+  border-top: 20px solid #ff409b;
   position: absolute;
   left: 229px;
   top: 300px;

@@ -337,7 +337,7 @@ class UserMap extends Component {
         {this.state.dragging && this.state.dragging.showDraggableTool &&
           <img className="draggable-tool" alt={this.state.dragging.data.name} src={"/images/"+this.state.dragging.data.name+".png"} style={{top: this.state.dragging.toolTop, left: this.state.dragging.toolLeft}} />
         }
-        <div id="map-container" className={this.state.dragging ? "dragging" : ""} style={{height: window.innerHeight-60}}>
+        <div id="map-container" className={this.state.dragging ? "dragging" : ""} style={{height: window.innerHeight}}>
           <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
             <ZoomControl position='bottomright' />
             <TileLayer
