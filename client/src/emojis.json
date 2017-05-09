@@ -3,17 +3,17 @@
     {"name": "cry", "hex": "&#x1f62d", "title": "Cried in public"},
     {"name": "dancer", "hex": "&#x1f483", "title": "Danced or sang outside"},
     {"name": "love", "hex": "&#x1f498", "title": "Fell in love"},
-    {"name": "sex", "hex": "&#x1f346", "title": "Sexed"},
+    {"name": "sex", "hex": "&#x1f351", "title": "NSFW"},
     {"name": "socialism", "hex": "&#x262d", "title": "Adopted a new ideology"},
     {"name": "cat", "hex": "&#x1F408", "title": "Met a bodega cat"},
     {"name": "broken", "hex": "&#x1f494", "title": "Broke up"},
     {"name": "fire", "hex": "&#x1f525", "title": "Got fired"},
-    {"name": "lollipop", "hex": "&#x1f36d", "title": "Peak of a trip or high"},
+    {"name": "lollipop", "hex": "&#x1f36d", "title": "Peak of an altered state"},
     {"name": "leave", "hex": "&#x1f6ab", "title": "Kicked out of a bar"},
     {"name": "crash", "hex": "&#x1f4a5", "title": "Crashed or crashed into"},
     {"name": "vomit", "hex": "&#x1f922", "title": "Vomited"},
     {"name": "pee", "hex": "&#x1F49B", "title": "Peed"},
-    {"name": "police", "hex": "&#x1f46e", "title": "Altercation with police"},
+    {"name": "police", "hex": "&#x1f46e", "title": "Trouble with authority"},
     {"name": "protest", "hex": "&#x270a", "title": "Protest or march"}
   ]
 }

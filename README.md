@@ -26,3 +26,6 @@ deploying:
 https://github.com/mars/heroku-cra-node
 http://docs.sequelizejs.com/en/1.7.0/articles/heroku/
 https://github.com/sequelize/sequelize/issues/4142
+
+
+Emojis from: http://emojipedia.org/
