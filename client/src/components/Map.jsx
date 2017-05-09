@@ -330,7 +330,7 @@ class UserMap extends Component {
     );
     return (
       <div>
-        <HeaderContainer onSave={this.onSave} />
+        <HeaderContainer onSave={this.onSave} showSave={true}/>
         {this.state.dragging && this.state.dragging.showMagnifier &&
           <Magnify data={this.state.dragging} />
         }

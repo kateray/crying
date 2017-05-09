@@ -44,26 +44,24 @@ class Header extends Component {
         </div>
         {this.props.user &&
           <div id="app-buttons-container">
-          <Route exact path="/" render={() => (
-            <Link className="nav-button" to={"/maps/"+this.props.user}>
-              Your Map
-            </Link>
-          )}/>
-          <Route path="/maps/:id" render={() => (
-            <span>
-              <span className="save-note">{saveNote}</span>
-              <a className="nav-button" disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>save</a>
-            </span>
-          )}/>
+            {!this.props.showSave &&
+              <Link className="nav-button" to={"/maps/"+this.props.user}>
+                your map
+              </Link>
+            }
+            {this.props.showSave &&
+              <Route path="/maps/:id" render={() => (
+                <span>
+                  <span className="save-note">{saveNote}</span>
+                  <a className="nav-button" disabled={this.props.isSaving ? true : false} id="save" onClick={this.props.onSave}>save</a>
+                  <a className={this.state.shareMenuOpen ? "nav-button highlight" : "nav-button"} onClick={this.onShareToggle}>share</a>
+                  {this.state.shareMenuOpen &&
+                    <ShareMenu />
+                  }
+                </span>
+              )}/>
+            }
             <a className="nav-button" id="logout" href={this.props.path+"logout"}>logout</a>
-            <Route path="/maps/:id" render={() => (
-              <span>
-                <a className={this.state.shareMenuOpen ? "nav-button highlight" : "nav-button"} onClick={this.onShareToggle}>share</a>
-                {this.state.shareMenuOpen &&
-                  <ShareMenu />
-                }
-              </span>
-            )}/>
           </div>
         }
         {!this.props.user &&
