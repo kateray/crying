@@ -132,7 +132,7 @@ class UserMap extends Component {
 
   povChanged() {
     const pov = this.streetView.getPov()
-    this.updatePin(this.props.selectedId, {heading: pov.heading, pitch: pov.pitch})
+    this.updatePin(this.props.selectedId, {heading: pov.heading, pitch: pov.pitch, zoom: pov.zoom})
   }
 
   positionChanged() {
@@ -223,7 +223,7 @@ class UserMap extends Component {
         this.streetViewService.getPanorama({location: latLng}, function(result, status){
           if (status === 'OK') {
             this.streetView.setPosition(latLng)
-            this.streetView.setPov({heading: selectedPin.heading, pitch: selectedPin.pitch})
+            this.streetView.setPov({heading: selectedPin.heading, pitch: selectedPin.pitch, zoom: selectedPin.zoom})
             this.streetView.setVisible(true)
             if (this.overlay) {
               this.overlay.setMap(null)
@@ -304,7 +304,7 @@ class UserMap extends Component {
       }
     }
     if (errored.length > 0) {
-      // console.log(JSON.stringify(errored))
+      console.log(JSON.stringify(errored))
       clearTimeout(this.sendMissingTiles);
       this.sendMissingTiles = setTimeout( () => {
         airbrake.notify(JSON.stringify(errored));
