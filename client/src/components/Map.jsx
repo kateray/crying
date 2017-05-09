@@ -34,6 +34,7 @@ class UserMap extends Component {
     this.toolDrop = this.toolDrop.bind(this)
     this.setLeafletMap = this.setLeafletMap.bind(this)
     this.preload = this.preload.bind(this)
+    this.removeToolAnimation = this.removeToolAnimation.bind(this)
     this.streetViewOptions = {
       visible: false,
       panControl: false,
@@ -43,6 +44,7 @@ class UserMap extends Component {
       zoomControl: true
     }
     this.state = {
+      animatingTools: true,
       pins: [],
       newPin: null,
       position: [40.734583, -73.997263],
@@ -184,6 +186,10 @@ class UserMap extends Component {
     }
   }
 
+  removeToolAnimation(){
+    this.setState({animatingTools: false})
+  }
+
   componentWillMount() {
     this.props.getPins(this.props.match.params.id)
   }
@@ -197,6 +203,7 @@ class UserMap extends Component {
     this.offsetTop = this.leafletMap.container.offsetParent.offsetTop;
     window.addEventListener("beforeunload", this.confirmSave.bind(this));
     setTimeout(this.autoSave, 60000)
+    setTimeout(this.removeToolAnimation, 3000)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -323,7 +330,7 @@ class UserMap extends Component {
       panoLeft = pt.x;
     }
     const emojis = this.props.emojis.icons.map((e) =>
-      <EmojiTool key={e.name} data={e} onDragStart={this.toolDragStart} />
+      <EmojiTool key={e.name} data={e} onDragStart={this.toolDragStart} animatingTools={this.state.animatingTools} />
     );
     const pins = this.state.pins.map((k) =>
       <EmojiPinContainer key={k.uid} data={k} isNew={ this.state.newPin === k.uid } offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.pinDragStart} onDragOver={this.pinDrag} onDrop={this.pinDrop} onDelete={this.deletePin} />
@@ -347,6 +354,19 @@ class UserMap extends Component {
             {pins}
           </Map>
         </div>
+        {this.state.pins.length === 0 && !this.state.dragging &&
+          <div className="initial-instruction">
+            <p>
+              Hello! This is a place for you to record stories about your personal moments in public spaces.
+            </p>
+            <p>
+              Your pins will be shown on the homepage, but not associated with you. You can share your map if you want though. <a target="_blank"  href="http://cryinginpublic.com/maps/qiwnw20tjo">Here's mine.</a>
+            </p>
+            <p>
+              {"<-- Grab and drag an emoji onto the map to get started."}
+            </p>
+          </div>
+        }
         <div className={this.props.selectedId ? 'street-view-container pin-map-container open' : 'street-view-container pin-map-container'} style={{top: panoTop, left: panoLeft}}>
           {this.state.noPano &&
             <div className="no-pano-container">

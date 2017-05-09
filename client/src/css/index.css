@@ -10,13 +10,17 @@ a {
   color: inherit;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 button:focus, input:focus, textarea:focus {
   outline:0;
   box-shadow: none;
 }
 
 button {
-  font-family: 'Special Elite';
+  font-family:'Special Elite';
   border: none;
   cursor: pointer;
 }
