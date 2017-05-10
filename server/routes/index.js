@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
     next();
   }
   router.all('/user', cors)
+  router.all('/pins', cors)
   router.all('/pins/:id', cors)
   router.all('/pins/:id/save', cors)
 }
@@ -29,7 +30,24 @@ router.get('/pins/:id', (req, res) => {
           res.json({status: 'success', message: 'Retrieved all pins', data: pins});
         })
     })
+})
 
+router.get('/pins', (req, res) => {
+  models.Pin
+    .findAll()
+    .then(function(pins){
+      var data = pins.map(function(pin) {return {
+        heading: pin.heading,
+        pitch: pin.pitch,
+        title: pin.title,
+        zoom: pin.zoom,
+        hex: pin.hex,
+        lat: pin.lat,
+        lng: pin.lng,
+        name: pin.name
+      }});
+      res.json({status: 'success', message: 'Retrieved all pins', data: data});
+    })
 })
 
 function saveData(t, entry, id, promises){

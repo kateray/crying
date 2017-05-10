@@ -98,6 +98,19 @@ function receiveUser(payload) {
   }
 }
 
+export const getAllPins = () => {
+  return (dispatch, getState) => {
+    const path = getState().app.path;
+    return fetch(path+"pins", {
+        credentials: 'include',
+      })
+      .then(response => response.json())
+      .then(json => {
+        dispatch(receivePins(json.data))
+      })
+  }
+}
+
 export const getPins = (uid) => {
   return (dispatch, getState) => {
     const path = getState().app.path;
