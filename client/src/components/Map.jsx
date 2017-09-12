@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import HeaderContainer from '../containers/HeaderContainer'
-import EmojiPinContainer from '../containers/EmojiPinContainer'
+import { EmojiPin } from './EmojiPin'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
 import Graffiti from '../Graffiti'
@@ -333,7 +333,17 @@ class UserMap extends Component {
       <EmojiTool key={e.name} data={e} onDragStart={this.toolDragStart} animatingTools={this.state.animatingTools} />
     );
     const pins = this.state.pins.map((k) =>
-      <EmojiPinContainer key={k.uid} data={k} isNew={ this.state.newPin === k.uid } offsetTop={this.offsetTop} selectPin={this.selectPin} unselect={this.unselectPin} onDragStart={this.pinDragStart} onDragOver={this.pinDrag} onDrop={this.pinDrop} onDelete={this.deletePin} />
+      <EmojiPin
+        key={k.uid}
+        data={k}
+        isNew={ this.state.newPin === k.uid }
+        offsetTop={this.offsetTop}
+        selectPin={this.selectPin}
+        unselect={this.unselectPin}
+        onDragStart={this.pinDragStart}
+        onDragOver={this.pinDrag}
+        onDrop={this.pinDrop}
+        onDelete={this.deletePin} />
     );
     return (
       <div>
@@ -342,7 +352,11 @@ class UserMap extends Component {
           <Magnify data={this.state.dragging} />
         }
         {this.state.dragging && this.state.dragging.showDraggableTool &&
-          <img className="draggable-tool" alt={this.state.dragging.data.name} src={"/images/"+this.state.dragging.data.name+".png"} style={{top: this.state.dragging.toolTop, left: this.state.dragging.toolLeft}} />
+          <img
+            className="draggable-tool"
+            alt={this.state.dragging.data.name}
+            src={"/images/"+this.state.dragging.data.name+".png"}
+            style={{top: this.state.dragging.toolTop, left: this.state.dragging.toolLeft}} />
         }
         <div id="map-container" className={this.state.dragging ? "dragging" : ""} style={{height: window.innerHeight}}>
           <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
@@ -376,7 +390,6 @@ class UserMap extends Component {
           {this.state.loading &&
             <div className="loading-street-view" />
           }
-
           <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
         </div>
         <div className="pin-container">

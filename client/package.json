@@ -10,7 +10,7 @@
     "airbrake-js": "^0.8.7",
     "leaflet": "^1.0.3",
     "lodash": "^4.17.4",
-    "react": "^15.4.2",
+    "react": "^15.6.1",
     "react-dom": "^15.4.2",
     "react-leaflet": "^1.0.0-rc.3",
     "react-redux": "^5.0.2",
