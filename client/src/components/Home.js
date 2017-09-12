@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import * as AppActions from '../actions/AppActions';
 import React, { Component } from 'react';
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
-import HeaderContainer from '../containers/HeaderContainer'
+import { HeaderContainer } from '../containers/HeaderContainer'
 import SharePin from './SharePin'
 
 class Home extends Component {

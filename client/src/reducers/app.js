@@ -1,28 +1,35 @@
-import * as AppActions from "../actions/AppActions";
+import * as types from '../constants/AppActionTypes'
 
 const app = (state = {}, action) => {
   switch (action.type) {
-    case AppActions.SELECT_PIN:
+    case types.RECEIVE_ERROR:
+      return Object.assign({}, state, {
+        errors: {
+          ...state.errors,
+          ...action.payload
+        }
+      })
+    case types.SELECT_PIN:
       return Object.assign({}, state, {
         selected: action.payload
       })
-    case AppActions.REQUEST_SAVE:
+    case types.REQUEST_SAVE:
       return Object.assign({}, state, {
         isSaving: true,
         lastSave: Date.now()
       });
-    case AppActions.RECEIVE_PINS:
+    case types.RECEIVE_PINS:
       return Object.assign({}, state, {
         error: null,
         isSaving: false,
         fetchedPins: action.pins
       });
-    case AppActions.SAVE_PINS_ERROR:
+    case types.SAVE_PINS_ERROR:
       return Object.assign({}, state, {
         error: action.payload,
         isSaving: false
       });
-    case AppActions.RECEIVE_USER:
+    case types.RECEIVE_USER:
       return Object.assign({}, state, {
         user: action.payload
       });

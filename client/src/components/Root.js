@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import '../css/App.css'
 import Home from './Home'
 import AppContainer from '../containers/AppContainer'
+
+require('../css/App.scss')
 
 const Root = ({ store }) => (
   <Provider store={store}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
-import HeaderContainer from '../containers/HeaderContainer'
+import { HeaderContainer } from '../containers/HeaderContainer'
 import { EmojiPin } from './EmojiPin'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'

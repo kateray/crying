@@ -1,20 +1,6 @@
-var models = require('../models/index');
-var express = require('express');
-var router  = express.Router();
-
-// need CORS because of development two-server setup
-if (process.env.NODE_ENV !== 'production') {
-  function cors(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-    next();
-  }
-  router.all('/user', cors)
-  router.all('/pins', cors)
-  router.all('/pins/:id', cors)
-  router.all('/pins/:id/save', cors)
-}
+const models = require('../models/index')
+const express = require('express')
+const router  = express.Router()
 
 router.get('/user', function(req, res){
   var currentUserUid = req.isAuthenticated() ? req.user.uid : false;
@@ -105,4 +91,4 @@ router.post('/pins/:id/save', (req, res) => {
   }
 })
 
-module.exports = router;
+module.exports = router

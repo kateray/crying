@@ -1,6 +1,6 @@
 var repl = require("repl");
 
-var models = require('./server/models/index');
+var models = require('./server/src/models/index');
 
 models.sequelize.sync().then(function() {
   var envName = process.env.NODE_ENV || "dev";

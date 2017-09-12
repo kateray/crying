@@ -10,10 +10,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       uid: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      facebookId: {
-        type: Sequelize.STRING
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
