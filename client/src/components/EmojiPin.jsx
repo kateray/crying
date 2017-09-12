@@ -4,14 +4,14 @@ import { Marker, Popup } from 'react-leaflet'
 
 export class EmojiPin extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.onDragStart = this.onDragStart.bind(this)
     this.select = this.select.bind(this)
   }
 
   componentDidMount() {
     if (this.props.isNew) {
-      this.leafletMap.leafletElement.openPopup();
+      this.leafletMap.leafletElement.openPopup()
     }
   }
 
@@ -20,7 +20,10 @@ export class EmojiPin extends PureComponent {
   }
 
   onDrop(e) {
-    this.props.onDrop(this.props.data.uid, {lat: e.target._latlng.lat, lng: e.target._latlng.lng})
+    this.props.onDrop(
+      this.props.data.uid,
+      {lat: e.target._latlng.lat, lng: e.target._latlng.lng}
+    )
   }
 
   select() {
@@ -28,11 +31,15 @@ export class EmojiPin extends PureComponent {
   }
 
   render() {
-    const emojiIcon = icon({iconUrl: `/images/${this.props.data.name}.png`, iconSize: 19, popupAnchor: [0,-20]});
-    const position = [this.props.data.lat, this.props.data.lng];
+    const emojiIcon = icon({
+      iconUrl: `/images/${this.props.data.name}.png`,
+      iconSize: 19,
+      popupAnchor: [0,-20]
+    })
+    const position = [this.props.data.lat, this.props.data.lng]
     return (
       <Marker
-        ref={(el) => { this.leafletMap = el; }}
+        ref={(el) => { this.leafletMap = el }}
         position={position}
         icon={emojiIcon}
         draggable='true'
@@ -43,11 +50,15 @@ export class EmojiPin extends PureComponent {
         onDragEnd={this.onDrop.bind(this)}>
         <Popup autoPan={false}>
           <div className="pin-popup">
-            <div onClick={() => {this.props.onDelete(this.props.data.uid)}} className="delete-pin">delete pin</div>
+            <div
+              className="delete-pin"
+              onClick={() => {this.props.onDelete(this.props.data.uid)}}>
+              delete pin
+            </div>
             <div className="arrow-down" />
           </div>
         </Popup>
       </Marker>
-    );
+    )
   }
 }
