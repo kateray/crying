@@ -4,7 +4,8 @@ import { getPins } from '../actions/AppActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.app.user
+    user: state.app.user,
+    fetchedPins: state.app.fetchedPins
   }
 }
 

@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import crying from './reducers'
-import Home from './components/Home'
 import AppContainer from './containers/AppContainer'
 
 require('./css/index.scss')
