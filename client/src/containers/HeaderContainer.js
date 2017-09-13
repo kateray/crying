@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
     lastSave: state.app.lastSave,
     user: state.app.user,
     isSaving: state.app.isSaving,
-    errors: state.app.errors.user
+    errors: state.app.errors
   }
 }
 

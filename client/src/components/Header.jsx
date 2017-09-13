@@ -16,8 +16,8 @@ class Header extends Component {
     let saveNote;
     if (this.props.isSaving) {
       saveNote = 'Saving...';
-    } else if (this.props.error) {
-      saveNote = this.props.error;
+    } else if (this.props.errors.pin) {
+      saveNote = this.props.errors.pin;
     } else if (this.props.lastSave) {
       saveNote = 'saved ' + (new Date(this.props.lastSave)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
@@ -56,7 +56,7 @@ class Header extends Component {
     return (
       <div id="app-buttons-container">
         {this.state.loginMenuOpen &&
-          <LoginForm login={this.props.login} errors={this.props.errors} />
+          <LoginForm login={this.props.login} errors={this.props.errors.user} />
         }
         <span>
           Create your own map ->

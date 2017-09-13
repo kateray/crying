@@ -61,15 +61,8 @@ export const save = (uid, data) => {
         dispatch(receivePins(json.data))
       })
       .catch(e => {
-        dispatch(savePinsError(e))
+        dispatch(receiveError({pin: e.message}))
       })
-  }
-}
-
-function savePinsError(payload) {
-  return {
-    type: types.SAVE_PINS_ERROR,
-    payload
   }
 }
 
