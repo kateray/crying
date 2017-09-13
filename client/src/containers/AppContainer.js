@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import App from '../components/App'
+import { App } from '../components/App'
+import { getPins } from '../actions/AppActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -8,7 +9,11 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    getPins: (uid) => {
+      dispatch(getPins(uid))
+    }
+  }
 }
 
 const AppContainer = connect(

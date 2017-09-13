@@ -19,10 +19,7 @@ let store = createStore(crying, {app: initialState}, applyMiddleware(thunk))
 render(
   <Provider store={store}>
     <Router>
-      <div>
-        <Route exact path="/" component={Home}/>
-        <Route path="/maps/:id" component={AppContainer}/>
-      </div>
+      <Route path="/(maps)?/:id?" component={AppContainer}/>
     </Router>
   </Provider>,
   el

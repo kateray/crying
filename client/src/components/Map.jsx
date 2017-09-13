@@ -190,10 +190,6 @@ class UserMap extends Component {
     this.setState({animatingTools: false})
   }
 
-  componentWillMount() {
-    this.props.getPins(this.props.match.params.id)
-  }
-
   componentDidMount() {
     this.preload()
     this.setupStreetView(window.google.maps)

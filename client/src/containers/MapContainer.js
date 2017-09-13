@@ -16,9 +16,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getPins: (uid) => {
-      dispatch(AppActions.getPins(uid))
-    },
     onSave: (uid, pins) => {
       dispatch(AppActions.save(uid, pins))
     },

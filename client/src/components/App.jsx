@@ -1,28 +1,26 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import Home from './Home'
 import MapContainer from '../containers/MapContainer'
-import ShareMapContainer from '../containers/ShareMapContainer'
+import ShareMap from './ShareMap'
 import { Route } from 'react-router-dom'
 
-class App extends Component {
+export class App extends PureComponent {
   componentWillMount() {
-    this.selectMap = this.selectMap.bind(this)
-  }
-
-  selectMap(){
-    if (this.props.user && this.props.match.params.id === this.props.user) {
-      return MapContainer
-    } else {
-      return ShareMapContainer
-    }
+    this.props.getPins(this.props.match.params.id)
   }
 
   render() {
+    let showMap
+    if (this.props.user && this.props.match.params.id === this.props.user) {
+      showMap = MapContainer
+    } else {
+      showMap = ShareMap
+    }
     return (
       <div>
-        <Route path="/maps/:id" component={this.selectMap()}/>
+        <Route exact path="/" component={Home}/>
+        <Route path="/maps/:id" component={showMap}/>
       </div>
     )
   }
 }
-
-export default App;

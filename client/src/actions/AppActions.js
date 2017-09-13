@@ -84,21 +84,10 @@ function receiveUser(payload) {
   }
 }
 
-export const getAllPins = () => {
+export const getPins = (uid=false) => {
   return (dispatch, getState) => {
-    return fetch("/pins", {
-        credentials: 'include',
-      })
-      .then(response => response.json())
-      .then(json => {
-        dispatch(receivePins(json.data))
-      })
-  }
-}
-
-export const getPins = (uid) => {
-  return (dispatch, getState) => {
-    return fetch("/pins/"+uid, {
+    let urlString = uid ? `/pins/${uid}` : `/pins`
+    return fetch(urlString, {
         credentials: 'include',
       })
       .then(response => response.json())

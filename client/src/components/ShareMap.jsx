@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import { HeaderContainer } from '../containers/HeaderContainer'
 import SharePin from './SharePin'
@@ -9,10 +10,6 @@ class ShareMap extends Component {
     this.state = {
       position: [40.734583, -73.997263]
     };
-  }
-
-  componentDidMount() {
-    this.props.getPins(this.props.match.params.id)
   }
 
   render() {
@@ -37,4 +34,12 @@ class ShareMap extends Component {
   }
 }
 
-export default ShareMap;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    pins: state.app.fetchedPins,
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(ShareMap)
