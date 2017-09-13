@@ -202,6 +202,7 @@ class UserMap extends Component {
     setTimeout(this.removeToolAnimation, 3000)
   }
 
+  // this resets the local list of pins after saving/deleting/etc
   componentWillReceiveProps(nextProps) {
     if (this.props.fetchedPins !== nextProps.fetchedPins) {
       this.setState({pins: nextProps.fetchedPins})

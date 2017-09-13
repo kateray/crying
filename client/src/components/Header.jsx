@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import ShareMenu from './ShareMenu'
 import LoginForm from './LoginForm'
 
@@ -24,9 +24,9 @@ class Header extends Component {
     return (
       <div id="app-buttons-container">
         {!this.props.showSave &&
-          <Link className="nav-button" to={"/maps/"+this.props.user}>
+          <a className="nav-button" href={"/maps/"+this.props.user}>
             your map
-          </Link>
+          </a>
         }
         {this.props.showSave &&
           <Route path="/maps/:id" render={() => (
@@ -71,13 +71,13 @@ class Header extends Component {
   render() {
     return (
       <div id="header">
-        <Link to="/">
+        <a href="/">
           <div id="app-title">
             <img src="/images/cry.png" alt="&#x1f62d" />
             <h1>Crying in Public</h1>
             <img src="/images/cry.png" alt="&#x1f62d" />
           </div>
-        </Link>
+        </a>
         <div id="app-description">
           An emotional map of New York City, made out of the important things that happen to us outside.
         </div>

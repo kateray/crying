@@ -42,7 +42,7 @@ export class EmojiPin extends PureComponent {
         ref={(el) => { this.leafletMap = el }}
         position={position}
         icon={emojiIcon}
-        draggable='true'
+        draggable={true}
         onPopupOpen={this.select}
         onPopupClose={this.props.unselect}
         onDragStart={this.onDragStart}
