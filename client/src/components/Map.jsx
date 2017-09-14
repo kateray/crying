@@ -45,7 +45,7 @@ class UserMap extends Component {
     }
     this.state = {
       animatingTools: true,
-      pins: [],
+      pins: this.props.fetchedPins,
       newPin: null,
       position: [40.734583, -73.997263],
       dragging: null,

@@ -9,13 +9,13 @@ router.get('/user', function(req, res){
 
 router.get('/pins/:id', (req, res) => {
   models.User.findOne({where: {uid: req.params.id}})
-    .then( (user) => {
-      models.Pin
-        .findAll({where: {userId: user.id}})
-        .then(function(pins){
-          res.json({status: 'success', message: `Retrieved all pins for ${req.params.id}`, data: pins});
-        })
-    })
+  .then( (user) => {
+    models.Pin
+      .findAll({where: {userId: user.id}})
+      .then(function(pins){
+        res.json({status: 'success', message: `Retrieved all pins for ${req.params.id}`, data: pins});
+      })
+  })
 })
 
 router.get('/pins', (req, res) => {

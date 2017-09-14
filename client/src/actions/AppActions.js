@@ -112,7 +112,7 @@ export const login = (userInfo) => {
       if (json.error){
         dispatch(receiveError(json.error))
       } else {
-        dispatch(receiveUser(json.data))
+        window.location.replace(`/maps/${json.data}`)
       }
     })
   }
