@@ -1,0 +1,24 @@
+.user-form {
+  z-index: 10;
+  padding: 5px;
+  background-color: white;
+  right: 10px;
+  top: 39px;
+  @media only screen and (min-width: 500px)  {
+    position: absolute;
+    width: 210px;
+    margin-left: -210px;
+    margin-top: 0px;
+    border: 1px solid black;
+  }
+  input {
+    display: block;
+    margin: 5px 0px;
+  }
+  input[type="text"], input[type="password"] {
+    width: 90%;
+  }
+  input[type="submit"] {
+    float: right;
+  }
+}

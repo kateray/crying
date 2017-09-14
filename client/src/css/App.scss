@@ -1,3 +1,5 @@
+@import 'variables';
+
 /* header */
 #header {
   position: absolute;
@@ -28,6 +30,7 @@
 
 #app-description {
   display: inline-block;
+  line-height: 1.2;
   width: 35%;
   margin-left: 2%;
 }
@@ -38,6 +41,7 @@
 }
 
 .nav-button {
+  border: 0px;
   user-select: none;
   text-decoration: none;
   cursor: pointer;
@@ -69,15 +73,6 @@
 }
 
 .share-menu {
-  padding: 5px;
-  background: #fff;
-  position: absolute;
-  z-index: 1000;
-  right: 0px;
-  top: 40px;
-}
-
-.user-form {
   padding: 5px;
   background: #fff;
   position: absolute;
@@ -494,4 +489,60 @@
 
 .street-view-container:hover .gm-style a img {
   opacity: 0.5;
+}
+
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  appearance: none;
+  border-radius: 0;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+.button {
+  cursor: pointer;
+  &.selected {
+    text-decoration: underline;
+  }
+  &:hover {
+    @media only screen and (min-width: 499px)  {
+      text-decoration: underline;
+    }
+  }
+}
+input[type="text"], input[type="password"], input[type="submit"] {
+  font-size: 1em;
+  @media only screen and (min-width: 499px)  {
+    font-size: 12px;
+  }
+}
+input[type="text"], input[type="password"] {
+  padding: 0.3em 0.7em;
+
+  &.error {
+    border: 1px solid $red;
+  }
+}
+input[type="submit"] {
+  cursor: pointer;
+  border-radius: 0px;
+  color: white;
+  border: 0px;
+  padding: 5px 10px;
+  &:hover {
+  }
+}
+.form-error {
+  color: $red;
+  font-size: 0.8em;
+  line-height: 0.8em;
 }

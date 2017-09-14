@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import * as l from '../../../server/src/lib'
 import _ from 'lodash'
 
+require('../css/Login.scss')
+
 class LoginForm extends Component {
   constructor(props){
     super(props)
@@ -49,7 +51,7 @@ class LoginForm extends Component {
           <div className="form-error">{this.state.errors.password}</div>
         }
         <input className={this.state.errors.password ? 'error' : ''} type="password" value={this.state.password} onChange={(e) => this.setState({password: e.target.value.trim()})} placeholder="password" />
-        <input className='nav-button' type="submit" value='Sign In'/>
+        <input className='nav-button' type="submit" value='Submit'/>
       </form>
     )
   }

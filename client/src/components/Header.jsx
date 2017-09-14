@@ -61,8 +61,8 @@ class Header extends Component {
         <span>
           Create your own map ->
         </span>
-        <a className="nav-button" id="login" onClick={() => this.setState({loginMenuOpen: !this.state.loginMenuOpen})}>
-          login
+        <a className={this.state.loginMenuOpen ? 'nav-button highlight' : 'nav-button'} id="login" onClick={() => this.setState({loginMenuOpen: !this.state.loginMenuOpen})}>
+          Sign in
         </a>
       </div>
     )
@@ -79,7 +79,7 @@ class Header extends Component {
           </div>
         </a>
         <div id="app-description">
-          An emotional map of New York City, made out of the important things that happen to us outside.
+          An emotional map of New York City, made out of the important things that happen to us outside. Made by <a href="https://twitter.com/kraykray" target="_blank">kraykray</a>
         </div>
         {this.props.user &&
           this._renderUserButtons()
