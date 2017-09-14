@@ -7,8 +7,8 @@ import SharePin from './SharePin'
 export class ShareMap extends Component {
   render() {
     let position = [40.734583, -73.997263]
-    const pins = this.props.fetchedPins.map((k) =>
-      <SharePin key={k.uid} data={k} />
+    const pins = this.props.fetchedPins.map((k, i) =>
+      <SharePin key={i} data={k} />
     );
     return (
       <div className="share-map">

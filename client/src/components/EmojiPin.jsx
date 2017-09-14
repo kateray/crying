@@ -36,8 +36,7 @@ export class EmojiPin extends PureComponent {
       iconSize: 19,
       popupAnchor: [0,-20]
     })
-    const position = [this.props.data.lat, this.props.data.lng]
-    console.log(position)
+    const position = [parseFloat(this.props.data.lat), parseFloat(this.props.data.lng)]
     return (
       <Marker
         ref={(el) => { this.leafletMap = el }}
