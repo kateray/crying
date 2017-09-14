@@ -22,7 +22,7 @@ const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
 const routes = require('./routes/index')
   , models = require('./models/index');
 
-const l = require( './lib')
+const l = require( '../../lib')
 
 const app = express()
 

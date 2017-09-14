@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as l from '../../../server/src/lib'
+import * as l from '../../../lib'
 import _ from 'lodash'
 
 require('../css/Login.scss')

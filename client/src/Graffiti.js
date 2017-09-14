@@ -15,8 +15,13 @@ Graffiti.prototype.onAdd = function() {
   content.setAttribute('contenteditable', true)
   content.className = 'floating-text';
   this.content_ = content;
+  parent = this.parent_
   content.addEventListener("keypress", function(e){
     e.stopPropagation()
+    if (e.keyCode == 13){
+      parent.closePopups()
+      return false
+    }
   });
   content.addEventListener("mousedown", function(e){
     e.stopPropagation()
@@ -25,8 +30,8 @@ Graffiti.prototype.onAdd = function() {
   button.innerHTML = 'save'
   button.className = 'save-text'
   button.addEventListener("click", function(e){
-    this.parent_.closePopups()
-  }.bind(this));
+    parent.closePopups()
+  })
   var panes = this.getPanes();
   panes.overlayLayer.appendChild(form);
   this.content_.innerHTML = this.text_;

@@ -1,6 +1,7 @@
 const models = require('../models/index')
 const express = require('express')
 const router  = express.Router()
+const l = require( '../../../lib')
 
 router.get('/user', function(req, res){
   var currentUserUid = req.isAuthenticated() ? req.user.uid : false;
@@ -25,7 +26,7 @@ router.get('/pins', (req, res) => {
       var data = pins.map(function(pin) {return {
         heading: pin.heading,
         pitch: pin.pitch,
-        title: pin.title,
+        title: l.sanitizePinTitle(pin.title),
         zoom: pin.zoom,
         hex: pin.hex,
         lat: pin.lat,

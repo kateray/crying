@@ -7,6 +7,7 @@ import Magnify from './Magnify'
 import Graffiti from '../Graffiti'
 import _ from 'lodash'
 import airbrakeJs from 'airbrake-js'
+import * as l from '../../../lib'
 
 let airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'});
 
@@ -144,7 +145,7 @@ class UserMap extends Component {
 
   titleChanged(e) {
     e.stopPropagation()
-    this.updatePin(this.props.selectedId, {title: e.target.innerHTML})
+    this.updatePin(this.props.selectedId, {title: l.sanitizePinTitle(e.target.textContent)})
   }
 
   visibleChanged() {

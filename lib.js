@@ -32,7 +32,12 @@ const validateFields = (f) => {
   return errors
 }
 
+const sanitizePinTitle = (text) => {
+  return text.replace(/[^\w\s!.,]/gi, '')
+}
+
 module.exports = {
+  sanitizePinTitle: sanitizePinTitle,
   createWebString: createWebString,
   randId: randId,
   validateFields: validateFields
