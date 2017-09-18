@@ -51,7 +51,10 @@ class UserMap extends Component {
       position: [40.734583, -73.997263],
       dragging: null,
       loadedPoints: [],
-      errorPoints: []
+      errorPoints: [],
+      popupPosition: '',
+      panoTop: 0,
+      panoLeft: 0
     };
   }
 
@@ -140,6 +143,9 @@ class UserMap extends Component {
 
   positionChanged() {
     const position = this.streetView.getPosition()
+    const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: position.lat(), lng: position.lng()})
+    this.setState({panoTop: pt.y, panoLeft: pt.x})
+
     this.updatePin(this.props.selectedId, {lat: position.lat(), lng: position.lng()})
   }
 
@@ -263,8 +269,33 @@ class UserMap extends Component {
     }
   }
 
+  getPopupPosition(x, y) {
+    let popupPosition = ''
+
+    const popupHeight = 320
+    const popupWidth = 500
+    // too high
+    if (y < popupHeight) {
+      popupPosition = popupPosition + 'top '
+    }
+    // too right
+    if ((window.innerWidth - x) < popupWidth/2) {
+      popupPosition = popupPosition + 'right'
+    }
+    // too left
+    if (x < popupWidth/2) {
+      popupPosition = popupPosition + 'left'
+    }
+
+    return popupPosition
+  }
+
   selectPin(uid) {
-    this.setState({loading: true, newPin: null})
+    const selectedPin = _.find(this.state.pins, ['uid', uid])
+    const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
+    const popupPosition = this.getPopupPosition(pt.x, pt.y)
+
+    this.setState({panoTop: pt.y, panoLeft: pt.x, popupPosition: popupPosition, loading: true, newPin: null})
     this.props.selectPin(uid)
     this.leafletMap.leafletElement.dragging.disable()
   }
@@ -320,20 +351,18 @@ class UserMap extends Component {
   }
 
   render() {
-    let panoTop, panoLeft;
-    if (this.props.selectedId) {
-      const selectedPin = _.find(this.state.pins, ['uid', this.props.selectedId])
-      const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
-      panoTop = pt.y;
-      panoLeft = pt.x;
-    }
     const emojis = this.props.emojis.icons.map((e) =>
-      <EmojiTool key={e.name} data={e} onDragStart={this.toolDragStart} animatingTools={this.state.animatingTools} />
+      <EmojiTool
+        key={e.name}
+        data={e}
+        onDragStart={this.toolDragStart}
+        animatingTools={this.state.animatingTools} />
     );
     const pins = this.state.pins.map((k) =>
       <EmojiPin
         key={k.uid}
         data={k}
+        popupPosition={this.state.popupPosition}
         isNew={ this.state.newPin === k.uid }
         offsetTop={this.offsetTop}
         selectPin={this.selectPin}
@@ -379,16 +408,18 @@ class UserMap extends Component {
             </p>
           </div>
         }
-        <div className={this.props.selectedId ? 'street-view-container pin-map-container open' : 'street-view-container pin-map-container'} style={{top: panoTop, left: panoLeft}}>
-          {this.state.noPano &&
-            <div className="no-pano-container">
-              <div className="no-pano">No streetview available</div>
-            </div>
-          }
-          {this.state.loading &&
-            <div className="loading-street-view" />
-          }
-          <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
+        <div className={this.props.selectedId ? 'street-view-container pin-map-container open' : 'street-view-container pin-map-container'} style={{top: this.state.panoTop, left: this.state.panoLeft}}>
+          <div className={'popup-container ' + this.state.popupPosition}>
+            {this.state.noPano &&
+              <div className="no-pano-container">
+                <div className="no-pano">No streetview available</div>
+              </div>
+            }
+            {this.state.loading &&
+              <div className="loading-street-view" />
+            }
+            <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
+          </div>
         </div>
         <div className="pin-container">
           {emojis}

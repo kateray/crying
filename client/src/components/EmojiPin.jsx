@@ -2,11 +2,12 @@ import React, { PureComponent } from 'react'
 import { icon } from 'leaflet'
 import { Marker, Popup } from 'react-leaflet'
 
+require('../css/Popup.scss')
+
 export class EmojiPin extends PureComponent {
   constructor(props) {
     super(props)
     this.onDragStart = this.onDragStart.bind(this)
-    this.select = this.select.bind(this)
   }
 
   componentDidMount() {
@@ -25,16 +26,11 @@ export class EmojiPin extends PureComponent {
       {lat: e.target._latlng.lat, lng: e.target._latlng.lng}
     )
   }
-
-  select() {
-    this.props.selectPin(this.props.data.uid)
-  }
-
+  
   render() {
     const emojiIcon = icon({
       iconUrl: `/images/${this.props.data.name}.png`,
-      iconSize: 19,
-      popupAnchor: [0,-20]
+      iconSize: 20
     })
     const position = [parseFloat(this.props.data.lat), parseFloat(this.props.data.lng)]
     return (
@@ -43,19 +39,19 @@ export class EmojiPin extends PureComponent {
         position={position}
         icon={emojiIcon}
         draggable={true}
-        onPopupOpen={this.select}
+        onPopupOpen={() => this.props.selectPin(this.props.data.uid)}
         onPopupClose={this.props.unselect}
         onDragStart={this.onDragStart}
         onDrag={this.props.onDragOver}
         onDragEnd={this.onDrop.bind(this)}>
         <Popup autoPan={false}>
-          <div className="pin-popup">
+          <div className={'popup-container ' + this.props.popupPosition}>
             <div
               className="delete-pin"
               onClick={() => {this.props.onDelete(this.props.data.uid)}}>
               delete pin
             </div>
-            <div className="arrow-down" />
+            <div className='arrow' />
           </div>
         </Popup>
       </Marker>

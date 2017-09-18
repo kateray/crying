@@ -79,7 +79,7 @@ class Header extends Component {
           </div>
         </a>
         <div id="app-description">
-          An emotional map of New York City, made out of the important things that happen to us outside. Made by <a href="https://twitter.com/kraykray" target="_blank">kraykray</a>
+          An emotional map of New York City, made out of the important things that happen to us outside. Project by <a href="https://twitter.com/kraykray" target="_blank">kraykray</a>
         </div>
         {this.props.user &&
           this._renderUserButtons()

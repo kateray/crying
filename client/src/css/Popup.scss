@@ -1,0 +1,217 @@
+@import 'variables';
+
+$popupWidth : 500px;
+$popupHeight: 300px;
+$arrowOffset: 20px;
+
+.leaflet-popup-tip, .leaflet-popup-close-button {
+  display: none;
+}
+.leaflet-popup-content {
+  margin: 0px;
+  width: 0px;
+  height: 0px;
+}
+.leaflet-popup-content-wrapper {
+  box-shadow: none;
+  border-radius: 0px;
+  padding: 0px;
+  background-color: transparent;
+  width: 0px;
+  height: 0px;
+  user-select: none;
+}
+
+.share-map .popup-container, .street-view-container .popup-container {
+  height: $popupHeight;
+}
+
+.share-map .popup-container {
+  top: -1*($popupHeight+$arrowOffset);
+  .arrow {
+    top: $popupHeight;
+  }
+}
+
+.street-view-container .popup-container {
+  top: -1*($popupHeight+$arrowOffset*2 +13);
+  &.top {
+    top: $arrowOffset+17;
+  }
+}
+
+.popup-container {
+  background: $pink;
+  width: $popupWidth;
+  height: $popupHeight + $arrowOffset;
+  position: relative;
+  top: -1*($popupHeight+$arrowOffset*2);
+  left: $popupWidth/-2;
+
+  .arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: $arrowOffset solid transparent;
+    border-right: $arrowOffset solid transparent;
+    left: $popupWidth/2 - $arrowOffset;
+    border-top: $arrowOffset solid #ff409b;
+    top: $popupHeight + $arrowOffset;
+  }
+
+  &.top {
+    top: $arrowOffset*2+10;
+
+    .arrow {
+      border-top: none;
+      border-bottom: 20px solid #ff409b;
+      top: $arrowOffset*-1;
+    }
+  }
+  &.right {
+    left: $popupWidth/-1+$arrowOffset;
+
+    .arrow {
+      left: $popupWidth - 2*$arrowOffset;
+    }
+  }
+  &.left {
+    left: -$arrowOffset;
+    .arrow {
+      left: 0px;
+    }
+  }
+}
+
+.street-view-container:hover .save-text {
+  visibility: visible;
+}
+
+.street-view-container:hover .gmnoprint {
+  visibility: visible;
+}
+
+.street-view-container:hover .gm-style-cc {
+  visibility: visible;
+}
+
+.street-view-container:hover .gm-style a img {
+  opacity: 0.5;
+}
+.street-view-container {
+  height: 0px;
+  width: 0px;
+  // background-color: #ff409b;
+  opacity: 0;
+}
+
+.street-view-container.open {
+  opacity: 1;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.street-view-container .no-pano-container {
+  position: absolute;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 45, 167, 1.000);
+}
+
+
+
+
+.pin-map-container {
+  top: 0px;
+  z-index: 650;
+  position: absolute;
+  width: $popupWidth;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.arrow-down {
+  border-top: $arrowOffset solid #ff409b;
+  top: $popupHeight + $arrowOffset;
+}
+.share-map .arrow-down {
+  top: $popupHeight;
+}
+
+.arrow-up {
+  border-bottom: 20px solid #ff409b;
+  top: $arrowOffset*-1;
+}
+
+.arrow-up, .arrow-down {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: $arrowOffset solid transparent;
+  border-right: $arrowOffset solid transparent;
+  left: $popupWidth/2 - $arrowOffset;
+
+  &.right-side {
+    left: $popupWidth - 2*$arrowOffset;
+  }
+
+  &.left-side {
+    left: 0px;
+  }
+}
+
+.floating-text {
+  border: 0px;
+  position: absolute;
+  outline: none;
+  cursor: text;
+  font-size: 13px;
+  font-family: $font;
+  padding: 5px;
+  color: #000;
+  background-color: #fff;
+  width: 200px;
+  top: 50px;
+  left: 50px;
+}
+
+.delete-pin {
+  cursor: pointer;
+  color: #000;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  font-family: $font;
+  line-height: 15px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 5px;
+  background: #000;
+  color: #fff;
+
+  &:hover {
+    text-decoration: none;
+    color: #000;
+    background: #fff;
+  }
+}
+
+.leaflet-popup-content ::-webkit-input-placeholder {
+  color: rgba(95, 95, 95, 1.000);
+}
+.leaflet-popup-content input, .leaflet-popup-content textarea {
+  border-radius: 3px;
+  background: rgba(233, 100, 176, 1.000);
+  border: none;
+  width: 150px;
+  margin-bottom: 5px;
+  padding: 3px;
+  font-family: 'Share Tech Mono';
+  font-size: 12px;
+  font-weight: normal;
+  /*border-bottom: 1px solid #000;*/
+}
+.leaflet-popup-content textarea {
+  height: 4em;
+}
