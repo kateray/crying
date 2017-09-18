@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import { HeaderContainer } from '../containers/HeaderContainer'
 import { EmojiPin } from './EmojiPin'
@@ -11,7 +11,7 @@ import { StreetView } from './StreetView'
 
 let airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'});
 
-export class UserMap extends PureComponent {
+export class UserMap extends Component {
   constructor(props) {
     super(props)
     this.toolDragStart = this.toolDragStart.bind(this)
