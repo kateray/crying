@@ -18,7 +18,7 @@ class Magnify extends Component {
           <TileLayer url='/images/mapbox/{x}/{y}.png' />
           <Marker position={position} icon={emojiIcon} />
         </Map>
-        <div className="arrow-down" />
+        <div className="arrow" />
       </div>
     )
   }

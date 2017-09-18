@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { icon } from 'leaflet'
 import { Marker, Popup } from 'react-leaflet'
+import * as l from '../../../lib'
 
 require('../css/Popup.scss')
 
@@ -13,25 +14,7 @@ class SharePin extends Component {
   }
 
   openPopup(e){
-    let popupPosition = ''
-
-    const x = e.originalEvent.clientX
-    const y = e.originalEvent.clientY
-    const popupHeight = 300
-    const popupWidth = 500
-
-    // too high
-    if (y < popupHeight) {
-      popupPosition = popupPosition + 'top '
-    }
-    // too right
-    if ((window.innerWidth - x) < popupWidth/2) {
-      popupPosition = popupPosition + 'right'
-    }
-    // too left
-    if (x < popupWidth/2) {
-      popupPosition = popupPosition + 'left'
-    }
+    const popupPosition = l.getPopupPosition(e.originalEvent.clientX, e.originalEvent.clientY, 300)
     this.setState({popupPosition: popupPosition})
     this.leafletMap.leafletElement.openPopup()
   }

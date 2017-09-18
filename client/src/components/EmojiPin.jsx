@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { icon } from 'leaflet'
 import { Marker, Popup } from 'react-leaflet'
+import * as l from '../../../lib'
 
 require('../css/Popup.scss')
 
@@ -26,13 +27,14 @@ export class EmojiPin extends PureComponent {
       {lat: e.target._latlng.lat, lng: e.target._latlng.lng}
     )
   }
-  
+
   render() {
     const emojiIcon = icon({
       iconUrl: `/images/${this.props.data.name}.png`,
       iconSize: 20
     })
     const position = [parseFloat(this.props.data.lat), parseFloat(this.props.data.lng)]
+    const popupPosition = l.getPopupPosition(this.props.popupCoords.x, this.props.popupCoords.y, 320)
     return (
       <Marker
         ref={(el) => { this.leafletMap = el }}
@@ -45,7 +47,7 @@ export class EmojiPin extends PureComponent {
         onDrag={this.props.onDragOver}
         onDragEnd={this.onDrop.bind(this)}>
         <Popup autoPan={false}>
-          <div className={'popup-container ' + this.props.popupPosition}>
+          <div className={'popup-container ' + popupPosition}>
             <div
               className="delete-pin"
               onClick={() => {this.props.onDelete(this.props.data.uid)}}>

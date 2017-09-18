@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import { HeaderContainer } from '../containers/HeaderContainer'
 import { EmojiPin } from './EmojiPin'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
-import Graffiti from '../Graffiti'
 import _ from 'lodash'
 import airbrakeJs from 'airbrake-js'
 import * as l from '../../../lib'
+import { StreetView } from './StreetView'
 
 let airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'});
 
-class UserMap extends Component {
+export class UserMap extends PureComponent {
   constructor(props) {
     super(props)
     this.toolDragStart = this.toolDragStart.bind(this)
@@ -20,30 +20,19 @@ class UserMap extends Component {
     this.pinDrag = this.pinDrag.bind(this)
     this.pinDrop = this.pinDrop.bind(this)
     this.updatePin = this.updatePin.bind(this)
-    this.setupStreetView = this.setupStreetView.bind(this)
     this.deletePin = this.deletePin.bind(this)
     this.onSave = this.onSave.bind(this)
     this.unselectPin = this.unselectPin.bind(this)
     this.closePopups = this.closePopups.bind(this)
     this.selectPin = this.selectPin.bind(this)
-    this.povChanged = this.povChanged.bind(this)
-    this.positionChanged = this.positionChanged.bind(this)
-    this.visibleChanged = this.visibleChanged.bind(this)
     this.titleChanged = this.titleChanged.bind(this)
+    this.positionChanged = this.positionChanged.bind(this)
     this.autoSave = this.autoSave.bind(this)
     this.toolDrag = this.toolDrag.bind(this)
     this.toolDrop = this.toolDrop.bind(this)
     this.setLeafletMap = this.setLeafletMap.bind(this)
     this.preload = this.preload.bind(this)
     this.removeToolAnimation = this.removeToolAnimation.bind(this)
-    this.streetViewOptions = {
-      visible: false,
-      panControl: false,
-      linksControl: true,
-      fullscreenControl: false,
-      addressControl: false,
-      zoomControl: true
-    }
     this.state = {
       animatingTools: true,
       pins: this.props.fetchedPins,
@@ -52,9 +41,7 @@ class UserMap extends Component {
       dragging: null,
       loadedPoints: [],
       errorPoints: [],
-      popupPosition: '',
-      panoTop: 0,
-      panoLeft: 0
+      popupCoords: {}
     };
   }
 
@@ -136,36 +123,9 @@ class UserMap extends Component {
     this.setState({dragging: null})
   }
 
-  povChanged() {
-    const pov = this.streetView.getPov()
-    this.updatePin(this.props.selectedId, {heading: pov.heading, pitch: pov.pitch, zoom: pov.zoom})
-  }
-
-  positionChanged() {
-    const position = this.streetView.getPosition()
-    const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: position.lat(), lng: position.lng()})
-    this.setState({panoTop: pt.y, panoLeft: pt.x})
-
-    this.updatePin(this.props.selectedId, {lat: position.lat(), lng: position.lng()})
-  }
-
   titleChanged(e) {
     e.stopPropagation()
     this.updatePin(this.props.selectedId, {title: l.sanitizePinTitle(e.target.textContent)})
-  }
-
-  visibleChanged() {
-    if (this.streetView.getVisible()){
-      setTimeout(function(){ this.setState({loading: false}) }.bind(this), 850);
-    }
-  }
-
-  setupStreetView(maps){
-    this.streetView = new maps.StreetViewPanorama(this.streetViewContainer, this.streetViewOptions)
-    this.streetViewService = new maps.StreetViewService()
-    maps.event.addListener(this.streetView, "pov_changed", this.povChanged)
-    maps.event.addListener(this.streetView, "position_changed", this.positionChanged)
-    maps.event.addListener(this.streetView, "visible_changed", this.visibleChanged)
   }
 
   confirmSave(e){
@@ -199,7 +159,6 @@ class UserMap extends Component {
 
   componentDidMount() {
     this.preload()
-    this.setupStreetView(window.google.maps)
     this.leafletMap.leafletElement.on("moveend", this.preload);
     this.leafletMap.leafletElement.on("mouseup", this.toolDrop)
     document.body.addEventListener("mouseup", this.stopDrag);
@@ -216,52 +175,6 @@ class UserMap extends Component {
     }
   }
 
-  componentWillUpdate(props) {
-    // something is selected
-    if (props.selectedId) {
-      const selectedPin = _.find(this.state.pins, ['uid', props.selectedId])
-
-      // we have not changed selection
-      if (this.props.selectedId === props.selectedId) {
-        if (this.overlay) {
-          if (selectedPin.title !== this.overlay.text_) {
-            this.overlay.updateText(selectedPin.title)
-          }
-        }
-      // we have changed selection
-      } else {
-        const latLng = new window.google.maps.LatLng(selectedPin.lat, selectedPin.lng)
-        this.streetViewService.getPanorama({location: latLng}, function(result, status){
-          if (status === 'OK') {
-            this.streetView.setPosition(latLng)
-            this.streetView.setPov({heading: selectedPin.heading, pitch: selectedPin.pitch, zoom: selectedPin.zoom})
-            this.streetView.setVisible(true)
-            if (this.overlay) {
-              this.overlay.setMap(null)
-              this.overlay = null
-            }
-            this.overlay = new Graffiti(this)
-            this.setState({noPano: false})
-          } else {
-            if (this.streetView.getVisible()){
-              this.streetView.setVisible(false)
-            }
-            this.setState({noPano: true, loading: false})
-          }
-        }.bind(this))
-      }
-    // nothing is selected
-    } else {
-      if (this.overlay) {
-        this.overlay.setMap(null)
-        this.overlay = null
-      }
-      if (this.streetView.getVisible()){
-        this.streetView.setVisible(false)
-      }
-    }
-  }
-
   unselectPin() {
     this.props.selectPin(null)
     if (this.leafletMap) {
@@ -269,33 +182,17 @@ class UserMap extends Component {
     }
   }
 
-  getPopupPosition(x, y) {
-    let popupPosition = ''
+  positionChanged(position) {
+    const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: position.lat(), lng: position.lng()})
+    this.setState({popupCoords: pt})
 
-    const popupHeight = 320
-    const popupWidth = 500
-    // too high
-    if (y < popupHeight) {
-      popupPosition = popupPosition + 'top '
-    }
-    // too right
-    if ((window.innerWidth - x) < popupWidth/2) {
-      popupPosition = popupPosition + 'right'
-    }
-    // too left
-    if (x < popupWidth/2) {
-      popupPosition = popupPosition + 'left'
-    }
-
-    return popupPosition
+    this.updatePin(this.props.selectedId, {lat: position.lat(), lng: position.lng()})
   }
 
   selectPin(uid) {
     const selectedPin = _.find(this.state.pins, ['uid', uid])
     const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
-    const popupPosition = this.getPopupPosition(pt.x, pt.y)
-
-    this.setState({panoTop: pt.y, panoLeft: pt.x, popupPosition: popupPosition, loading: true, newPin: null})
+    this.setState({popupCoords: pt, newPin: null})
     this.props.selectPin(uid)
     this.leafletMap.leafletElement.dragging.disable()
   }
@@ -362,9 +259,8 @@ class UserMap extends Component {
       <EmojiPin
         key={k.uid}
         data={k}
-        popupPosition={this.state.popupPosition}
+        popupCoords={this.state.popupCoords}
         isNew={ this.state.newPin === k.uid }
-        offsetTop={this.offsetTop}
         selectPin={this.selectPin}
         unselect={this.unselectPin}
         onDragStart={this.pinDragStart}
@@ -408,19 +304,11 @@ class UserMap extends Component {
             </p>
           </div>
         }
-        <div className={this.props.selectedId ? 'street-view-container pin-map-container open' : 'street-view-container pin-map-container'} style={{top: this.state.panoTop, left: this.state.panoLeft}}>
-          <div className={'popup-container ' + this.state.popupPosition}>
-            {this.state.noPano &&
-              <div className="no-pano-container">
-                <div className="no-pano">No streetview available</div>
-              </div>
-            }
-            {this.state.loading &&
-              <div className="loading-street-view" />
-            }
-            <div className="street-view" ref={(el) => {this.streetViewContainer = el;}} />
-          </div>
-        </div>
+        <StreetView
+          popupCoords={this.state.popupCoords}
+          updatePin={this.updatePin}
+          positionChanged={this.positionChanged}
+          selectedPin={this.props.selectedId ? _.find(this.state.pins, ['uid', this.props.selectedId]) : false}/>
         <div className="pin-container">
           {emojis}
         </div>
@@ -428,5 +316,3 @@ class UserMap extends Component {
     );
   }
 }
-
-export default UserMap;

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import * as AppActions from '../actions/AppActions';
-import Map from '../components/Map'
+import { UserMap } from '../components/Map'
 import emojis from '../emojis.json'
 import _ from 'lodash'
 
@@ -27,6 +27,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const MapContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Map)
+)(UserMap)
 
 export default MapContainer

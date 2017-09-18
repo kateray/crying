@@ -26,6 +26,17 @@ $arrowOffset: 20px;
   height: $popupHeight;
 }
 
+.magnify-container .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: $arrowOffset solid transparent;
+  border-right: $arrowOffset solid transparent;
+  left: $popupWidth/2 - $arrowOffset;
+  border-top: $arrowOffset solid #ff409b;
+  top: $popupHeight + $arrowOffset -1;
+}
+
 .share-map .popup-container {
   top: -1*($popupHeight+$arrowOffset);
   .arrow {
@@ -119,9 +130,6 @@ $arrowOffset: 20px;
   background-color: rgba(255, 45, 167, 1.000);
 }
 
-
-
-
 .pin-map-container {
   top: 0px;
   z-index: 650;
@@ -129,36 +137,6 @@ $arrowOffset: 20px;
   width: $popupWidth;
   box-sizing: border-box;
   pointer-events: none;
-}
-
-.arrow-down {
-  border-top: $arrowOffset solid #ff409b;
-  top: $popupHeight + $arrowOffset;
-}
-.share-map .arrow-down {
-  top: $popupHeight;
-}
-
-.arrow-up {
-  border-bottom: 20px solid #ff409b;
-  top: $arrowOffset*-1;
-}
-
-.arrow-up, .arrow-down {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: $arrowOffset solid transparent;
-  border-right: $arrowOffset solid transparent;
-  left: $popupWidth/2 - $arrowOffset;
-
-  &.right-side {
-    left: $popupWidth - 2*$arrowOffset;
-  }
-
-  &.left-side {
-    left: 0px;
-  }
 }
 
 .floating-text {

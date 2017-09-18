@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import { HeaderContainer } from '../containers/HeaderContainer'
 import SharePin from './SharePin'

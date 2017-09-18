@@ -1,5 +1,25 @@
 const _ = require( 'lodash' )
 
+const getPopupPosition = (x, y, popupHeight) => {
+  let popupPosition = ''
+
+  const popupWidth = 500
+  // too high
+  if (y < popupHeight) {
+    popupPosition = popupPosition + 'top '
+  }
+  // too right
+  if ((window.innerWidth - x) < popupWidth/2) {
+    popupPosition = popupPosition + 'right'
+  }
+  // too left
+  if (x < popupWidth/2) {
+    popupPosition = popupPosition + 'left'
+  }
+
+  return popupPosition
+}
+
 const createWebString = (text) => {
   if (text.length > 50) {
     text = text.substring(0,50)
@@ -37,6 +57,7 @@ const sanitizePinTitle = (text) => {
 }
 
 module.exports = {
+  getPopupPosition: getPopupPosition,
   sanitizePinTitle: sanitizePinTitle,
   createWebString: createWebString,
   randId: randId,
