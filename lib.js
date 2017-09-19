@@ -53,7 +53,7 @@ const validateFields = (f) => {
 }
 
 const sanitizePinTitle = (text) => {
-  return text.replace(/[^\w\s!.,]/gi, '')
+  return text.replace(/[^\w\s!.,:'&()]/gi, '')
 }
 
 module.exports = {
