@@ -312,6 +312,8 @@ export class UserMap extends Component {
           </div>
         }
         <StreetView
+          titleChanged={this.titleChanged}
+          closePopups={this.closePopups}
           popupCoords={this.state.popupCoords}
           updatePin={this.updatePin}
           positionChanged={this.positionChanged}

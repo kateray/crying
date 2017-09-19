@@ -19,18 +19,18 @@ Graffiti.prototype.onAdd = function() {
   content.addEventListener("keypress", function(e){
     e.stopPropagation()
     if (e.keyCode == 13){
-      parent.closePopups()
+      parent.props.closePopups()
       return false
     }
   });
   content.addEventListener("mousedown", function(e){
     e.stopPropagation()
   });
-  content.addEventListener("keyup", this.parent_.titleChanged);
+  content.addEventListener("keyup", parent.props.titleChanged);
   button.innerHTML = 'save'
   button.className = 'save-text'
   button.addEventListener("click", function(e){
-    parent.closePopups()
+    parent.props.closePopups()
   })
   var panes = this.getPanes();
   panes.overlayLayer.appendChild(form);
