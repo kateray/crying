@@ -27,6 +27,7 @@ export class UserMap extends Component {
     this.selectPin = this.selectPin.bind(this)
     this.titleChanged = this.titleChanged.bind(this)
     this.positionChanged = this.positionChanged.bind(this)
+    this.panTo = this.panTo.bind(this)
     this.autoSave = this.autoSave.bind(this)
     this.toolDrag = this.toolDrag.bind(this)
     this.toolDrop = this.toolDrop.bind(this)
@@ -185,8 +186,12 @@ export class UserMap extends Component {
   positionChanged(position) {
     const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: position.lat(), lng: position.lng()})
     this.setState({popupCoords: pt})
-
     this.updatePin(this.props.selectedId, {lat: position.lat(), lng: position.lng()})
+  }
+
+  panTo(position) {
+    this.closePopups()
+    this.leafletMap.leafletElement.panTo([position.lat(),position.lng()])
   }
 
   selectPin(uid) {
@@ -259,6 +264,8 @@ export class UserMap extends Component {
       <EmojiPin
         key={k.uid}
         data={k}
+        positionChanged={this.positionChanged}
+        panTo={this.panTo}
         popupCoords={this.state.popupCoords}
         isNew={ this.state.newPin === k.uid }
         selectPin={this.selectPin}

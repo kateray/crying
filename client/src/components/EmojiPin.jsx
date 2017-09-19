@@ -9,6 +9,14 @@ export class EmojiPin extends PureComponent {
   constructor(props) {
     super(props)
     this.onDragStart = this.onDragStart.bind(this)
+    this.fillInAddress = this.fillInAddress.bind(this)
+    this.initializePlaces = this.initializePlaces.bind(this)
+  }
+
+  fillInAddress() {
+    const location = this.autocomplete.getPlace().geometry.location
+    this.props.positionChanged(location)
+    this.props.panTo(location)
   }
 
   componentDidMount() {
@@ -26,6 +34,18 @@ export class EmojiPin extends PureComponent {
       this.props.data.uid,
       {lat: e.target._latlng.lat, lng: e.target._latlng.lng}
     )
+  }
+
+  initializePlaces() {
+    this.autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode'], componentRestrictions: {country: 'us'}})
+    const geolocation = {lat: parseFloat(this.props.data.lat), lng: parseFloat(this.props.data.lng)};
+    const circle = new google.maps.Circle({
+      center: geolocation,
+      radius: 20000
+    });
+    this.autocomplete.setBounds(circle.getBounds())
+    this.autocomplete.setOptions({strictBounds: true})
+    this.autocomplete.addListener('place_changed', this.fillInAddress)
   }
 
   render() {
@@ -48,6 +68,10 @@ export class EmojiPin extends PureComponent {
         onDragEnd={this.onDrop.bind(this)}>
         <Popup autoPan={false}>
           <div className={'popup-container ' + popupPosition}>
+            <div className="address-search">
+              Change location:
+              <input id='autocomplete' placeholder="Address" onFocus={this.initializePlaces} />
+            </div>
             <div
               className="delete-pin"
               onClick={() => {this.props.onDelete(this.props.data.uid)}}>

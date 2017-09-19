@@ -175,21 +175,44 @@ $arrowOffset: 20px;
   }
 }
 
+.address-search {
+  position: absolute;
+  line-height: 15px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 5px;
+  bottom: 0px;
+  left: 0px;
+  font-family: $font;
+}
+
 .leaflet-popup-content ::-webkit-input-placeholder {
   color: rgba(95, 95, 95, 1.000);
 }
 .leaflet-popup-content input, .leaflet-popup-content textarea {
-  border-radius: 3px;
-  background: rgba(233, 100, 176, 1.000);
+  border-radius: 0px;
+  margin-left: 5px;
+  background: transparent;
   border: none;
-  width: 150px;
-  margin-bottom: 5px;
+  border-bottom: 1px solid black;
+  width: 220px;
   padding: 3px;
+  padding-bottom: 0px;
+  margin-bottom: 3px;
   font-family: 'Share Tech Mono';
   font-size: 12px;
   font-weight: normal;
   /*border-bottom: 1px solid #000;*/
+  &::-webkit-input-placeholder {
+    font-style: italic;
+  }
 }
+
+.pac-icon {
+  width: 0;
+  background-image: none;
+}
+
 .leaflet-popup-content textarea {
   height: 4em;
 }
