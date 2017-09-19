@@ -14,6 +14,9 @@
 #app-title {
   font-size: 30px;
   display: inline-block;
+  img {
+    width: 30px;
+  }
 }
 
 #app-title h1 {
@@ -143,6 +146,7 @@
   z-index: 10000;
   cursor: grabbing;
   pointer-events: none;
+  width: 30px;
 }
 .pin-container {
   z-index: 1000;
@@ -223,6 +227,7 @@
 .movable-pin {
   background: transparent;
   display: inline-block;
+  width: 30px;
 }
 
 .movable-pin:active {
