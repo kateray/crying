@@ -14,6 +14,13 @@ function requestSave(){
   }
 }
 
+function setFetchingPins(payload) {
+  return {
+    type: types.IS_FETCHING_PINS,
+    payload
+  }
+}
+
 export const save = (uid, data) => {
   return (dispatch, getState) => {
     dispatch(requestSave())
@@ -86,12 +93,14 @@ function receiveUser(payload) {
 
 export const getPins = (uid=false) => {
   return (dispatch, getState) => {
+    dispatch(setFetchingPins(true))
     let urlString = uid ? `/pins/${uid}` : `/pins`
     return fetch(urlString, {
         credentials: 'include',
       })
       .then(response => response.json())
       .then(json => {
+        dispatch(setFetchingPins(false))
         dispatch(receivePins(json.data))
       })
   }

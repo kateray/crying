@@ -298,7 +298,7 @@ export class UserMap extends Component {
             {pins}
           </Map>
         </div>
-        {this.state.pins.length === 0 && !this.state.dragging &&
+        {this.state.pins.length === 0 && !this.state.dragging && !this.props.isFetching &&
           <div className="initial-instruction">
             <p>
               Hello! This is a place for you to record stories about your personal moments in public spaces.

@@ -1,15 +1,21 @@
 client development
-$ npm run start:dev
+
+`npm run start:dev`
 
 to run an interactive session
-$ node console.js
+
+`node console.js`
 
 to download prod db:
-heroku pg:backups:capture
-heroku pg:backups:download
-pg_restore --verbose --clean --no-acl --no-owner -h localhost -d crying latest.dump
+
+`heroku pg:backups:capture`
+
+`heroku pg:backups:download`
+
+`pg_restore --verbose --clean --no-acl --no-owner -h localhost -d crying latest.dump`
 
 to test production code
+
 cd /client
 npm run build
 
@@ -29,3 +35,8 @@ https://github.com/sequelize/sequelize/issues/4142
 
 
 Emojis from: http://emojipedia.org/
+
+TODO:
+
+* pins still move slightly when you click (like on pee)
+* be able to change email/password

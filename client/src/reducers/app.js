@@ -19,6 +19,10 @@ const app = (state = {}, action) => {
         isSaving: true,
         lastSave: Date.now()
       });
+    case types.IS_FETCHING_PINS:
+      return Object.assign({}, state, {
+        isFetchingPins: action.payload
+      })
     case types.RECEIVE_PINS:
       return Object.assign({}, state, {
         error: null,

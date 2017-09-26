@@ -9,7 +9,8 @@ const mapStateToProps = (state, ownProps) => {
     user: state.app.user,
     isSaving: state.app.isSaving,
     emojis: emojis,
-    selectedId: state.app.selected
+    selectedId: state.app.selected,
+    isFetching: state.app.isFetchingPins
   }
 }
 
