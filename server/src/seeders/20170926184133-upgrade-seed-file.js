@@ -1,4 +1,5 @@
 'use strict';
+const models = require('../models/index')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -9,7 +10,7 @@ module.exports = {
       Example:
 
     */
-    return queryInterface.bulkInsert('Pin', [
+    return queryInterface.bulkInsert('Pins', [
     {
       name: 'fire',
       title: 'I had to wonder if they fired her in the same coffeeshop 10 minutes before me.',
