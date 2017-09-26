@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom'
 
 export class App extends PureComponent {
   componentWillMount() {
-    this.props.getPins()
+    this.props.getPins(this.props.match.params.id)
   }
 
   render() {
