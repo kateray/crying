@@ -5,7 +5,7 @@
   "main": "server/src/index.js",
   "scripts": {
     "test": "jest",
-    "start": "npm-run-all --parallel watch:server watch:build",
+    "start:dev": "npm-run-all --parallel watch:server watch:build",
     "watch:build": "webpack --env=dev -d --watch",
     "watch:server": "nodemon server/src --exec babel-node",
     "build": "NODE_ENV=production webpack --env=prod --progress --colors",
