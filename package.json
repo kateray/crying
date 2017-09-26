@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "cry",
   "main": "server/src/index.js",
+  "engines": {
+    "node": "8.4.0"
+  },
   "scripts": {
     "test": "jest",
     "start:dev": "npm-run-all --parallel watch:server watch:build",
