@@ -13,7 +13,7 @@
     "watch:server": "nodemon server/src --exec babel-node",
     "build": "NODE_ENV=production webpack --env=prod --progress --colors",
     "heroku-postbuild": "npm run build",
-    "start": "node server"
+    "start": "node server/src"
   },
   "repository": {
     "type": "git",
