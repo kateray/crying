@@ -7,7 +7,7 @@ export class Settings extends Component {
     super(props)
     this.updateUser = this.updateUser.bind(this)
     this.state = {
-      email: '',
+      email: this.props.user.email,
       password: '',
       passwordConfirm: '',
       errors: {}
@@ -24,10 +24,6 @@ export class Settings extends Component {
     } else {
       this.setState({errors: errors})
     }
-  }
-
-  componentWillMount(){
-    this.setState({email: this.props.user.email})
   }
 
   componentWillReceiveProps(nextProps) {

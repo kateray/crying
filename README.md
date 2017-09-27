@@ -40,3 +40,4 @@ TODO:
 
 * pins still move slightly when you click (like on pee)
 * be able to change email/password
+* forgot my password / email

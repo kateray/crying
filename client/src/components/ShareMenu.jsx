@@ -12,7 +12,7 @@ class ShareMenu extends Component {
   render() {
     const url = window.location.href;
     return (
-      <div className="share-menu">
+      <div className="user-form">
         <div className="share-option">
           <a href={"https://twitter.com/intent/tweet?text=places%20I%27ve%20cried%20in%20public&url="+url} target="_blank">
             on twitter

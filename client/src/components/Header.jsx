@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import ShareMenu from './ShareMenu'
-import LoginForm from './LoginForm'
+import { LoginForm } from './LoginForm'
 import { Settings } from './Settings'
 
 export class Header extends Component {

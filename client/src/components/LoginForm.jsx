@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 require('../css/Login.scss')
 
-class LoginForm extends Component {
+export class LoginForm extends Component {
   constructor(props){
     super(props)
     this.login = this.login.bind(this)
@@ -56,5 +56,3 @@ class LoginForm extends Component {
     )
   }
 }
-
-export default LoginForm

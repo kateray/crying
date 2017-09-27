@@ -75,15 +75,6 @@
   text-transform: lowercase;
 }
 
-.share-menu {
-  padding: 5px;
-  background: #fff;
-  position: absolute;
-  z-index: 1000;
-  right: 0px;
-  top: 40px;
-}
-
 .share-option {
   line-height: 25px;
 }
@@ -91,10 +82,6 @@
 .share-option a {
   text-decoration: underline;
   cursor: pointer;
-}
-
-.share-menu a:hover {
-  text-decoration: none;
 }
 
 .fb-logo {
