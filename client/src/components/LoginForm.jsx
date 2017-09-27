@@ -18,7 +18,7 @@ class LoginForm extends Component {
   login(e){
     e.preventDefault()
     let fields = {email: this.state.email, password: this.state.password}
-    let errors = l.validateFields(fields)
+    let errors = l.validateFields(fields, 'signin')
     if (_.isEmpty(errors)) {
       this.props.login(
         fields,

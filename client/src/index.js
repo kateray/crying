@@ -11,8 +11,8 @@ require('./css/index.scss')
 require('./css/App.scss')
 
 let el = document.getElementById('root')
-let user = JSON.parse(el.dataset.user).uid
-let initialState = {env: el.dataset.env, isSaving: false, user: user, fetchedPins: [], errors: {}}
+let user = JSON.parse(el.dataset.user)
+let initialState = {env: el.dataset.env, isSaving: false, user: user, fetchedPins: [], errors: {}, showSaveConfirmation: {}}
 let store = createStore(crying, {app: initialState}, applyMiddleware(thunk))
 
 render(

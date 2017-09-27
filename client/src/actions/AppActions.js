@@ -133,3 +133,32 @@ function receiveError(payload) {
     payload
   }
 }
+
+export function receiveSaveConfirmation(payload) {
+  return {
+    type: types.RECEIVE_SAVE_CONFIRMATION,
+    payload
+  }
+}
+
+export const updateUser = ( userInfo, id ) => {
+  return ( dispatch, getState ) => {
+    return fetch(`/user/${id}`, {
+      credentials: 'include',
+      method: 'PUT',
+      body: JSON.stringify(userInfo),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then( response => response.json() )
+    .then( json => {
+      if (json.error){
+        dispatch(receiveError(json.error))
+      } else {
+        dispatch(receiveUser(json.data))
+        dispatch(receiveSaveConfirmation({user: true}))
+      }
+    })
+  }
+}

@@ -19,6 +19,10 @@ const app = (state = {}, action) => {
         isSaving: true,
         lastSave: Date.now()
       });
+    case types.RECEIVE_SAVE_CONFIRMATION:
+      return Object.assign({}, state, {
+        showSaveConfirmation: action.payload
+      })
     case types.IS_FETCHING_PINS:
       return Object.assign({}, state, {
         isFetchingPins: action.payload

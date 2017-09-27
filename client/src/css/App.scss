@@ -405,3 +405,13 @@ input[type="submit"] {
   font-size: 0.8em;
   line-height: 0.8em;
 }
+
+.save-confirmation {
+  color: $green;
+  opacity: 0;
+  transition: opacity .4s ease-in-out;
+
+  &.visible {
+    opacity: 1;
+  }
+}

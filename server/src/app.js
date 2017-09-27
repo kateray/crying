@@ -93,7 +93,7 @@ const createHTML = async (req, res) => {
       console.error('read err', err)
       return res.status(404).end()
     }
-    const user = req.isAuthenticated() ? {uid: req.user.uid} : {uid: false}
+    const user = req.isAuthenticated() ? {uid: req.user.uid, email: req.user.email} : false
     let pins
     if (req.params.id) {
       // we are looking at a particular map
@@ -128,7 +128,7 @@ const login = async (req, res, next) => {
       if (err) return res.status(422).send(err)
       bcrypt.hash(req.body.password, salt, async (err, hash) => {
         if (err) return res.status(422).send('error hashing')
-        let errors = l.validateFields(req.body)
+        let errors = l.validateFields(req.body, 'signin')
         if (!_.isEmpty(errors)) {
           return res.status(422).send({error: {user: errors}})
         }

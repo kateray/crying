@@ -2,13 +2,20 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import ShareMenu from './ShareMenu'
 import LoginForm from './LoginForm'
+import { Settings } from './Settings'
 
-class Header extends Component {
+export class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      shareMenuOpen: false,
-      loginMenuOpen: false
+    this.state = {menuOpen: false}
+  }
+
+  _toggleMenu(menuName){
+    this.props.receiveSaveConfirmation({user: false})
+    if (this.state.menuOpen === menuName) {
+      this.setState({menuOpen: false})
+    } else {
+      this.setState({menuOpen: menuName})
     }
   }
 
@@ -22,9 +29,9 @@ class Header extends Component {
       saveNote = 'saved ' + (new Date(this.props.lastSave)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
     return (
-      <div id="app-buttons-container">
+      <span>
         {!this.props.showSave &&
-          <a className="nav-button" href={"/maps/"+this.props.user}>
+          <a className="nav-button" href={"/maps/"+this.props.user.uid}>
             your map
           </a>
         }
@@ -37,38 +44,51 @@ class Header extends Component {
                 id="save" onClick={this.props.onSave}>
                 save
               </a>
-              <a className={this.state.shareMenuOpen ? "nav-button highlight" : "nav-button"}
-                onClick={() => this.setState({shareMenuOpen: !this.state.shareMenuOpen})}>
+              <a className={this.state.menuOpen === 'share' ? "nav-button highlight" : "nav-button"}
+                onClick={() => this._toggleMenu('share')}>
                 share
               </a>
-              {this.state.shareMenuOpen &&
-                <ShareMenu />
-              }
             </span>
           )}/>
         }
+        <a className={this.state.menuOpen === 'settings' ? 'nav-button highlight' : 'nav-button'}
+          id="login"
+          onClick={() => this._toggleMenu('settings')}>
+          settings
+        </a>
         <a className="nav-button" id="logout" href='/logout'>logout</a>
-      </div>
+      </span>
     )
   }
 
   _renderNoUserButtons() {
     return (
-      <div id="app-buttons-container">
-        {this.state.loginMenuOpen &&
-          <LoginForm login={this.props.login} errors={this.props.errors.user} />
-        }
+      <span>
         <span>
           Create your own map ->
         </span>
-        <a className={this.state.loginMenuOpen ? 'nav-button highlight' : 'nav-button'} id="login" onClick={() => this.setState({loginMenuOpen: !this.state.loginMenuOpen})}>
+        <a className={this.state.menuOpen === 'login' ? 'nav-button highlight' : 'nav-button'}
+          id="login"
+          onClick={() => this._toggleMenu('login')}>
           Sign in
         </a>
-      </div>
+      </span>
     )
   }
 
   render() {
+    let openMenu
+    if (this.state.menuOpen === 'share') {
+      openMenu = <ShareMenu />
+    } else if (this.state.menuOpen === 'settings') {
+      openMenu =  <Settings
+                  showSaveConfirmation={this.props.showSaveConfirmation.user}
+                  errors={this.props.errors.user}
+                  user={this.props.user}
+                  updateUser={this.props.updateUser} />
+    } else if (this.state.menuOpen === 'login') {
+      openMenu = <LoginForm login={this.props.login} errors={this.props.errors.user} />
+    }
     return (
       <div id="header">
         <a href="/">
@@ -81,15 +101,16 @@ class Header extends Component {
         <div id="app-description">
           An emotional map of New York City, made out of the important things that happen to us outside. Project by <a href="https://twitter.com/kraykray" target="_blank">kraykray</a>
         </div>
-        {this.props.user &&
-          this._renderUserButtons()
-        }
-        {!this.props.user &&
-          this._renderNoUserButtons()
-        }
+        <div id="app-buttons-container">
+          {this.props.user &&
+            this._renderUserButtons()
+          }
+          {!this.props.user &&
+            this._renderNoUserButtons()
+          }
+          {openMenu}
+        </div>
       </div>
     )
   }
 }
-
-export default Header;
