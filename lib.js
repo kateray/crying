@@ -1,4 +1,4 @@
-const _ = require( 'lodash' )
+import _ from 'lodash'
 
 const getPopupPosition = (x, y, popupHeight) => {
   let popupPosition = ''
