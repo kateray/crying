@@ -14,6 +14,7 @@ const express = require('express')
   , passport = require('passport')
   , LocalStrategy = require( 'passport-local').Strategy
   , bcrypt = require( 'bcryptjs')
+  , sslRedirect = require('heroku-ssl-redirect')
   , _ = require( 'lodash')
 
 const manifestPath = `${process.cwd()}/dist/build-manifest.json`;
@@ -26,6 +27,7 @@ const l = require( '../../lib')
 
 const app = express()
 
+app.use(sslRedirect())
 app.use('/static', express.static('dist'))
 app.use(express.static('client/public'))
 app.use(cookieParser());
