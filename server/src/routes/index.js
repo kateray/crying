@@ -2,7 +2,7 @@ const models = require('../models/index')
 const express = require('express')
 const router  = express.Router()
 const l = require( '../../../lib')
-import _ from 'lodash'
+const _ = require( 'lodash' )
 
 const requiresCorrectUser = ( req, res, next ) => {
   if (!req.isAuthenticated()) {
