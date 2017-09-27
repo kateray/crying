@@ -1,8 +1,9 @@
-const models = require('../models/index')
-const express = require('express')
-const router  = express.Router()
-const l = require( '../../../lib')
 const _ = require( 'lodash' )
+  , bcrypt = require( 'bcryptjs')
+  , express = require('express')
+  , router  = express.Router()
+  , models = require('../models/index')
+  , l = require( '../../../lib')
 
 const requiresCorrectUser = ( req, res, next ) => {
   if (!req.isAuthenticated()) {
