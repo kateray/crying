@@ -103,7 +103,7 @@ export class UserMap extends Component {
     this.leafletMap.leafletElement.removeEventListener('mousemove');
     if (this.state.dragging && this.state.dragging.type === 'tool') {
       const uid = Date.now().toString()
-      const newPin = Object.assign({uid: uid, heading: 34, pitch: 10, zoom: 1}, this.state.dragging.data, {lat: e.latlng.lat, lng: e.latlng.lng})
+      const newPin = Object.assign({uid: uid, heading: 34, pitch: 10, zoom: 1}, this.state.dragging.data, {lat: e.latlng.lat, lng: e.latlng.lng, title: ""})
       const pins = [...this.state.pins, newPin]
       this.setState({pins: pins, dragging: null, newPin: uid});
     }
