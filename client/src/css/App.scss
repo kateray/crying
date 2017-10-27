@@ -359,8 +359,12 @@
 }
 
 /*google streetview*/
-.gmnoprint, .gm-style-cc {
+.gmnoprint {
   opacity: 0.9;
+}
+
+.gm-style-cc {
+  opacity: 0.3;
 }
 
 .gm-style a img {

@@ -22,7 +22,10 @@ Graffiti.prototype.onAdd = function() {
   content.addEventListener("keypress", function(e){
     e.stopPropagation()
     if (e.keyCode == 13){
-      parent.props.closePopups()
+      if (!_.isEmpty(this.textContent)){
+        parent.props.closePopups()
+      }
+      e.preventDefault()
       return false
     }
   });
