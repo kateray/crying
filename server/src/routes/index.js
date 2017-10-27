@@ -78,6 +78,7 @@ router.post('/pins/:user_id/save', (req, res) => {
   }).catch( (reason) => {
     console.log('****************************')
     console.log(reason)
+    console.log('+++++++++++++++++++++++++++++++++++')
   })
 })
 
