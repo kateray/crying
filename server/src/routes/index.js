@@ -31,7 +31,7 @@ router.get('/pins', async (req, res) => {
 
 const saveData = (t, entry, id, promises) => {
   if (entry.type === 'ADD'){
-    console.log(`@@@@@@@@@@@@@ ${entry} and id ${id}`)
+    console.log(`@@@@@@@@@@@@@ ${entry.toString()} and id ${id}`)
     var newPromise = models.Pin.create({
       name: entry.data.name,
       title: entry.data.title,
