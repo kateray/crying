@@ -56,7 +56,7 @@ export class Settings extends Component {
         {this.props.showSaveConfirmation &&
           <div className='save-confirmation visible'>Changes saved!</div>
         }
-        <input type="submit" value="Save"/>
+        <input className="nav-button" type="submit" value="Save"/>
       </form>
     )
   }
