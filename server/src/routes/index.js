@@ -75,6 +75,9 @@ router.post('/pins/:user_id/save', (req, res) => {
       .then((pins) => {
         res.json({status: 'success', message: 'Saved pins', data: pins})
       })
+  }).catch( (reason) => {
+    console.log('****************************')
+    console.log(reason)
   })
 })
 
