@@ -114,11 +114,8 @@
 
 .initial-instruction {
   animation: fadein 400ms;
-  padding: 10px;
   z-index: 20000;
   text-align: center;
-  background-color: #fff;
-  font-size: 15px;
   position: absolute;
   width: 400px;
   margin-left: -200px;
@@ -285,13 +282,17 @@
   padding: 5px;
   background: #000;
   color: #fff;
-  /*background: rgba(233, 88, 171, 0.770);*/
-  visibility: hidden;
-}
-
-.save-text:hover {
-  color: #000;
-  background: #fff;
+  &:disabled {
+    background: gray;
+    &:hover {
+      background: gray;
+      color: white;
+    }
+  }
+  &:hover {
+    color: #000;
+    background: #fff;
+  }
 }
 
 /* map */
@@ -319,8 +320,29 @@
 }
 
 
+.instruction {
+  font-family: $font;
+  line-height: 1.5;
+  background-color: rgba(250,250,250,0.5);
+  padding: 10px;
+  font-size: 16px;
+  position: absolute;
+  color: black;
+  // background-color: $pink;
+}
 
+.title-instruction {
+  text-align: right;
+  top: 45px;
+  width: 250px;
+  left: -265px;
+}
 
+.controls-instruction {
+  top: 220px;
+  width: 250px;
+  left: 500px;
+}
 
 .magnify-container .arrow-down {
   top: 318px;
@@ -328,8 +350,7 @@
 
 /*google streetview*/
 .gmnoprint, .gm-style-cc {
-  opacity: 0.7;
-  visibility: hidden;
+  opacity: 0.9;
 }
 
 .gm-style a img {

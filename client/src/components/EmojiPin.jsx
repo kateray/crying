@@ -78,6 +78,8 @@ export class EmojiPin extends PureComponent {
               delete pin
             </div>
             <div className='arrow' />
+            {this.props.showInstructions && <div className="instruction title-instruction">{"Write your story here -->"}</div>}
+            {this.props.showInstructions && <div className="instruction controls-instruction">{"<-- Move around the streetview and use controls to change the background"}</div>}
           </div>
         </Popup>
       </Marker>

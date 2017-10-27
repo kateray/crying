@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 Graffiti.prototype = new window.google.maps.OverlayView();
 
 function Graffiti(parent) {
@@ -12,6 +14,7 @@ Graffiti.prototype.onAdd = function() {
   var button = document.createElement('button')
   form.appendChild(content)
   form.appendChild(button)
+  this.button_ = button
   content.setAttribute('contenteditable', true)
   content.className = 'floating-text';
   this.content_ = content;
@@ -29,6 +32,9 @@ Graffiti.prototype.onAdd = function() {
   content.addEventListener("keyup", parent.props.titleChanged);
   button.innerHTML = 'save'
   button.className = 'save-text'
+  if (_.isEmpty(this.text_)){
+    button.disabled = true
+  }
   button.addEventListener("click", function(e){
     parent.props.closePopups()
   })
@@ -39,6 +45,13 @@ Graffiti.prototype.onAdd = function() {
 };
 Graffiti.prototype.updateText = function(text){
   this.text_ = text;
+  if (this.button_){
+    if (_.isEmpty(text)){
+      this.button_.disabled = true
+    } else {
+      this.button_.disabled = false
+    }
+  }
 };
 Graffiti.prototype.focusCaret = function() {
   if (this.content_) {

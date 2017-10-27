@@ -262,6 +262,7 @@ export class UserMap extends Component {
     );
     const pins = this.state.pins.map((k) =>
       <EmojiPin
+        showInstructions={this.state.pins.length === 1 && !this.state.dragging && !this.props.isFetching}
         key={k.uid}
         data={k}
         positionChanged={this.positionChanged}
@@ -299,9 +300,9 @@ export class UserMap extends Component {
           </Map>
         </div>
         {this.state.pins.length === 0 && !this.state.dragging && !this.props.isFetching &&
-          <div className="initial-instruction">
+          <div className="initial-instruction instruction">
             <p>
-              Hello! This is a place for you to record stories about your personal moments in public spaces.
+              This is a place for you to record stories about your personal moments in public spaces.
             </p>
             <p>
               Your pins will be shown on the homepage, but not associated with you. You can share your map if you want though. <a target="_blank"  href="http://cryinginpublic.com/maps/g1534fip1s">Here's mine.</a>
