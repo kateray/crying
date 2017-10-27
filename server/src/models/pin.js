@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
     lng: DataTypes.DECIMAL,
     heading: DataTypes.INTEGER,
     pitch: DataTypes.INTEGER,
-    zoom: DataTypes.INTEGER
+    zoom: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {
