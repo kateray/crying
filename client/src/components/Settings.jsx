@@ -38,6 +38,7 @@ export class Settings extends Component {
   render() {
     return (
       <form className='user-form' onSubmit={this.updateUser}>
+        <div className='close-form' onClick={this.props.closeMenu}>&#x2715;</div>
         {this.state.errors.general &&
           <div className="form-error">{this.state.errors.general}</div>
         }

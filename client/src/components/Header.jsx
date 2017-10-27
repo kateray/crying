@@ -19,6 +19,10 @@ export class Header extends Component {
     }
   }
 
+  closeMenu(){
+    this.setState({menuOpen: false})
+  }
+
   _renderUserButtons() {
     let saveNote;
     if (this.props.isSaving) {
@@ -79,9 +83,10 @@ export class Header extends Component {
   render() {
     let openMenu
     if (this.state.menuOpen === 'share') {
-      openMenu = <ShareMenu />
+      openMenu = <ShareMenu closeMenu={this.closeMenu.bind(this)}/>
     } else if (this.state.menuOpen === 'settings') {
       openMenu =  <Settings
+                  closeMenu={this.closeMenu.bind(this)}
                   showSaveConfirmation={this.props.showSaveConfirmation.user}
                   errors={this.props.errors.user}
                   user={this.props.user}

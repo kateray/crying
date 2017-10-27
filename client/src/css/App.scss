@@ -295,6 +295,16 @@
   }
 }
 
+// header forms
+.close-form {
+  cursor: pointer;
+  font-size: 1.3em;
+  float: right;
+  &:hover {
+    color: red;
+  }
+}
+
 /* map */
 #map-container {
   width: 100%;
