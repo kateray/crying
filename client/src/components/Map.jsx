@@ -262,7 +262,7 @@ export class UserMap extends Component {
     );
     const pins = this.state.pins.map((k) =>
       <EmojiPin
-        showInstructions={this.state.pins.length === 1 && !this.state.dragging && !this.props.isFetching}
+        showInstructions={this.state.pins.length === 1}
         key={k.uid}
         data={k}
         positionChanged={this.positionChanged}
