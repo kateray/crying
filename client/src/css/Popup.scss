@@ -149,13 +149,35 @@ $arrowOffset: 20px;
   padding: 5px;
   color: #000;
   background-color: #fff;
-  width: 200px;
-  top: 50px;
-  left: 50px;
+  width: 250px;
+  top: 30px;
+  left: 30px;
   &[contenteditable="true"] {
     min-height: 2em;
   }
 }
+
+.save-text {
+  position: absolute;
+  top: 30px;
+  left: 290px;
+  font-size: 13px;
+  padding: 5px;
+  background: #000;
+  color: #fff;
+  &:disabled {
+    background: gray;
+    &:hover {
+      background: gray;
+      color: white;
+    }
+  }
+  &:hover {
+    color: #000;
+    background: #fff;
+  }
+}
+
 
 .delete-pin {
   cursor: pointer;
