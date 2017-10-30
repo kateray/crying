@@ -10,7 +10,7 @@
     "test": "jest",
     "start:dev": "npm-run-all --parallel watch:server watch:build",
     "watch:build": "webpack --env=dev -d --watch",
-    "watch:server": "nodemon server/src --exec babel-node",
+    "watch:server": "NODE_ENV=development nodemon server/src --exec babel-node",
     "build": "NODE_ENV=production webpack --env=prod --progress --colors",
     "heroku-postbuild": "npm run build",
     "start": "node server/src"

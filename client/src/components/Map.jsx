@@ -5,11 +5,8 @@ import { EmojiPin } from './EmojiPin'
 import EmojiTool from './EmojiTool'
 import Magnify from './Magnify'
 import _ from 'lodash'
-import airbrakeJs from 'airbrake-js'
 import * as l from '../../../lib'
 import { StreetView } from './StreetView'
-
-let airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'});
 
 export class UserMap extends Component {
   constructor(props) {

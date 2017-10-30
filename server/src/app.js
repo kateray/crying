@@ -112,6 +112,7 @@ const createHTML = async (req, res) => {
       pins = await models.Pin.findAll({attributes: pinAttrs})
     }
     const RenderedApp = htmlData
+      .replace('{{NODE_ENV}}', process.env.NODE_ENV)
       .replace('{{PINS}}', `'${JSON.stringify(pins)}'`)
       .replace('{{USER}}', JSON.stringify(user))
       .replace('{{JS}}', `/static/${jsLink}`)
