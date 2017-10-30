@@ -4,8 +4,10 @@ const getPopupPosition = (x, y, popupHeight) => {
   let popupPosition = ''
 
   const popupWidth = 500
+  // Header height + popup above pin
+  const fromTop = 80
   // too high
-  if (y < popupHeight) {
+  if (y < (popupHeight + fromTop)) {
     popupPosition = popupPosition + 'top '
   }
   // too right
