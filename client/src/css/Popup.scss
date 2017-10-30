@@ -58,7 +58,7 @@ $arrowOffset: 20px;
   position: relative;
   top: -1*($popupHeight+$arrowOffset*2);
   left: $popupWidth/-2;
-
+  border: 1px solid $pink;
   .arrow {
     position: absolute;
     width: 0;
@@ -152,6 +152,9 @@ $arrowOffset: 20px;
   width: 200px;
   top: 50px;
   left: 50px;
+  &[contenteditable="true"] {
+    min-height: 2em;
+  }
 }
 
 .delete-pin {

@@ -290,7 +290,7 @@ export class UserMap extends Component {
             style={{top: this.state.dragging.toolTop, left: this.state.dragging.toolLeft}} />
         }
         <div id="map-container" className={this.state.dragging ? "dragging" : ""} style={{height: window.innerHeight}}>
-          <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false} scrollWheelZoom={false}>
+          <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false}>
             <ZoomControl position='bottomright' />
             <TileLayer
               url='https://api.mapbox.com/styles/v1/kray/cj27sh4ld00002sqc4cl4hnza/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3JheSIsImEiOiJjaXoxZmdyZ3gwMDE1MnFvZG9oZmhrMTBsIn0.mvcEq1pLdeOv-xUSGn6sVw'
