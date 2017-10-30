@@ -19,7 +19,7 @@ Graffiti.prototype.onAdd = function() {
   content.className = 'floating-text';
   this.content_ = content;
   parent = this.parent_
-  content.addEventListener("keypress", function(e){
+  content.addEventListener("keydown", function(e){
     e.stopPropagation()
     if (e.keyCode == 13){
       if (!_.isEmpty(this.textContent)){
