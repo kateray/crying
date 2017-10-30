@@ -21,6 +21,9 @@ Graffiti.prototype.onAdd = function() {
   parent = this.parent_
   content.addEventListener("keydown", function(e){
     e.stopPropagation()
+  })
+  content.addEventListener("keypress", function(e){
+    e.stopPropagation()
     if (e.keyCode == 13){
       if (!_.isEmpty(this.textContent)){
         parent.props.closePopups()
