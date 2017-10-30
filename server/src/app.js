@@ -126,6 +126,24 @@ app.get('/', createHTML)
 const login = async (req, res, next) => {
   let user = await models.User.findOne({where: {email: req.body.email }, attributes: ['id', 'email']})
   if (!user) {
+    return res.status(422).send({error: {user: {email: 'No user with that email. Did you mean to signup?'}}})
+  } else {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) { return res.status(422).send({error: {user: info.error}}) }
+      if (!user) {
+        return res.status(422).send({error: {user: info.error}})
+      }
+      req.login(user, (err) => {
+        if (err) { return res.status(422).send(err) }
+        return res.json({status: 'success', message: 'Login successful', data: user.uid});
+      })
+    })(req, res, next)
+  }
+}
+
+const signup = async (req, res, next) => {
+  let user = await models.User.findOne({where: {email: req.body.email }, attributes: ['id', 'email']})
+  if (!user) {
     bcrypt.genSalt(10, async (err, salt) => {
       if (err) return res.status(422).send(err)
       bcrypt.hash(req.body.password, salt, async (err, hash) => {
@@ -145,19 +163,12 @@ const login = async (req, res, next) => {
       })
     })
   } else {
-    passport.authenticate('local', (err, user, info) => {
-      if (err) { return res.status(422).send({error: {user: info.error}}) }
-      if (!user) {
-        return res.status(422).send({error: {user: info.error}})
-      }
-      req.login(user, (err) => {
-        if (err) { return res.status(422).send(err) }
-        return res.json({status: 'success', message: 'Login successful', data: user.uid});
-      })
-    })(req, res, next)
+    return res.status(422).send({error: {user: {email: 'User with that email already exists. Did you mean to login?'}}})
   }
 }
 
 app.post('/login', login)
+app.post('/signup', signup)
+
 
 module.exports = app

@@ -11,16 +11,18 @@ export class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
+      passwordConfirm: '',
       errors: {}
     }
   }
 
   login(e){
     e.preventDefault()
-    let fields = {email: this.state.email, password: this.state.password}
-    let errors = l.validateFields(fields, 'signin')
+    let fields = {email: this.state.email, password: this.state.password, passwordConfirm: this.state.passwordConfirm}
+    let errors = l.validateFields(fields, this.props.mode)
     if (_.isEmpty(errors)) {
       this.props.login(
+        this.props.mode,
         fields,
         this.props.fromHomepage
       )
@@ -51,6 +53,9 @@ export class LoginForm extends Component {
           <div className="form-error">{this.state.errors.password}</div>
         }
         <input className={this.state.errors.password ? 'error' : ''} type="password" value={this.state.password} onChange={(e) => this.setState({password: e.target.value.trim()})} placeholder="password" />
+        {this.props.mode === 'signup' &&
+          <input className={this.state.errors.password ? 'error' : ''} type="password" value={this.state.passwordConfirm} onChange={(e) => this.setState({passwordConfirm: e.target.value.trim()})} placeholder="password confirmation" />
+        }
         <input className='nav-button' type="submit" value='Submit'/>
       </form>
     )

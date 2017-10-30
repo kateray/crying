@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Header } from '../components/Header'
-import { login, updateUser, receiveSaveConfirmation } from '../actions/AppActions'
+import { login, updateUser, receiveSaveConfirmation, receiveError } from '../actions/AppActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -15,7 +15,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = ({
   login: login,
   updateUser: updateUser,
-  receiveSaveConfirmation: receiveSaveConfirmation
+  receiveSaveConfirmation: receiveSaveConfirmation,
+  receiveError: receiveError
 })
 
 export const HeaderContainer = connect(mapStateToProps, mapDispatchToProps)(Header)

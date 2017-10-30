@@ -12,6 +12,7 @@ export class Header extends Component {
 
   _toggleMenu(menuName){
     this.props.receiveSaveConfirmation({user: false})
+    this.props.receiveError({user: {}})
     if (this.state.menuOpen === menuName) {
       this.setState({menuOpen: false})
     } else {
@@ -71,10 +72,15 @@ export class Header extends Component {
         <span>
           Create your own map ->
         </span>
+        <a className={this.state.menuOpen === 'signup' ? 'nav-button highlight' : 'nav-button'}
+          id="signup"
+          onClick={() => this._toggleMenu('signup')}>
+          Sign up
+        </a>
         <a className={this.state.menuOpen === 'login' ? 'nav-button highlight' : 'nav-button'}
           id="login"
           onClick={() => this._toggleMenu('login')}>
-          Sign in
+          Login
         </a>
       </span>
     )
@@ -91,8 +97,8 @@ export class Header extends Component {
                   errors={this.props.errors.user}
                   user={this.props.user}
                   updateUser={this.props.updateUser} />
-    } else if (this.state.menuOpen === 'login') {
-      openMenu = <LoginForm login={this.props.login} errors={this.props.errors.user} />
+    } else if (this.state.menuOpen === 'login' || this.state.menuOpen === 'signup') {
+      openMenu = <LoginForm mode={this.state.menuOpen} login={this.props.login} errors={this.props.errors.user} />
     }
     return (
       <div id="header">

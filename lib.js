@@ -38,11 +38,19 @@ const randId = () => {
 const validateFields = (f, mode) => {
   let errors = {}
 
-  if (mode === 'signin') {
+  if (mode === 'login' || mode === 'signup') {
     if (_.isEmpty(f.password)){
       errors['password'] = "Password can't be blank"
     } else if (f.password.length < 6) {
       errors['password'] = "Please use at least 6 characters"
+    }
+  }
+
+  if (mode === 'signup') {
+    if (_.isEmpty(f.passwordConfirm)){
+      errors['password'] = "Please confirm your password"
+    } else if (f.password !== f.passwordConfirm) {
+      errors['password'] = "Passwords don't match"
     }
   }
 

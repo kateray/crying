@@ -106,9 +106,9 @@ export const getPins = (uid=false) => {
   }
 }
 
-export const login = (userInfo) => {
+export const login = (mode, userInfo) => {
   return ( dispatch, getState ) => {
-    return fetch('/login', {
+    return fetch(`/${mode}`, {
       credentials: 'include',
       method: 'POST',
       body: JSON.stringify(userInfo),
@@ -127,7 +127,7 @@ export const login = (userInfo) => {
   }
 }
 
-function receiveError(payload) {
+export function receiveError(payload) {
   return {
     type: types.RECEIVE_ERROR,
     payload
