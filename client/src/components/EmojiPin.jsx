@@ -37,7 +37,7 @@ export class EmojiPin extends PureComponent {
   }
 
   initializePlaces() {
-    this.autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode'], componentRestrictions: {country: 'us'}})
+    this.autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode', 'establishment'], componentRestrictions: {country: 'us'}})
     const geolocation = {lat: parseFloat(this.props.data.lat), lng: parseFloat(this.props.data.lng)};
     const circle = new google.maps.Circle({
       center: geolocation,
