@@ -302,7 +302,7 @@ export class UserMap extends Component {
               This is a place for you to record stories about your personal moments in public spaces.
             </p>
             <p>
-              Your pins will be shown on the homepage, but not associated with you. You can share your map if you want though. <a target="_blank"  href="http://cryinginpublic.com/maps/g1534fip1s">Here's mine.</a>
+              Your pins will be shown on the homepage, but not associated with you. You can share your map if you want though. <a target="_blank"  href="https://cryinginpublic.com/maps/sylr2i8o51">Here's mine.</a>
             </p>
             <p>
               {"<-- Grab and drag an emoji onto the map to get started."}
