@@ -6,14 +6,7 @@ import * as l from '../../../lib'
 require('../css/Popup.scss')
 
 export class EmojiPin extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.onDragStart = this.onDragStart.bind(this)
-    this.fillInAddress = this.fillInAddress.bind(this)
-    this.initializePlaces = this.initializePlaces.bind(this)
-  }
-
-  fillInAddress() {
+  fillInAddress = () => {
     const location = this.autocomplete.getPlace().geometry.location
     this.props.positionChanged(location)
     this.props.panTo(location)
@@ -25,18 +18,18 @@ export class EmojiPin extends PureComponent {
     }
   }
 
-  onDragStart() {
+  onDragStart = () => {
     this.props.onDragStart(this.props.data)
   }
 
-  onDrop(e) {
+  onDrop = (e) => {
     this.props.onDrop(
       this.props.data.uid,
       {lat: e.target._latlng.lat, lng: e.target._latlng.lng}
     )
   }
 
-  initializePlaces() {
+  initializePlaces = () => {
     this.autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode', 'establishment'], componentRestrictions: {country: 'us'}})
     const geolocation = {lat: parseFloat(this.props.data.lat), lng: parseFloat(this.props.data.lng)};
     const circle = new google.maps.Circle({
@@ -65,7 +58,7 @@ export class EmojiPin extends PureComponent {
         onPopupClose={this.props.unselect}
         onDragStart={this.onDragStart}
         onDrag={this.props.onDragOver}
-        onDragEnd={this.onDrop.bind(this)}>
+        onDragEnd={this.onDrop}>
         <Popup autoPan={false}>
           <div className={'popup-container ' + popupPosition}>
             <div className="address-search">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 class EmojiTool extends Component {
-  dragStart(e) {
+  dragStart = (e) => {
     e.preventDefault();
     e.stopPropagation();
     this.props.onDragStart(this.props.data)
@@ -9,7 +9,7 @@ class EmojiTool extends Component {
 
   render() {
     return (
-      <div className="pin-entry" onMouseDown={this.dragStart.bind(this)}>
+      <div className="pin-entry" onMouseDown={this.dragStart}>
         <img className={this.props.animatingTools ? "movable-pin animating" : "movable-pin"} src={"/images/"+this.props.data.name+".png"} alt={this.props.data.hex} />
         <div className="pin-title">{this.props.data.title}</div>
         <div className="pin-direction">

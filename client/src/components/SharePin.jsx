@@ -7,19 +7,17 @@ require('../css/Popup.scss')
 
 class SharePin extends Component {
   constructor(props) {
-    super(props);
-    this.openPopup = this.openPopup.bind(this)
-    this.closePopup = this.closePopup.bind(this)
+    super(props)
     this.state = {popupPosition: ''}
   }
 
-  openPopup(e){
+  openPopup = (e) => {
     const popupPosition = l.getPopupPosition(e.originalEvent.clientX, e.originalEvent.clientY, 300)
     this.setState({popupPosition: popupPosition})
     this.leafletMap.leafletElement.openPopup()
   }
 
-  closePopup(){
+  closePopup = () => {
     this.leafletMap.leafletElement.closePopup()
   }
 

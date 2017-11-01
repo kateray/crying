@@ -10,7 +10,7 @@ export class Header extends Component {
     this.state = {menuOpen: false}
   }
 
-  _toggleMenu(menuName){
+  toggleMenu = (menuName) => {
     this.props.receiveSaveConfirmation({user: false})
     this.props.receiveError({user: {}})
     if (this.state.menuOpen === menuName) {
@@ -20,11 +20,11 @@ export class Header extends Component {
     }
   }
 
-  closeMenu(){
+  closeMenu = () => {
     this.setState({menuOpen: false})
   }
 
-  _renderUserButtons() {
+  renderUserButtons = () => {
     let saveNote;
     if (this.props.isSaving) {
       saveNote = 'Saving...';
@@ -50,7 +50,7 @@ export class Header extends Component {
                 save
               </a>
               <a className={this.state.menuOpen === 'share' ? "nav-button highlight" : "nav-button"}
-                onClick={() => this._toggleMenu('share')}>
+                onClick={() => this.toggleMenu('share')}>
                 share
               </a>
             </span>
@@ -58,7 +58,7 @@ export class Header extends Component {
         }
         <a className={this.state.menuOpen === 'settings' ? 'nav-button highlight' : 'nav-button'}
           id="login"
-          onClick={() => this._toggleMenu('settings')}>
+          onClick={() => this.toggleMenu('settings')}>
           settings
         </a>
         <a className="nav-button" id="logout" href='/logout'>logout</a>
@@ -66,7 +66,7 @@ export class Header extends Component {
     )
   }
 
-  _renderNoUserButtons() {
+  renderNoUserButtons() {
     return (
       <span>
         <span>
@@ -74,12 +74,12 @@ export class Header extends Component {
         </span>
         <a className={this.state.menuOpen === 'signup' ? 'nav-button highlight' : 'nav-button'}
           id="signup"
-          onClick={() => this._toggleMenu('signup')}>
+          onClick={() => this.toggleMenu('signup')}>
           Sign up
         </a>
         <a className={this.state.menuOpen === 'login' ? 'nav-button highlight' : 'nav-button'}
           id="login"
-          onClick={() => this._toggleMenu('login')}>
+          onClick={() => this.toggleMenu('login')}>
           Login
         </a>
       </span>
@@ -89,10 +89,10 @@ export class Header extends Component {
   render() {
     let openMenu
     if (this.state.menuOpen === 'share') {
-      openMenu = <ShareMenu closeMenu={this.closeMenu.bind(this)}/>
+      openMenu = <ShareMenu closeMenu={this.closeMenu}/>
     } else if (this.state.menuOpen === 'settings') {
       openMenu =  <Settings
-                  closeMenu={this.closeMenu.bind(this)}
+                  closeMenu={this.closeMenu}
                   showSaveConfirmation={this.props.showSaveConfirmation.user}
                   errors={this.props.errors.user}
                   user={this.props.user}
@@ -114,10 +114,10 @@ export class Header extends Component {
         </div>
         <div id="app-buttons-container">
           {this.props.user &&
-            this._renderUserButtons()
+            this.renderUserButtons()
           }
           {!this.props.user &&
-            this._renderNoUserButtons()
+            this.renderNoUserButtons()
           }
           {openMenu}
         </div>

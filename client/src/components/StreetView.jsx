@@ -5,9 +5,6 @@ import * as l from '../../../lib'
 export class StreetView extends PureComponent {
   constructor(props) {
     super(props)
-    this.positionChanged = this.positionChanged.bind(this)
-    this.povChanged = this.povChanged.bind(this)
-    this.visibleChanged = this.visibleChanged.bind(this)
     this.state = {
       loading: true,
       noPano: false
@@ -31,7 +28,7 @@ export class StreetView extends PureComponent {
     maps.event.addListener(this.streetView, "visible_changed", this.visibleChanged)
   }
 
-  sameSelection(pin) {
+  sameSelection = (pin) => {
     if (this.overlay) {
       if (pin.title !== this.overlay.text_) {
         this.overlay.updateText(pin.title)
@@ -39,7 +36,7 @@ export class StreetView extends PureComponent {
     }
   }
 
-  newSelection(pin) {
+  newSelection = (pin) => {
     this.setState({loading: true})
     const latLng = new window.google.maps.LatLng(pin.lat, pin.lng)
     this.streetViewService.getPanorama({location: latLng}, (result, status) => {
@@ -62,7 +59,7 @@ export class StreetView extends PureComponent {
     })
   }
 
-  noSelection() {
+  noSelection = () => {
     if (this.overlay) {
       this.overlay.setMap(null)
       this.overlay = null
@@ -86,17 +83,17 @@ export class StreetView extends PureComponent {
     }
   }
 
-  positionChanged() {
+  positionChanged = () => {
     const position = this.streetView.getPosition()
     this.props.positionChanged(position)
   }
 
-  povChanged() {
+  povChanged = () => {
     const pov = this.streetView.getPov()
     this.props.updatePin(this.props.selectedPin.uid, {heading: pov.heading, pitch: pov.pitch, zoom: pov.zoom})
   }
 
-  visibleChanged() {
+  visibleChanged = () => {
     if (this.streetView.getVisible()){
       setTimeout(function(){ this.setState({loading: false}) }.bind(this), 850);
     }

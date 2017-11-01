@@ -7,7 +7,6 @@ require('../css/Login.scss')
 export class LoginForm extends Component {
   constructor(props){
     super(props)
-    this.login = this.login.bind(this)
     this.state = {
       email: '',
       password: '',
@@ -16,7 +15,7 @@ export class LoginForm extends Component {
     }
   }
 
-  login(e){
+  login = (e) => {
     e.preventDefault()
     let fields = {email: this.state.email, password: this.state.password, passwordConfirm: this.state.passwordConfirm}
     let errors = l.validateFields(fields, this.props.mode)

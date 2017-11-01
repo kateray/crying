@@ -11,26 +11,6 @@ import { StreetView } from './StreetView'
 export class UserMap extends Component {
   constructor(props) {
     super(props)
-    this.toolDragStart = this.toolDragStart.bind(this)
-    this.stopDrag = this.stopDrag.bind(this)
-    this.pinDragStart = this.pinDragStart.bind(this)
-    this.pinDrag = this.pinDrag.bind(this)
-    this.pinDrop = this.pinDrop.bind(this)
-    this.updatePin = this.updatePin.bind(this)
-    this.deletePin = this.deletePin.bind(this)
-    this.onSave = this.onSave.bind(this)
-    this.unselectPin = this.unselectPin.bind(this)
-    this.closePopups = this.closePopups.bind(this)
-    this.selectPin = this.selectPin.bind(this)
-    this.titleChanged = this.titleChanged.bind(this)
-    this.positionChanged = this.positionChanged.bind(this)
-    this.panTo = this.panTo.bind(this)
-    this.autoSave = this.autoSave.bind(this)
-    this.toolDrag = this.toolDrag.bind(this)
-    this.toolDrop = this.toolDrop.bind(this)
-    this.setLeafletMap = this.setLeafletMap.bind(this)
-    this.preload = this.preload.bind(this)
-    this.removeToolAnimation = this.removeToolAnimation.bind(this)
     this.state = {
       animatingTools: true,
       pins: this.props.fetchedPins,
@@ -43,22 +23,22 @@ export class UserMap extends Component {
     };
   }
 
-  closePopups(){
+  closePopups = () => {
     this.leafletMap.leafletElement.closePopup()
   }
 
-  toolDragStart(data) {
+  toolDragStart = (data) => {
     this.closePopups()
     this.setState({dragging: {type: 'tool', data: data}})
     this.leafletMap.leafletElement.on("mousemove", this.toolDrag)
   }
 
-  pinDragStart(data){
+  pinDragStart = (data) => {
     this.closePopups()
     this.setState({dragging: {type: 'pin', data: data}})
   }
 
-  toolDrag(e) {
+  toolDrag = (e) => {
     const targetClass = e.originalEvent.target.className;
     if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') || targetClass.includes('leaflet-marker-icon') ) {
       const dragging = this.state.dragging;
@@ -75,7 +55,7 @@ export class UserMap extends Component {
     }
   }
 
-  pinDrag(e) {
+  pinDrag = (e) => {
     const targetClass = e.originalEvent.target.className;
     if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') || targetClass.includes('leaflet-marker-icon') ) {
       const pt = this.leafletMap.leafletElement.latLngToContainerPoint(e.latlng)
@@ -90,13 +70,13 @@ export class UserMap extends Component {
     }
   }
 
-  magnifierHide() {
+  magnifierHide = () => {
     const dragging = this.state.dragging;
     dragging.showMagnifier = false;
     this.setState({dragging: dragging})
   }
 
-  toolDrop(e) {
+  toolDrop = (e) => {
     this.leafletMap.leafletElement.removeEventListener('mousemove');
     if (this.state.dragging && this.state.dragging.type === 'tool') {
       const uid = Date.now().toString()
@@ -106,7 +86,7 @@ export class UserMap extends Component {
     }
   }
 
-  updatePin(uid, data) {
+  updatePin = (uid, data) => {
     const pins = this.state.pins.map((item) => {
       if (item.uid === uid) {
         return Object.assign({}, item, data)
@@ -116,17 +96,17 @@ export class UserMap extends Component {
     this.setState({pins: pins})
   }
 
-  pinDrop(uid, data) {
+  pinDrop = (uid, data) => {
     this.updatePin(uid, data)
     this.setState({dragging: null})
   }
 
-  titleChanged(e) {
+  titleChanged = (e) => {
     e.stopPropagation()
     this.updatePin(this.props.selectedId, {title: l.sanitizePinTitle(e.target.textContent)})
   }
 
-  confirmSave(e){
+  confirmSave = (e) => {
     if (!_.isEqual(this.props.fetchedPins, this.state.pins) ) {
       const confirmationMessage = "You have unsaved changes that you'll lose if you leave now";
       e.returnValue = confirmationMessage;
@@ -134,14 +114,14 @@ export class UserMap extends Component {
     }
   }
 
-  autoSave() {
+  autoSave = () => {
     if (!_.isEqual(this.props.fetchedPins, this.state.pins) ) {
       this.props.onSave(this.props.match.params.id, this.state.pins)
     }
     setTimeout(this.autoSave, 60000)
   }
 
-  stopDrag(e) {
+  stopDrag = (e) => {
     if (this.state.dragging) {
       const targetClass = e.target.className
       if (targetClass !== 'leaflet-container') {
@@ -151,7 +131,7 @@ export class UserMap extends Component {
     }
   }
 
-  removeToolAnimation(){
+  removeToolAnimation = () => {
     this.setState({animatingTools: false})
   }
 
@@ -161,7 +141,7 @@ export class UserMap extends Component {
     this.leafletMap.leafletElement.on("mouseup", this.toolDrop)
     document.body.addEventListener("mouseup", this.stopDrag);
     this.offsetTop = this.leafletMap.container.offsetParent.offsetTop;
-    window.addEventListener("beforeunload", this.confirmSave.bind(this));
+    window.addEventListener("beforeunload", this.confirmSave);
     setTimeout(this.autoSave, 60000)
     setTimeout(this.removeToolAnimation, 3000)
   }
@@ -173,25 +153,25 @@ export class UserMap extends Component {
     }
   }
 
-  unselectPin() {
+  unselectPin = () => {
     this.props.selectPin(null)
     if (this.leafletMap) {
       this.leafletMap.leafletElement.dragging.enable()
     }
   }
 
-  positionChanged(position) {
+  positionChanged = (position) => {
     const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: position.lat(), lng: position.lng()})
     this.setState({popupCoords: pt})
     this.updatePin(this.props.selectedId, {lat: position.lat(), lng: position.lng()})
   }
 
-  panTo(position) {
+  panTo = (position) => {
     this.closePopups()
     this.leafletMap.leafletElement.panTo([position.lat(),position.lng()])
   }
 
-  selectPin(uid) {
+  selectPin = (uid) => {
     const selectedPin = _.find(this.state.pins, ['uid', uid])
     const pt = this.leafletMap.leafletElement.latLngToContainerPoint({lat: selectedPin.lat, lng: selectedPin.lng})
     this.setState({popupCoords: pt, newPin: null})
@@ -199,22 +179,22 @@ export class UserMap extends Component {
     this.leafletMap.leafletElement.dragging.disable()
   }
 
-  deletePin(uid) {
+  deletePin = (uid) => {
     this.unselectPin()
     this.setState({pins: this.state.pins.filter((item) => item.uid !== uid)})
   }
 
   // important to define ref as bound method rather than inline so that it doesn't get called with null
   // https://facebook.github.io/react/docs/refs-and-the-dom.html#caveats
-  setLeafletMap(el) {
+  setLeafletMap = (el) => {
     this.leafletMap = el
   }
 
-  onSave() {
+  onSave = () => {
     this.props.onSave(this.props.match.params.id, this.state.pins)
   }
 
-  preload() {
+  preload = () => {
     let bounds = this.leafletMap.leafletElement.getBounds()
     let min = this.leafletMap.leafletElement.project(bounds.getNorthWest(), 16).divideBy(256).floor(),
       max = this.leafletMap.leafletElement.project(bounds.getSouthEast(), 16).divideBy(256).floor();

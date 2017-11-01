@@ -5,7 +5,6 @@ import _ from 'lodash'
 export class Settings extends Component {
   constructor(props){
     super(props)
-    this.updateUser = this.updateUser.bind(this)
     this.state = {
       email: this.props.user.email,
       password: '',
@@ -14,7 +13,7 @@ export class Settings extends Component {
     }
   }
 
-  updateUser(e){
+  updateUser = (e) => {
     e.preventDefault()
     let fields = {email: this.state.email, password: this.state.password, passwordConfirm: this.state.passwordConfirm}
     let errors = l.validateFields(fields, 'update')
