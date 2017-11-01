@@ -109,10 +109,10 @@ export class Header extends Component {
             <img src="/images/cry.png" alt="&#x1f62d" />
           </div>
         </a>
-        <div id="app-description">
+        <div id="app-description" className="no-mobile">
           An emotional map of New York City, made out of the important things that happen to us outside. Project by <a href="https://twitter.com/kraykray" target="_blank">kraykray</a>
         </div>
-        <div id="app-buttons-container">
+        <div id="app-buttons-container" className="no-mobile">
           {this.props.user &&
             this.renderUserButtons()
           }

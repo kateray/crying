@@ -91,8 +91,8 @@
 }
 
 @media (max-width: 825px) {
-  #app-description {
-    display: block;
+  .no-mobile {
+    display: none !important;
   }
 
   #app-buttons-container {
