@@ -15,15 +15,15 @@ class Magnify extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data && nextProps.data.showMagnifier) {
+    if (nextProps.data && nextProps.data.inDraggableArea) {
       const visible = true
       const emoji = nextProps.data.data.name
       const position = nextProps.data.latLng
       const arrowOffset = 20
       const popupHeight = 300
       const popupWidth = 500
-      const top = nextProps.data.magTop - (popupHeight + arrowOffset*2 + arrowOffset/6 +arrowOffset/2)
-      const left = nextProps.data.magLeft - popupWidth/2
+      const top = nextProps.data.pos.y - (popupHeight + arrowOffset*2 + arrowOffset/6 +arrowOffset/2)
+      const left = nextProps.data.pos.x - popupWidth/2
       this.setState({visible: visible, position: position, top: top, left: left, emoji: emoji})
     } else if (this.state.visible === true){
       this.setState({visible: false})

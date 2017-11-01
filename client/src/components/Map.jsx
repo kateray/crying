@@ -8,6 +8,8 @@ import _ from 'lodash'
 import * as l from '../../../lib'
 import { StreetView } from './StreetView'
 
+const classesToDragOver = ['leaflet-container', 'leaflet-drag-target', 'street-view', 'leaflet-marker-icon']
+
 export class UserMap extends Component {
   constructor(props) {
     super(props)
@@ -30,7 +32,7 @@ export class UserMap extends Component {
   toolDragStart = (data) => {
     this.closePopups()
     this.setState({dragging: {type: 'tool', data: data}})
-    this.leafletMap.leafletElement.on("mousemove", this.toolDrag)
+    this.leafletMap.leafletElement.on("mousemove", this.handleDrag)
   }
 
   pinDragStart = (data) => {
@@ -38,42 +40,17 @@ export class UserMap extends Component {
     this.setState({dragging: {type: 'pin', data: data}})
   }
 
-  toolDrag = (e) => {
+  handleDrag = (e) => {
     const targetClass = e.originalEvent.target.className;
-    if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') || targetClass.includes('leaflet-marker-icon') ) {
+    if (new RegExp(classesToDragOver.join("|")).test(targetClass)) {
       const dragging = this.state.dragging;
-      dragging.showMagnifier = true;
+      dragging.inDraggableArea = true;
       dragging.latLng = e.latlng;
-      dragging.magLeft = e.originalEvent.pageX;
-      dragging.magTop = e.originalEvent.pageY-this.offsetTop;
-      dragging.showDraggableTool = true;
-      dragging.toolTop = e.originalEvent.pageY-15;
-      dragging.toolLeft = e.originalEvent.pageX-15;
+      dragging.pos = {x: e.originalEvent.pageX, y: e.originalEvent.pageY-this.offsetTop}
       this.setState({dragging: dragging})
-    } else {
-      this.magnifierHide()
+    } else if (this.state.dragging.inDraggableArea) {
+      this.setState({dragging: Object.assign({}, this.state.dragging, {inDraggableArea: false})})
     }
-  }
-
-  pinDrag = (e) => {
-    const targetClass = e.originalEvent.target.className;
-    if (targetClass.includes('leaflet-container') || targetClass.includes('leaflet-drag-target') || targetClass.includes('street-view') || targetClass.includes('leaflet-marker-icon') ) {
-      const pt = this.leafletMap.leafletElement.latLngToContainerPoint(e.latlng)
-      const dragging = this.state.dragging;
-      dragging.showMagnifier = true;
-      dragging.latLng = e.latlng;
-      dragging.magLeft = pt.x;
-      dragging.magTop = pt.y;
-      this.setState({dragging: dragging})
-    } else {
-      this.magnifierHide()
-    }
-  }
-
-  magnifierHide = () => {
-    const dragging = this.state.dragging;
-    dragging.showMagnifier = false;
-    this.setState({dragging: dragging})
   }
 
   toolDrop = (e) => {
@@ -249,7 +226,7 @@ export class UserMap extends Component {
         selectPin={this.selectPin}
         unselect={this.unselectPin}
         onDragStart={this.pinDragStart}
-        onDragOver={this.pinDrag}
+        onDragOver={this.handleDrag}
         onDrop={this.pinDrop}
         onDelete={this.deletePin} />
     );
@@ -257,12 +234,12 @@ export class UserMap extends Component {
       <div>
         <HeaderContainer onSave={this.onSave} showSave={true}/>
         <Magnify data={this.state.dragging} />
-        {this.state.dragging && this.state.dragging.showDraggableTool &&
+        {this.state.dragging && this.state.dragging.inDraggableArea && this.state.dragging.type === 'tool' &&
           <img
             className="draggable-tool"
             alt={this.state.dragging.data.name}
             src={"/images/"+this.state.dragging.data.name+".png"}
-            style={{top: this.state.dragging.toolTop, left: this.state.dragging.toolLeft}} />
+            style={{top: this.state.dragging.pos.y - 15, left: this.state.dragging.pos.x - 15}} />
         }
         <div id="map-container" className={this.state.dragging ? "dragging" : ""} style={{height: window.innerHeight}}>
           <Map ref={this.setLeafletMap} center={this.state.position} zoom={14} zoomControl={false}>
