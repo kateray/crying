@@ -106,6 +106,9 @@
 .hidden {
   display: none;
 }
+.invisible {
+  visibility: hidden;
+}
 
 @keyframes fadein {
     from { opacity: 0; }

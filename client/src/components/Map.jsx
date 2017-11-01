@@ -276,9 +276,7 @@ export class UserMap extends Component {
     return (
       <div>
         <HeaderContainer onSave={this.onSave} showSave={true}/>
-        {this.state.dragging && this.state.dragging.showMagnifier &&
-          <Magnify data={this.state.dragging} />
-        }
+        <Magnify data={this.state.dragging} />
         {this.state.dragging && this.state.dragging.showDraggableTool &&
           <img
             className="draggable-tool"
