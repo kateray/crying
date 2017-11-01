@@ -18,7 +18,7 @@ const app = (state = {}, action) => {
       return Object.assign({}, state, {
         isSaving: true,
         lastSave: Date.now()
-      });
+      })
     case types.RECEIVE_SAVE_CONFIRMATION:
       return Object.assign({}, state, {
         showSaveConfirmation: action.payload
@@ -32,11 +32,11 @@ const app = (state = {}, action) => {
         error: null,
         isSaving: false,
         fetchedPins: action.pins
-      });
+      })
     case types.RECEIVE_USER:
       return Object.assign({}, state, {
         user: action.payload
-      });
+      })
     default:
       return state
   }

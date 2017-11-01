@@ -3,74 +3,73 @@
 // https://www.akawebdesign.com/2016/11/30/combining-create-react-app-express/
 
 const express = require('express')
-  , http    = require('http')
-  , path    = require('path')
-  , fs = require('fs')
-  , bodyParser = require('body-parser')
-  , cookieParser = require('cookie-parser')
-  , cookieSession = require( 'cookie-session')
-  , morgan = require('morgan')
-  , session = require('express-session')
-  , passport = require('passport')
-  , LocalStrategy = require( 'passport-local').Strategy
-  , bcrypt = require( 'bcryptjs')
-  , sslRedirect = require('heroku-ssl-redirect')
-  , _ = require( 'lodash')
+const http = require('http')
+const path = require('path')
+const fs = require('fs')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const cookieSession = require('cookie-session')
+const morgan = require('morgan')
+const session = require('express-session')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+const bcrypt = require('bcryptjs')
+const sslRedirect = require('heroku-ssl-redirect')
+const _ = require('lodash')
 
-const manifestPath = `${process.cwd()}/dist/build-manifest.json`;
+const manifestPath = `${process.cwd()}/dist/build-manifest.json`
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
 
 const routes = require('./routes/index')
-  , models = require('./models/index');
+const models = require('./models/index')
 
-const l = require( '../../lib')
+const l = require('../../lib')
 
 const app = express()
 
 app.use(sslRedirect())
 app.use('/static', express.static('dist'))
 app.use(express.static('client/public'))
-app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(cookieParser())
+app.use(bodyParser.json())
 app.use(cookieSession({ secret: 'alien coffee', resave: true, saveUninitialized: true }))
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'))
 
 app.set('port', (process.env.PORT || 3001))
 
+passport.serializeUser(function (user, done) {
+  done(null, user.id)
+})
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
+passport.deserializeUser(function (id, done) {
   models.User.findById(id)
-    .then( (user) => {
+    .then((user) => {
       if (user) {
-        done(null, user.get());
+        done(null, user.get())
       } else {
         // TODO
         done(null, null)
       }
     })
-});
+})
 
-function randId() {
-  return Math.random().toString(36).substr(2, 10);
+function randId () {
+  return Math.random().toString(36).substr(2, 10)
 }
 
 passport.use(new LocalStrategy({usernameField: 'email'},
   (username, password, done) => {
-    models.User.findOne({where: {email: username }}).then( (user) => {
+    models.User.findOne({where: {email: username}}).then((user) => {
       if (!user) {
-        return done(null, false, { message: 'no user.' })
+        return done(null, false, {message: 'no user.'})
       }
       bcrypt.compare(password, user.password, (err, res) => {
-        if (err) return done(null, false, { error: {password: err}})
+        if (err) return done(null, false, {error: {password: err}})
         if (res === false) {
-          return done(null, false, { error: {password: 'Incorrect password'} })
+          return done(null, false, {error: {password: 'Incorrect password'}})
         } else {
           return done(null, user)
         }
@@ -79,9 +78,9 @@ passport.use(new LocalStrategy({usernameField: 'email'},
   }
 ))
 
-app.use(routes);
+app.use(routes)
 
-app.get('/logout', function(req, res){
+app.get('/logout', function (req, res) {
   req.logout()
   res.redirect('/')
 })
@@ -90,7 +89,7 @@ const createHTML = async (req, res) => {
   let pinAttrs = ['heading', 'pitch', 'zoom', 'hex', 'lat', 'lng', 'name', 'title']
   const jsLink = manifest['main.js']
   const cssLink = manifest['main.css']
-  fs.readFile(path.join(__dirname+'/../../client/index.html'), 'utf8', async (err, htmlData)=>{
+  fs.readFile(path.join(__dirname + '/../../client/index.html'), 'utf8', async (err, htmlData) => {
     if (err) {
       console.error('read err', err)
       return res.status(404).end()
@@ -125,7 +124,7 @@ app.get('/maps/:id', createHTML)
 app.get('/', createHTML)
 
 const login = async (req, res, next) => {
-  let user = await models.User.findOne({where: {email: req.body.email }, attributes: ['id', 'email']})
+  let user = await models.User.findOne({where: {email: req.body.email}, attributes: ['id', 'email']})
   if (!user) {
     return res.status(422).send({error: {user: {email: 'No user with that email. Did you mean to signup?'}}})
   } else {
@@ -136,14 +135,14 @@ const login = async (req, res, next) => {
       }
       req.login(user, (err) => {
         if (err) { return res.status(422).send(err) }
-        return res.json({status: 'success', message: 'Login successful', data: user.uid});
+        return res.json({status: 'success', message: 'Login successful', data: user.uid})
       })
     })(req, res, next)
   }
 }
 
 const signup = async (req, res, next) => {
-  let user = await models.User.findOne({where: {email: req.body.email }, attributes: ['id', 'email']})
+  let user = await models.User.findOne({where: {email: req.body.email}, attributes: ['id', 'email']})
   if (!user) {
     bcrypt.genSalt(10, async (err, salt) => {
       if (err) return res.status(422).send(err)
@@ -159,7 +158,7 @@ const signup = async (req, res, next) => {
         }
         req.login(user, (err) => {
           if (err) { return res.status(422).send(err) }
-          return res.json({status: 'success', message: 'Succesfully created user', data: user.uid});
+          return res.json({status: 'success', message: 'Succesfully created user', data: user.uid})
         })
       })
     })
@@ -170,6 +169,5 @@ const signup = async (req, res, next) => {
 
 app.post('/login', login)
 app.post('/signup', signup)
-
 
 module.exports = app

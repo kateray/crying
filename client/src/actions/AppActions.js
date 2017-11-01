@@ -8,13 +8,13 @@ export const selectPin = (payload) => {
   }
 }
 
-function requestSave(){
+function requestSave () {
   return {
     type: types.REQUEST_SAVE
   }
 }
 
-function setFetchingPins(payload) {
+function setFetchingPins (payload) {
   return {
     type: types.IS_FETCHING_PINS,
     payload
@@ -32,33 +32,33 @@ export const save = (uid, data) => {
       if (localMatch !== undefined) {
         // if it has changed
         if (!_.isEqual(localMatch, pin)) {
-          return {type: "SET", data: localMatch}
+          return {type: 'SET', data: localMatch}
         } else {
           return false
         }
       } else {
-        return {type: "DELETE", uid: pin.uid}
+        return {type: 'DELETE', uid: pin.uid}
       }
     })
     const newPins = localPins.map((pin) => {
       const serverMatch = _.find(fetchedPins, ['uid', pin.uid])
       if (!serverMatch) {
-        return {type: "ADD", data: pin}
+        return {type: 'ADD', data: pin}
       } else {
         return false
       }
     })
     const sendData = _.compact(pins).concat(_.compact(newPins))
-    return fetch("/pins/"+uid+"/save", {
-        credentials: 'include',
-        method: 'POST',
-        body: JSON.stringify(sendData),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
-      .then( response => {
-        if (!response.ok){
+    return fetch('/pins/' + uid + '/save', {
+      credentials: 'include',
+      method: 'POST',
+      body: JSON.stringify(sendData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
           throw new Error(response.statusText)
         }
         return response
@@ -73,9 +73,9 @@ export const save = (uid, data) => {
   }
 }
 
-function receivePins(data) {
+function receivePins (data) {
   // convert the lat&lng stored as strings into floats
-  const pins = data.map(function(p){
+  const pins = data.map(function (p) {
     return Object.assign(p, {lat: parseFloat(p.lat), lng: parseFloat(p.lng)})
   })
   return {
@@ -84,20 +84,20 @@ function receivePins(data) {
   }
 }
 
-function receiveUser(payload) {
+function receiveUser (payload) {
   return {
     type: types.RECEIVE_USER,
     payload
   }
 }
 
-export const getPins = (uid=false) => {
+export const getPins = (uid = false) => {
   return (dispatch, getState) => {
     dispatch(setFetchingPins(true))
     let urlString = uid ? `/pins/${uid}` : `/pins`
     return fetch(urlString, {
-        credentials: 'include',
-      })
+      credentials: 'include'
+    })
       .then(response => response.json())
       .then(json => {
         dispatch(setFetchingPins(false))
@@ -107,18 +107,18 @@ export const getPins = (uid=false) => {
 }
 
 export const login = (mode, userInfo) => {
-  return ( dispatch, getState ) => {
+  return (dispatch, getState) => {
     return fetch(`/${mode}`, {
       credentials: 'include',
       method: 'POST',
       body: JSON.stringify(userInfo),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
-    .then( response => response.json() )
-    .then( json => {
-      if (json.error){
+    .then(response => response.json())
+    .then(json => {
+      if (json.error) {
         dispatch(receiveError(json.error))
       } else {
         window.location.replace(`/maps/${json.data}`)
@@ -127,33 +127,33 @@ export const login = (mode, userInfo) => {
   }
 }
 
-export function receiveError(payload) {
+export function receiveError (payload) {
   return {
     type: types.RECEIVE_ERROR,
     payload
   }
 }
 
-export function receiveSaveConfirmation(payload) {
+export function receiveSaveConfirmation (payload) {
   return {
     type: types.RECEIVE_SAVE_CONFIRMATION,
     payload
   }
 }
 
-export const updateUser = ( userInfo, id ) => {
-  return ( dispatch, getState ) => {
+export const updateUser = (userInfo, id) => {
+  return (dispatch, getState) => {
     return fetch(`/user/${id}`, {
       credentials: 'include',
       method: 'PUT',
       body: JSON.stringify(userInfo),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
-    .then( response => response.json() )
-    .then( json => {
-      if (json.error){
+    .then(response => response.json())
+    .then(json => {
+      if (json.error) {
         dispatch(receiveError(json.error))
       } else {
         dispatch(receiveUser(json.data))

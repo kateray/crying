@@ -15,6 +15,20 @@
     "heroku-postbuild": "npm run build",
     "start": "node server/src"
   },
+  "standard": {
+    "globals": [
+      "describe",
+      "context",
+      "test",
+      "expect",
+      "it",
+      "jest"
+    ],
+    "ignore": [
+      "/dist/",
+      "server/src/seeders/"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kateray/crying.git"
@@ -62,6 +76,7 @@
     "sass-loader": "^6.0.6",
     "sequelize": "^4.11.1",
     "sequelize-cli": "^3.0.0",
+    "standard": "^10.0.3",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.6",
     "webpack-manifest-plugin": "^1.3.1"

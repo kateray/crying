@@ -1,15 +1,15 @@
-var repl = require("repl");
+var repl = require('repl')
 
-var models = require('./server/src/models/index');
+var models = require('./server/src/models/index')
 
-models.sequelize.sync().then(function() {
-  var envName = process.env.NODE_ENV || "dev";
+models.sequelize.sync().then(function () {
+  var envName = process.env.NODE_ENV || 'dev'
 
   // open the repl session
   var replServer = repl.start({
-    prompt: "Crying (" + envName + ") > ",
-  });
+    prompt: 'Crying (' + envName + ') > '
+  })
 
-  replServer.context.User = models.User;
-  replServer.context.Pin = models.Pin;
-});
+  replServer.context.User = models.User
+  replServer.context.Pin = models.Pin
+})

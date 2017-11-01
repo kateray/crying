@@ -1,5 +1,5 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+'use strict'
+module.exports = function (sequelize, DataTypes) {
   var Pin = sequelize.define('Pin', {
     uid: DataTypes.STRING,
     name: DataTypes.STRING,
@@ -13,13 +13,13 @@ module.exports = function(sequelize, DataTypes) {
     userId: DataTypes.INTEGER
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: function (models) {
         Pin.belongsTo(models.User, {
           foreignKey: 'userId',
           onDelete: 'CASCADE'
-        });
+        })
       }
     }
-  });
-  return Pin;
-};
+  })
+  return Pin
+}

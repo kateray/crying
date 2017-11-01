@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
-import * as AppActions from '../actions/AppActions';
+import * as AppActions from '../actions/AppActions'
 import { UserMap } from '../components/Map'
 import emojis from '../emojis.json'
-import _ from 'lodash'
 
 const mapStateToProps = (state, ownProps) => {
   return {

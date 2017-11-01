@@ -4,15 +4,15 @@ import { HeaderContainer } from '../containers/HeaderContainer'
 import SharePin from './SharePin'
 
 export class ShareMap extends Component {
-  render() {
+  render () {
     let position = [40.734583, -73.997263]
     const pins = this.props.fetchedPins.map((k, i) =>
       <SharePin key={i} data={k} />
-    );
+    )
     return (
-      <div className="share-map">
+      <div className='share-map'>
         <HeaderContainer />
-        <div id="map-container" style={{height: window.innerHeight}}>
+        <div id='map-container' style={{height: window.innerHeight}}>
           <Map center={position} zoom={14} zoomControl={false} minZoom={13}>
             <ZoomControl position='bottomright' />
             <TileLayer

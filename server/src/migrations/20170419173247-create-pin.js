@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 module.exports = {
-  up: function(queryInterface, Sequelize) {
+  up: function (queryInterface, Sequelize) {
     return queryInterface.createTable('Pins', {
       id: {
         allowNull: false,
@@ -38,9 +38,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         references: {
-            model: 'Users',
-            key: 'id',
-            as: 'userId'
+          model: 'Users',
+          key: 'id',
+          as: 'userId'
         },
         onUpdate: 'cascade',
         onDelete: 'cascade'
@@ -53,9 +53,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Pins');
+  down: function (queryInterface, Sequelize) {
+    return queryInterface.dropTable('Pins')
   }
-};
+}

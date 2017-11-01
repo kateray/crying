@@ -1,11 +1,11 @@
-const _ = require( 'lodash' )
-  , bcrypt = require( 'bcryptjs')
-  , express = require('express')
-  , router  = express.Router()
-  , models = require('../models/index')
-  , l = require( '../../../lib')
+const _ = require('lodash')
+const bcrypt = require('bcryptjs')
+const express = require('express')
+const router = express.Router()
+const models = require('../models/index')
+const l = require('../../../lib')
 
-const requiresCorrectUser = ( req, res, next ) => {
+const requiresCorrectUser = (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.status(403).send({error: {app: 'You must be logged in'}})
   }
@@ -30,7 +30,7 @@ router.get('/pins', async (req, res) => {
 })
 
 const saveData = (t, entry, id, promises) => {
-  if (entry.type === 'ADD'){
+  if (entry.type === 'ADD') {
     console.log(`@@@@@@@@@@@@@ ${entry.toString()} and id ${id}`)
     var newPromise = models.Pin.create({
       name: entry.data.name,
@@ -45,8 +45,8 @@ const saveData = (t, entry, id, promises) => {
       userId: id
     }, {transaction: t})
     promises.push(newPromise)
-  } else if ( entry.type === 'SET' ) {
-    var promise = models.Pin.update({
+  } else if (entry.type === 'SET') {
+    models.Pin.update({
       name: entry.data.name,
       title: entry.data.title,
       hex: entry.data.hex,
@@ -57,41 +57,41 @@ const saveData = (t, entry, id, promises) => {
       zoom: entry.data.zoom
     }, { where: {uid: entry.data.uid}, transaction: t })
     promises.push(newPromise)
-  } else if (entry.type === 'DELETE'){
+  } else if (entry.type === 'DELETE') {
     var newPromise = models.Pin.destroy({where: {uid: entry.uid}})
     promises.push(newPromise)
   }
 }
 
 router.post('/pins/:user_id/save', (req, res) => {
-  return models.sequelize.transaction( (t) => {
+  return models.sequelize.transaction((t) => {
     var promises = []
     req.body.map((entry) => {
       saveData(t, entry, req.user.id, promises)
     })
     return Promise.all(promises)
-  }).then( (result) => {
+  }).then((result) => {
     models.Pin
       .findAll({where: {userId: req.user.id}})
       .then((pins) => {
         res.json({status: 'success', message: 'Saved pins', data: pins})
       })
-  }).catch( (reason) => {
+  }).catch((reason) => {
     console.log('****************************')
     console.log(reason)
     console.log('+++++++++++++++++++++++++++++++++++')
   })
 })
 
-//Update user
+// Update user
 router.put('/user/:user_id', async (req, res) => {
   let errors = l.validateFields(req.body, 'update')
   if (!_.isEmpty(errors)) {
     return res.status(422).send({error: {user: errors}})
   }
-  let user = await models.User.findOne({where: {id: req.user.id }})
-  let existingEmail = await models.User.findOne({where: {email: req.body.email, id: {not: user.id} }})
-  if (existingEmail){
+  let user = await models.User.findOne({where: {id: req.user.id}})
+  let existingEmail = await models.User.findOne({where: {email: req.body.email, id: {not: user.id}}})
+  if (existingEmail) {
     return res.status(422).send({error: {user: {email: 'Email is taken'}}})
   }
   if (req.body.password) {
