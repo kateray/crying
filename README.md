@@ -38,6 +38,12 @@ Emojis from: http://emojipedia.org/
 
 TODO:
 
+code:
+* no more var anywhere
+* use Immutable.js (introduces persistent data structures that cannot be mutated. this makes it simpler for compoenets to subscribe to data changes)
+* use more React PureComponent (this does only a shallow compare on state/props, and otherwise does not rerender component)
+* better division of presentational and container components
+
+features:
 * pins still move slightly when you click (like on pee)
-* be able to change email/password
 * forgot my password / email

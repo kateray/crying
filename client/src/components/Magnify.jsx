@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 
-class Magnify extends Component {
+class Magnify extends PureComponent {
   constructor (props) {
     super(props)
     this.state = {
