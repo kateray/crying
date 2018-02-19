@@ -35,7 +35,10 @@ Graffiti.prototype.onAdd = function () {
   content.addEventListener('mousedown', function (e) {
     e.stopPropagation()
   })
-  content.addEventListener('keyup', parent.props.titleChanged)
+  content.addEventListener('keyup', function (e) {
+    e.stopPropagation()
+    parent.props.titleChanged(e)
+  })
   button.innerHTML = 'save'
   button.className = 'save-text'
   if (_.isEmpty(this.text_)) {
