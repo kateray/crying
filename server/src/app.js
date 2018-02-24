@@ -120,6 +120,7 @@ const createHTML = async (req, res) => {
   })
 }
 
+app.get('/soon', createHTML)
 app.get('/maps/:id', createHTML)
 app.get('/', createHTML)
 
