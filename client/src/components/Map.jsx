@@ -186,7 +186,7 @@ export class UserMap extends Component {
           img.className = 'hidden';
           img.alt = "mapbox";
           img.src=url;
-          document.body.append(img)
+          document.body.appendChild(img)
           img.onerror = function() {
             if (!_.find(errored, {x: i, y: j})){
               errored.push({x: i, y: j})
