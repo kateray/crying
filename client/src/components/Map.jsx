@@ -199,7 +199,7 @@ export class UserMap extends Component {
       console.log(JSON.stringify(errored))
       clearTimeout(this.sendMissingTiles);
       this.sendMissingTiles = setTimeout( () => {
-        airbrake.notify(JSON.stringify(errored));
+        window.airbrake.notify(JSON.stringify(errored));
         this.setState({errored: []})
       }, 60000);
     }

@@ -18,7 +18,7 @@ let initialState = {env: el.dataset.env, isSaving: false, user: user, fetchedPin
 let store = createStore(crying, {app: initialState}, applyMiddleware(thunk))
 
 if (initialState.env === 'production') {
-  let airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'})
+  window.airbrake = new airbrakeJs({projectId: 142752, projectKey: 'e4601743a59d5134eea5d31682af34ae'})
 }
 
 render(
