@@ -58,7 +58,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "heroku-ssl-redirect": "^0.0.4",
     "leaflet": "^1.2.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "morgan": "^1.8.1",
     "node-sass": "^4.5.3",
     "passport": "^0.3.2",
